@@ -1263,3 +1263,52 @@ fn c1b3_versioned_receipts_bind_producer_failure_method_cap_and_selected_role() 
         );
     }
 }
+
+#[cfg(feature = "accepted-pressure-warm-start")]
+#[test]
+fn native_projection_stays_cold_and_never_establishes_legacy_warm_history() {
+    use crate::PressureInitializationPolicy;
+    for method in PressureImplementation::ALL {
+        let (mut session, mut workspace) = owner(method, 3);
+        assert_eq!(session.simulation.pressure_seed(), None);
+        let first = session
+            .step_with_native_projection(inputs(), &mut workspace, None, |_| false)
+            .unwrap();
+        assert_eq!(
+            first.report.pressure_initialization.actual,
+            PressureInitializationPolicy::Cold
+        );
+        assert_eq!(first.report.pressure_initialization.seed, None);
+        assert_eq!(session.simulation.pressure_seed(), None);
+        let before = state(&session);
+        let failed = session.step_with_native_projection(inputs(), &mut workspace, None, |stage| {
+            stage == ProjectionStepStage::Liquid(LiquidStepStage::BeforeCommit)
+        });
+        assert!(failed.is_err());
+        unchanged(&session, &before);
+        assert_eq!(session.simulation.pressure_seed(), None);
+        for policy in [
+            PressureInitializationPolicy::Cold,
+            PressureInitializationPolicy::AcceptedPreviousV1,
+        ] {
+            let mut called = false;
+            assert!(matches!(
+                session.step_with_initialization(inputs(), policy, None, |_| {
+                    called = true;
+                    false
+                }),
+                Err(SessionError::PressureBinding(
+                    crate::solver_provider::ProviderRejection::Unsupported(_)
+                ))
+            ));
+            assert!(!called);
+            unchanged(&session, &before);
+            assert_eq!(session.simulation.pressure_seed(), None);
+        }
+        session
+            .step_with_native_projection(inputs(), &mut workspace, None, |_| false)
+            .unwrap();
+        assert_eq!(session.snapshot().frame(), 2);
+        assert_eq!(session.simulation.pressure_seed(), None);
+    }
+}

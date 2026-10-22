@@ -25,6 +25,8 @@ eframe = { version = "=0.33.3", optional = true, default-features = false, featu
 
 [features]
 default = ["png-export"]
+# Only qualified sealed liquid CPU consumers should enable this optimization.
+accepted-pressure-warm-start = []
 png-export = ["dep:png"]
 force-serde = ["dep:serde", "dep:serde_json"]
 parallel = ["dep:rayon"]
@@ -87,6 +89,10 @@ rusqlite = { version = "=0.37.0", features = ["bundled", "limits"] }
 name = "rheon-ai-compare"
 path = "src/bin/rheon-ai-compare.rs"
 required-features = ["desktop"]
+
+[[example]]
+name = "accepted_pressure_lab"
+required-features = ["accepted-pressure-warm-start"]
 
 [dev-dependencies]
 # Private Q2 reference: exact represented-source predicates/constructions only.

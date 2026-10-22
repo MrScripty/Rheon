@@ -1,0 +1,358 @@
+{
+  "trials": [
+    {
+      "repeat": 0,
+      "order": [
+        "candidate",
+        "base"
+      ],
+      "complete_horizons": true,
+      "exact": true,
+      "seconds": {
+        "candidate": {
+          "startup": 0.000204859,
+          "step0": 0.015763759,
+          "sustained": 2.223627959,
+          "full": 2.239391718
+        },
+        "base": {
+          "startup": 0.000312582,
+          "step0": 0.018513521999999998,
+          "sustained": 2.117308745,
+          "full": 2.135822267
+        }
+      },
+      "delta_pct": {
+        "startup": -34.462317087996105,
+        "step0": -14.85272764415112,
+        "sustained": 5.0214317704525335,
+        "full": 4.8491605598566245
+      }
+    },
+    {
+      "repeat": 1,
+      "order": [
+        "base",
+        "candidate"
+      ],
+      "complete_horizons": true,
+      "exact": true,
+      "seconds": {
+        "base": {
+          "startup": 0.000329267,
+          "step0": 0.015580623,
+          "sustained": 2.103324285,
+          "full": 2.118904908
+        },
+        "candidate": {
+          "startup": 0.000187513,
+          "step0": 0.016935028,
+          "sustained": 2.205810874,
+          "full": 2.2227459019999998
+        }
+      },
+      "delta_pct": {
+        "startup": -43.05138383135875,
+        "step0": 8.692880894428946,
+        "sustained": 4.8726004701647785,
+        "full": 4.900691560435022
+      }
+    },
+    {
+      "repeat": 2,
+      "order": [
+        "base",
+        "candidate"
+      ],
+      "complete_horizons": true,
+      "exact": true,
+      "seconds": {
+        "base": {
+          "startup": 0.0001788,
+          "step0": 0.016403245,
+          "sustained": 2.054343596,
+          "full": 2.070746841
+        },
+        "candidate": {
+          "startup": 0.000185571,
+          "step0": 0.016121259000000002,
+          "sustained": 2.167256773,
+          "full": 2.183378032
+        }
+      },
+      "delta_pct": {
+        "startup": 3.78691275167784,
+        "step0": -1.7190866807146876,
+        "sustained": 5.496314113172351,
+        "full": 5.439157929397509
+      }
+    },
+    {
+      "repeat": 3,
+      "order": [
+        "base",
+        "candidate"
+      ],
+      "complete_horizons": true,
+      "exact": true,
+      "seconds": {
+        "base": {
+          "startup": 0.000347535,
+          "step0": 0.016540242,
+          "sustained": 2.213413764,
+          "full": 2.229954006
+        },
+        "candidate": {
+          "startup": 0.000200343,
+          "step0": 0.022375906,
+          "sustained": 2.218726165,
+          "full": 2.241102071
+        }
+      },
+      "delta_pct": {
+        "startup": -42.35314428762571,
+        "step0": 35.2816119619048,
+        "sustained": 0.24000939573087798,
+        "full": 0.4999235396786039
+      }
+    },
+    {
+      "repeat": 4,
+      "order": [
+        "base",
+        "candidate"
+      ],
+      "complete_horizons": true,
+      "exact": true,
+      "seconds": {
+        "base": {
+          "startup": 0.000186181,
+          "step0": 0.017253419,
+          "sustained": 2.173041156,
+          "full": 2.190294575
+        },
+        "candidate": {
+          "startup": 0.000182075,
+          "step0": 0.017070954,
+          "sustained": 2.082685041,
+          "full": 2.099755995
+        }
+      },
+      "delta_pct": {
+        "startup": -2.2053807853647855,
+        "step0": -1.0575585047809977,
+        "sustained": -4.158048951374759,
+        "full": -4.1336257247498125
+      }
+    },
+    {
+      "repeat": 5,
+      "order": [
+        "candidate",
+        "base"
+      ],
+      "complete_horizons": true,
+      "exact": true,
+      "seconds": {
+        "candidate": {
+          "startup": 0.000228155,
+          "step0": 0.016136441999999997,
+          "sustained": 2.101419069,
+          "full": 2.117555511
+        },
+        "base": {
+          "startup": 0.000187593,
+          "step0": 0.017321512,
+          "sustained": 2.175344488,
+          "full": 2.192666
+        }
+      },
+      "delta_pct": {
+        "startup": 21.62234198504207,
+        "step0": -6.841608284542389,
+        "sustained": -3.39833159335452,
+        "full": -3.425532616458693
+      }
+    },
+    {
+      "repeat": 6,
+      "order": [
+        "base",
+        "candidate"
+      ],
+      "complete_horizons": true,
+      "exact": true,
+      "seconds": {
+        "base": {
+          "startup": 0.000179811,
+          "step0": 0.01664554,
+          "sustained": 2.028918335,
+          "full": 2.045563875
+        },
+        "candidate": {
+          "startup": 0.000345602,
+          "step0": 0.016951402,
+          "sustained": 2.183265342,
+          "full": 2.200216744
+        }
+      },
+      "delta_pct": {
+        "startup": 92.20292418150169,
+        "step0": 1.8375012165420923,
+        "sustained": 7.607354339375116,
+        "full": 7.560402825357881
+      }
+    },
+    {
+      "repeat": 7,
+      "order": [
+        "base",
+        "candidate"
+      ],
+      "complete_horizons": true,
+      "exact": true,
+      "seconds": {
+        "base": {
+          "startup": 0.000208715,
+          "step0": 0.016797521,
+          "sustained": 2.299851207,
+          "full": 2.316648728
+        },
+        "candidate": {
+          "startup": 0.000183226,
+          "step0": 0.017076242,
+          "sustained": 2.149651752,
+          "full": 2.166727994
+        }
+      },
+      "delta_pct": {
+        "startup": -12.212346980332022,
+        "step0": 1.6592984167127955,
+        "sustained": -6.530833583618012,
+        "full": -6.471448700357307
+      }
+    },
+    {
+      "repeat": 8,
+      "order": [
+        "candidate",
+        "base"
+      ],
+      "complete_horizons": true,
+      "exact": true,
+      "seconds": {
+        "candidate": {
+          "startup": 0.000215145,
+          "step0": 0.017268392,
+          "sustained": 2.069803757,
+          "full": 2.087072149
+        },
+        "base": {
+          "startup": 0.000179351,
+          "step0": 0.029974443,
+          "sustained": 2.2002271,
+          "full": 2.230201543
+        }
+      },
+      "delta_pct": {
+        "startup": 19.9575134791554,
+        "step0": -42.38961504639135,
+        "sustained": -5.927721870165148,
+        "full": -6.4177784491829755
+      }
+    },
+    {
+      "repeat": 9,
+      "order": [
+        "candidate",
+        "base"
+      ],
+      "complete_horizons": true,
+      "exact": true,
+      "seconds": {
+        "candidate": {
+          "startup": 0.000182586,
+          "step0": 0.015730108,
+          "sustained": 2.12959243,
+          "full": 2.145322538
+        },
+        "base": {
+          "startup": 0.000498313,
+          "step0": 0.017898183,
+          "sustained": 2.071901992,
+          "full": 2.089800175
+        }
+      },
+      "delta_pct": {
+        "startup": -63.35917385257861,
+        "step0": -12.113380447613043,
+        "sustained": 2.7844192545184887,
+        "full": 2.6568264116448193
+      }
+    },
+    {
+      "repeat": 10,
+      "order": [
+        "candidate",
+        "base"
+      ],
+      "complete_horizons": true,
+      "exact": true,
+      "seconds": {
+        "candidate": {
+          "startup": 0.000179621,
+          "step0": 0.015971772999999998,
+          "sustained": 2.083319979,
+          "full": 2.099291752
+        },
+        "base": {
+          "startup": 0.000200653,
+          "step0": 0.016467703,
+          "sustained": 2.187155662,
+          "full": 2.203623365
+        }
+      },
+      "delta_pct": {
+        "startup": -10.48177699810119,
+        "step0": -3.0115311163918967,
+        "sustained": -4.74752139521013,
+        "full": -4.734548319694365
+      }
+    },
+    {
+      "repeat": 11,
+      "order": [
+        "candidate",
+        "base"
+      ],
+      "complete_horizons": true,
+      "exact": true,
+      "seconds": {
+        "candidate": {
+          "startup": 0.000186802,
+          "step0": 0.015866385,
+          "sustained": 2.218341086,
+          "full": 2.234207471
+        },
+        "base": {
+          "startup": 0.000183898,
+          "step0": 0.016715798,
+          "sustained": 2.302822573,
+          "full": 2.319538371
+        }
+      },
+      "delta_pct": {
+        "startup": 1.5791362603182257,
+        "step0": -5.081498352636227,
+        "sustained": -3.66860599642036,
+        "full": -3.6787880324313127
+      }
+    }
+  ],
+  "median_delta_pct": {
+    "startup": -6.343578891732987,
+    "step0": -2.365308898553292,
+    "sustained": -1.579161098811821,
+    "full": -1.4628045383900445
+  }
+}

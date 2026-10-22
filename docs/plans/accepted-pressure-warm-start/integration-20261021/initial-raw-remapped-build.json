@@ -1,0 +1,25 @@
+{
+  "scope": "preliminary initial-main raw rebuilt executable inspection, no timing",
+  "source": {
+    "base": "15026a966265cf9eaedf464e2b5a066bd0fef3d8",
+    "candidate": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a"
+  },
+  "build": "cargo build --release --locked --features parallel --example cpu_particle_lab",
+  "RUSTFLAGS": "--remap-path-prefix=/workspace/pr59-base=/rheon --remap-path-prefix=/workspace/Rheon=/rheon",
+  "sha256": {
+    "/workspace/pr59-raw-initial-binaries/base-remapped": "d1473cb7b75965d489d7cc59c6dec3529890d7978b0584f3fe08f31d2cdda4a4",
+    "/workspace/pr59-raw-initial-binaries/candidate-remapped": "7264603aa88c22073a7c58e7a294a992f0cf4459a750d7b1d968fe575a851bb9"
+  },
+  "cpu_max": "400000 100000",
+  "memory_max": "17179869184",
+  "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+  "unchanged_harness_sha256": "3e6f4eb91403c285805115733fd423e2ed071b6f3024a49daee35db527539e1c",
+  "rebuild": "mtime-only harness touch, no source byte changes; raw output hashes reproduce original pre-objcopy hashes"
+}

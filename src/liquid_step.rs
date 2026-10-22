@@ -1,5 +1,7 @@
 //! Transactional fixed-box carrier and represented-volume transport. Fractions
 //! classify pressure only on opt-in surface modes; inertia remains one constant.
+#[cfg(feature = "accepted-pressure-warm-start")]
+use crate::pressure_initialization::{AcceptedPressureHistory, SealedOperatorKey};
 use crate::solver_provider::configured::{
     AcceptedContextInput, ConfiguredProviderReport, ContextAdapter,
 };
@@ -10,6 +12,8 @@ use crate::{
     LiquidVolumeView, PressureImplementation, Simulation, SimulationConfig, SimulationError,
     SmokeSource, StateView, StepStage, VolumeStage, VolumeStamp,
 };
+#[cfg(feature = "accepted-pressure-warm-start")]
+use crate::{PressureInitializationPolicy, PressureInitializationReport, PressureSeedStamp};
 use std::fmt;
 struct LiquidProviderInput<'a, 'p> {
     workspace: &'a mut crate::ProviderStepWorkspace,
@@ -56,9 +60,16 @@ pub enum LiquidStepError {
     Volume(LiquidVolumeError),
     Cancelled,
     AllocationFailed,
+    #[cfg(feature = "accepted-pressure-warm-start")]
+    PressureIdentityExhausted,
+    #[cfg(feature = "accepted-pressure-warm-start")]
+    PressureRevisionExhausted,
     FreeSurface(crate::FreeSurfaceError),
     ColumnMac(crate::ColumnMacError),
-    BufferLimit { required: usize, limit: usize },
+    BufferLimit {
+        required: usize,
+        limit: usize,
+    },
 }
 impl fmt::Display for LiquidStepError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -99,6 +110,8 @@ pub struct LiquidTransportView<'a> {
 
 #[derive(Debug, Clone, Copy)]
 pub struct LiquidStepReport {
+    #[cfg(feature = "accepted-pressure-warm-start")]
+    pub pressure_initialization: PressureInitializationReport,
     pub carrier: ForcedStepReport,
     pub boundary: Option<BoxFluxStepReport>,
     pub liquid: LiquidVolumeReport,
@@ -126,6 +139,8 @@ pub struct LiquidTransportSimulation {
     surface: Option<crate::SlabFreeSurface>,
     columns: Option<crate::ColumnSurfaceWorkspace>,
     flat_column_mac: bool,
+    #[cfg(feature = "accepted-pressure-warm-start")]
+    pressure_history: AcceptedPressureHistory,
 }
 impl LiquidTransportSimulation {
     pub fn new(
@@ -181,8 +196,18 @@ impl LiquidTransportSimulation {
             surface: None,
             columns: None,
             flat_column_mac: false,
+            #[cfg(feature = "accepted-pressure-warm-start")]
+            pressure_history: AcceptedPressureHistory::new()
+                .ok_or(LiquidStepError::PressureIdentityExhausted)?,
         })
     }
+    /// Provenance of the reusable accepted native pressure, if eligible. This
+    /// process-local stamp is not serialized by existing dense3D frame encoding.
+    #[cfg(feature = "accepted-pressure-warm-start")]
+    pub fn pressure_seed(&self) -> Option<PressureSeedStamp> {
+        self.pressure_history.seed()
+    }
+
     /// One-liquid resolved slab pressure mode. Mixed interface geometry is not
     /// reconstructed; subsequent steps reject when binary admission is lost.
     pub fn with_free_surface(
@@ -439,6 +464,11 @@ impl LiquidTransportSimulation {
             crate::column_mac::check(value).map_err(failure)?;
         }
         crate::column_mac::check(prescribed_energy_change).map_err(failure)?;
+        #[cfg(feature = "accepted-pressure-warm-start")]
+        let pressure_history = self
+            .pressure_history
+            .publication(None, generation)
+            .ok_or(LiquidStepError::PressureRevisionExhausted)?;
         if cancel(crate::ColumnMacStage::BeforePublish) {
             return Err(failure(crate::ColumnMacError::Cancelled {
                 stage: crate::ColumnMacStage::BeforePublish,
@@ -453,6 +483,10 @@ impl LiquidTransportSimulation {
             .unwrap()
             .commit_column_mac_revision(volume);
         self.flat_column_mac = true;
+        #[cfg(feature = "accepted-pressure-warm-start")]
+        {
+            self.pressure_history = pressure_history;
+        }
         Ok(crate::ColumnMacPublicationReport {
             before,
             after: crate::ColumnMacStateStamp {
@@ -485,10 +519,34 @@ impl LiquidTransportSimulation {
         inputs: LiquidStepInputs<'_>,
         cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<LiquidStepReport, LiquidStepError> {
-        self.step_impl(inputs, None, None, None, None, cancel)
+        self.step_impl(
+            inputs,
+            None,
+            None,
+            None,
+            None,
+            #[cfg(feature = "accepted-pressure-warm-start")]
+            PressureInitializationPolicy::Cold,
+            cancel,
+        )
+        .map(|(report, _, _)| report)
+    }
+    /// Opt-in reuse of the previous accepted native sealed pressure in Pa.
+    /// Existing step methods stay cold. Unsupported paths run cold and invalidate
+    /// native history only if their complete interval publishes successfully.
+    #[cfg(feature = "accepted-pressure-warm-start")]
+    pub fn step_with_initialization(
+        &mut self,
+        inputs: LiquidStepInputs<'_>,
+        policy: PressureInitializationPolicy,
+        cancel: impl FnMut(LiquidStepStage) -> bool,
+    ) -> Result<LiquidStepReport, LiquidStepError> {
+        self.step_impl(inputs, None, None, None, None, policy, cancel)
             .map(|(report, _, _)| report)
     }
-    /// End-of-step prescribed carrier box flux and explicit liquid inflow donors.
+
+    /// End-of-step prescribed carrier box flux and explicit liquid inflow
+    /// donors. Appearance tracer follows the existing selected boundary policy.
     pub fn step_with_box_flux(
         &mut self,
         inputs: LiquidStepInputs<'_>,
@@ -502,6 +560,8 @@ impl LiquidTransportSimulation {
             None,
             None,
             None,
+            #[cfg(feature = "accepted-pressure-warm-start")]
+            PressureInitializationPolicy::Cold,
             cancel,
         )
         .map(|(report, _, _)| report)
@@ -539,6 +599,8 @@ impl LiquidTransportSimulation {
             Some((workspace, dynamic_viscosity)),
             None,
             None,
+            #[cfg(feature = "accepted-pressure-warm-start")]
+            PressureInitializationPolicy::Cold,
             cancel,
         )
         .map(|(report, _, _)| report)
@@ -561,6 +623,8 @@ impl LiquidTransportSimulation {
                 configured: None,
             }),
             None,
+            #[cfg(feature = "accepted-pressure-warm-start")]
+            PressureInitializationPolicy::Cold,
             cancel,
         )?;
         Ok((
@@ -595,6 +659,8 @@ impl LiquidTransportSimulation {
                 configured: Some(configured),
             }),
             None,
+            #[cfg(feature = "accepted-pressure-warm-start")]
+            PressureInitializationPolicy::Cold,
             cancel,
         )?;
         Ok((
@@ -608,13 +674,22 @@ impl LiquidTransportSimulation {
         projection: crate::projection_step::ProjectionStepInput<'_>,
         cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<(LiquidStepReport, crate::solver_provider::ProviderReport), LiquidStepError> {
-        let (report, provider, _) =
-            self.step_impl(inputs, None, None, None, Some(projection), cancel)?;
+        let (report, provider, _) = self.step_impl(
+            inputs,
+            None,
+            None,
+            None,
+            Some(projection),
+            #[cfg(feature = "accepted-pressure-warm-start")]
+            PressureInitializationPolicy::Cold,
+            cancel,
+        )?;
         Ok((
             report,
             provider.expect("native projection selected before commit"),
         ))
     }
+    #[allow(clippy::too_many_arguments)] // Explicit workspaces and opt-in initialization policy.
     fn step_impl(
         &mut self,
         inputs: LiquidStepInputs<'_>,
@@ -622,6 +697,7 @@ impl LiquidTransportSimulation {
         viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
         provider: Option<LiquidProviderInput<'_, '_>>,
         mut projection: Option<crate::projection_step::ProjectionStepInput<'_>>,
+        #[cfg(feature = "accepted-pressure-warm-start")] policy: PressureInitializationPolicy,
         mut cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<
         (
@@ -704,6 +780,30 @@ impl LiquidTransportSimulation {
             .and_then(|n| n.checked_add(viscosity_bytes))
             .and_then(|n| n.checked_add(provider_bytes))
             .ok_or(LiquidStepError::AllocationFailed)?;
+        #[cfg(feature = "accepted-pressure-warm-start")]
+        let native_sealed = self.surface.is_none()
+            && self.columns.is_none()
+            && !self.flat_column_mac
+            && boundary.is_none()
+            && viscosity.is_none()
+            && provider_workspace.is_none()
+            && projection.is_none();
+        #[cfg(feature = "accepted-pressure-warm-start")]
+        let operator_key = native_sealed.then(|| {
+            SealedOperatorKey::new(
+                self.carrier.grid(),
+                self.carrier.density(),
+                self.carrier.implementation(),
+            )
+        });
+        #[cfg(feature = "accepted-pressure-warm-start")]
+        let initialization = self.pressure_history.initialization(
+            policy,
+            operator_key,
+            self.carrier.state().generation,
+        );
+        #[cfg(feature = "accepted-pressure-warm-start")]
+        let initial_pressure = initialization.seed.map(|_| self.pressure.as_slice());
         let workflow = configured
             .as_ref()
             .map(|configured| configured.workflow.clone());
@@ -745,6 +845,8 @@ impl LiquidTransportSimulation {
                     preferred,
                 }
             }),
+            #[cfg(feature = "accepted-pressure-warm-start")]
+            initial_pressure,
             workflow.as_deref(),
             projection
                 .as_mut()
@@ -818,6 +920,11 @@ impl LiquidTransportSimulation {
         } else {
             None
         };
+        #[cfg(feature = "accepted-pressure-warm-start")]
+        let pressure_history = self
+            .pressure_history
+            .publication(operator_key, step.generation)
+            .ok_or(LiquidStepError::PressureRevisionExhausted)?;
         crate::workflow::complete(
             workflow.as_deref(),
             crate::workflow::NodeKind::VolumeTransport,
@@ -879,8 +986,14 @@ impl LiquidTransportSimulation {
             surface.commit(report);
         }
         self.liquid.commit_prepared(&liquid);
+        #[cfg(feature = "accepted-pressure-warm-start")]
+        {
+            self.pressure_history = pressure_history;
+        }
         Ok((
             LiquidStepReport {
+                #[cfg(feature = "accepted-pressure-warm-start")]
+                pressure_initialization: initialization,
                 carrier: candidate.legacy.step,
                 boundary: candidate.boundary,
                 liquid,

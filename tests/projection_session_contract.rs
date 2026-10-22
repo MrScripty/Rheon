@@ -390,6 +390,29 @@ fn c1b2_legacy_entry_refusal_preserves_the_accepted_projection_receipt() {
         .step_with_native_projection(inputs(), &mut projection, None, |_| false)
         .unwrap();
     let pressure_before = f64_bits(owner.snapshot().state().pressure);
+    #[cfg(feature = "accepted-pressure-warm-start")]
+    for policy in [
+        PressureInitializationPolicy::Cold,
+        PressureInitializationPolicy::AcceptedPreviousV1,
+    ] {
+        let mut called = false;
+        assert!(matches!(
+            owner.step_with_initialization(inputs(), policy, None, |_| {
+                called = true;
+                false
+            }),
+            Err(SessionError::PressureBinding(
+                solver_provider::ProviderRejection::Unsupported(_)
+            ))
+        ));
+        assert!(!called);
+        assert!(Arc::ptr_eq(
+            owner.snapshot().projection_attempt().unwrap(),
+            &first.attempt
+        ));
+        assert_eq!(owner.snapshot().frame(), 1);
+        assert_eq!(f64_bits(owner.snapshot().state().pressure), pressure_before);
+    }
     assert!(
         owner
             .step_with_pressure_provider(inputs(), &mut native, None, None, |_| false)

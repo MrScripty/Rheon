@@ -45,6 +45,13 @@ mod pressure;
 pub use pressure::{
     PressureError, PressureImplementation, PressureReport, PressureSettings, PressureWorkspace,
 };
+#[cfg(feature = "accepted-pressure-warm-start")]
+mod pressure_initialization;
+#[cfg(feature = "accepted-pressure-warm-start")]
+pub use pressure_initialization::{
+    PressureColdReason, PressureInitializationPolicy, PressureInitializationReport,
+    PressureSeedStage, PressureSeedStamp,
+};
 mod sampling;
 pub use sampling::{SamplingError, ScalarSampler, VelocitySampler};
 mod advection;

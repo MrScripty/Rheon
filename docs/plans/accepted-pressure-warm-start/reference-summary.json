@@ -1,0 +1,435 @@
+{
+  "binary_sha256": "c8bc96bc3d2ba73ebb4c635fd56d859308eaaed03ec2960bbdc4b94de5f37b00",
+  "accuracy_qualified": false,
+  "interpretation": "terminal discrepancies are diagnostic; independent physical/oracle gates remain separate",
+  "cases": [
+    {
+      "counts": [
+        16,
+        16,
+        16
+      ],
+      "commands": {
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "16",
+          "16",
+          "16",
+          "1",
+          "16",
+          "cold",
+          "localized",
+          "jacobi",
+          "normal",
+          "/workspace/scratch/warm-bench/corrected-reference/16-16-16-cold.bin"
+        ],
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "16",
+          "16",
+          "16",
+          "1",
+          "16",
+          "warm",
+          "localized",
+          "jacobi",
+          "normal",
+          "/workspace/scratch/warm-bench/corrected-reference/16-16-16-warm.bin"
+        ],
+        "reference": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "16",
+          "16",
+          "16",
+          "1",
+          "16",
+          "cold",
+          "localized",
+          "jacobi",
+          "tight",
+          "/workspace/scratch/warm-bench/corrected-reference/16-16-16-reference.bin"
+        ]
+      },
+      "snapshot_sha256": {
+        "cold": "6d972b9da783e9d649091bfd60bf098a11aba00de6adcb6bac430a33ae9b01e8",
+        "warm": "d565863772efcce62e9910bc339d36aff930cc44da94cc8b9b812884365a7f3f",
+        "reference": "b5ebd5a16f292e6f418d47a11f863e8424973843edf11684cdeec70f3a968ed0"
+      },
+      "metrics": {
+        "cold": {
+          "x": {
+            "linf": 5.587935447692871e-09,
+            "rms": 5.936921186895463e-10
+          },
+          "y": {
+            "linf": 7.450580596923828e-09,
+            "rms": 8.007889491687389e-10
+          },
+          "z": {
+            "linf": 5.587935447692871e-09,
+            "rms": 5.016623292780299e-10
+          },
+          "tracer": {
+            "linf": 0.0,
+            "rms": 0.0
+          },
+          "pressure": {
+            "linf": 6.354730356511462e-09,
+            "rms": 8.597166513620155e-10
+          },
+          "fraction": {
+            "linf": 1.923991022056981e-09,
+            "rms": 2.1594128265582282e-10
+          }
+        },
+        "warm": {
+          "x": {
+            "linf": 5.587935447692871e-09,
+            "rms": 5.915289882542351e-10
+          },
+          "y": {
+            "linf": 7.450580596923828e-09,
+            "rms": 8.08658102012946e-10
+          },
+          "z": {
+            "linf": 3.725290298461914e-09,
+            "rms": 5.045273346963674e-10
+          },
+          "tracer": {
+            "linf": 0.0,
+            "rms": 0.0
+          },
+          "pressure": {
+            "linf": 7.064294891515489e-09,
+            "rms": 9.62486724855138e-10
+          },
+          "fraction": {
+            "linf": 2.0440151793366113e-09,
+            "rms": 2.1966159595927928e-10
+          }
+        }
+      }
+    },
+    {
+      "counts": [
+        32,
+        32,
+        32
+      ],
+      "commands": {
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "localized",
+          "jacobi",
+          "normal",
+          "/workspace/scratch/warm-bench/corrected-reference/32-32-32-cold.bin"
+        ],
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "warm",
+          "localized",
+          "jacobi",
+          "normal",
+          "/workspace/scratch/warm-bench/corrected-reference/32-32-32-warm.bin"
+        ],
+        "reference": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "localized",
+          "jacobi",
+          "tight",
+          "/workspace/scratch/warm-bench/corrected-reference/32-32-32-reference.bin"
+        ]
+      },
+      "snapshot_sha256": {
+        "cold": "3b4aa01c403b53ba8d90845b1d3a8334d0d5bdcf2f56999b71aefdb0ad8ad1df",
+        "warm": "dbd2fbc3e9715cbe8bdebb6f6db977774449b19d526b2edcd2634b10b327435f",
+        "reference": "6e14ddf2ab26055e5eefc187fa381e588e2758f4c7ce35f282846dfcca9b660c"
+      },
+      "metrics": {
+        "cold": {
+          "x": {
+            "linf": 7.450580596923828e-09,
+            "rms": 5.827387696836057e-10
+          },
+          "y": {
+            "linf": 7.450580596923828e-09,
+            "rms": 7.988262459942727e-10
+          },
+          "z": {
+            "linf": 5.587935447692871e-09,
+            "rms": 4.832440533914974e-10
+          },
+          "tracer": {
+            "linf": 0.0,
+            "rms": 0.0
+          },
+          "pressure": {
+            "linf": 3.7914642016245725e-09,
+            "rms": 4.358255708584223e-10
+          },
+          "fraction": {
+            "linf": 4.839594780481349e-09,
+            "rms": 4.063093694892767e-10
+          }
+        },
+        "warm": {
+          "x": {
+            "linf": 5.587935447692871e-09,
+            "rms": 5.928762031990572e-10
+          },
+          "y": {
+            "linf": 7.450580596923828e-09,
+            "rms": 7.851544427748948e-10
+          },
+          "z": {
+            "linf": 5.587935447692871e-09,
+            "rms": 4.784543398034348e-10
+          },
+          "tracer": {
+            "linf": 0.0,
+            "rms": 0.0
+          },
+          "pressure": {
+            "linf": 4.224158411947343e-09,
+            "rms": 3.9916504014622895e-10
+          },
+          "fraction": {
+            "linf": 3.793904690407857e-09,
+            "rms": 4.044960805470977e-10
+          }
+        }
+      }
+    },
+    {
+      "counts": [
+        64,
+        64,
+        64
+      ],
+      "commands": {
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "64",
+          "64",
+          "64",
+          "1",
+          "16",
+          "cold",
+          "localized",
+          "jacobi",
+          "normal",
+          "/workspace/scratch/warm-bench/corrected-reference/64-64-64-cold.bin"
+        ],
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "64",
+          "64",
+          "64",
+          "1",
+          "16",
+          "warm",
+          "localized",
+          "jacobi",
+          "normal",
+          "/workspace/scratch/warm-bench/corrected-reference/64-64-64-warm.bin"
+        ],
+        "reference": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "64",
+          "64",
+          "64",
+          "1",
+          "16",
+          "cold",
+          "localized",
+          "jacobi",
+          "tight",
+          "/workspace/scratch/warm-bench/corrected-reference/64-64-64-reference.bin"
+        ]
+      },
+      "snapshot_sha256": {
+        "cold": "aff1be4fd74c02515e187d0d4f8421858ef47dcc0176256b5cf14da79a038e7d",
+        "warm": "33a125de4ff3d5ce463f0cd819b2f5deabcf88eb28db57a425817f35e6465a98",
+        "reference": "41e1aadaa0aa62d728da66928ed6e0c18252636ce780ee53d516eadeb25d6a23"
+      },
+      "metrics": {
+        "cold": {
+          "x": {
+            "linf": 7.450580596923828e-09,
+            "rms": 5.803006524487769e-10
+          },
+          "y": {
+            "linf": 1.1175870895385742e-08,
+            "rms": 8.057308314813637e-10
+          },
+          "z": {
+            "linf": 5.587935447692871e-09,
+            "rms": 4.76681429920135e-10
+          },
+          "tracer": {
+            "linf": 0.0,
+            "rms": 0.0
+          },
+          "pressure": {
+            "linf": 2.689111169851266e-09,
+            "rms": 2.211369209511847e-10
+          },
+          "fraction": {
+            "linf": 8.224121383904048e-09,
+            "rms": 7.677239048166738e-10
+          }
+        },
+        "warm": {
+          "x": {
+            "linf": 7.450580596923828e-09,
+            "rms": 5.792896394980049e-10
+          },
+          "y": {
+            "linf": 1.1175870895385742e-08,
+            "rms": 8.07669586666544e-10
+          },
+          "z": {
+            "linf": 7.450580596923828e-09,
+            "rms": 4.765179738674474e-10
+          },
+          "tracer": {
+            "linf": 0.0,
+            "rms": 0.0
+          },
+          "pressure": {
+            "linf": 2.607089794048889e-09,
+            "rms": 2.2092858292560976e-10
+          },
+          "fraction": {
+            "linf": 1.0222860558073421e-08,
+            "rms": 7.640744058137264e-10
+          }
+        }
+      }
+    },
+    {
+      "counts": [
+        48,
+        24,
+        12
+      ],
+      "commands": {
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "48",
+          "24",
+          "12",
+          "1",
+          "16",
+          "cold",
+          "localized",
+          "jacobi",
+          "normal",
+          "/workspace/scratch/warm-bench/corrected-reference/48-24-12-cold.bin"
+        ],
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "48",
+          "24",
+          "12",
+          "1",
+          "16",
+          "warm",
+          "localized",
+          "jacobi",
+          "normal",
+          "/workspace/scratch/warm-bench/corrected-reference/48-24-12-warm.bin"
+        ],
+        "reference": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "48",
+          "24",
+          "12",
+          "1",
+          "16",
+          "cold",
+          "localized",
+          "jacobi",
+          "tight",
+          "/workspace/scratch/warm-bench/corrected-reference/48-24-12-reference.bin"
+        ]
+      },
+      "snapshot_sha256": {
+        "cold": "46d13587b39c13618504b4d0e2837e2ab7847ce2930198df9a22501d94db9a6e",
+        "warm": "27365bb5899085e205dec33008cff2e2506e91a92bb0c882d68b705007577b81",
+        "reference": "6b5b4b0f966f77c471b6b68dc517b40f80f9c49f7062774b58f3b3b5f9653434"
+      },
+      "metrics": {
+        "cold": {
+          "x": {
+            "linf": 5.587935447692871e-09,
+            "rms": 5.124663951914228e-10
+          },
+          "y": {
+            "linf": 1.1175870895385742e-08,
+            "rms": 8.486842097189776e-10
+          },
+          "z": {
+            "linf": 3.725290298461914e-09,
+            "rms": 4.054261072839868e-10
+          },
+          "tracer": {
+            "linf": 0.0,
+            "rms": 0.0
+          },
+          "pressure": {
+            "linf": 4.808841030240485e-09,
+            "rms": 5.21083430589915e-10
+          },
+          "fraction": {
+            "linf": 3.2599081212225656e-09,
+            "rms": 4.030711968191951e-10
+          }
+        },
+        "warm": {
+          "x": {
+            "linf": 4.6566128730773926e-09,
+            "rms": 5.172849920658881e-10
+          },
+          "y": {
+            "linf": 1.1175870895385742e-08,
+            "rms": 8.555574088603183e-10
+          },
+          "z": {
+            "linf": 3.725290298461914e-09,
+            "rms": 4.105440151115833e-10
+          },
+          "tracer": {
+            "linf": 0.0,
+            "rms": 0.0
+          },
+          "pressure": {
+            "linf": 3.974091014602443e-09,
+            "rms": 5.766063201705777e-10
+          },
+          "fraction": {
+            "linf": 3.0299160957980575e-09,
+            "rms": 4.104730194474473e-10
+          }
+        }
+      }
+    }
+  ]
+}

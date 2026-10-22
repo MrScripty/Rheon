@@ -1,0 +1,7 @@
+{
+  "/workspace/pr59-base/examples/cpu_particle_lab.rs": "3e6f4eb91403c285805115733fd423e2ed071b6f3024a49daee35db527539e1c",
+  "/workspace/Rheon/examples/cpu_particle_lab.rs": "3e6f4eb91403c285805115733fd423e2ed071b6f3024a49daee35db527539e1c",
+  "/workspace/pr59-diagnostic-rewritten/base-remapped": "9650df93b8c3b360c22e28b91a69a71b42a8a914b7c1565b5ef47e079f46a0db",
+  "/workspace/pr59-diagnostic-rewritten/candidate-remapped": "3a6fcdeb162d5a5e9f2e902851a532d7f0c16d64b2538b3861b0555c43755c36",
+  "committed_harness_sha256": "3e6f4eb91403c285805115733fd423e2ed071b6f3024a49daee35db527539e1c"
+}

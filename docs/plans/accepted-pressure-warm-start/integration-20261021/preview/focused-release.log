@@ -1,0 +1,200 @@
+   Compiling rheon v0.1.0 (/workspace/pr59-composition-preview)
+    Finished `release` profile [optimized] target(s) in 5m 21s
+     Running unittests src/lib.rs (/workspace/.rheon-tools/target/release/deps/rheon-3811278ecadf3a8d)
+
+running 108 tests
+test emitter::tests::nozzle_pressure_is_nonuniform_and_end_heads_are_independent ... ok
+test force_field::tests::rotated_subnormal_fields_respect_acceleration_bound ... ok
+test forces::tests::authored_field_face_sampling_density_walls_and_work ... ok
+test forces::tests::finite_step_work_can_be_negative_and_uses_both_velocity_endpoints ... ok
+test forces::tests::work_accounts_for_actual_storage_rounding_and_closed_wall_faces ... ok
+test native_family::tests::c1a_named_cross_family_transfers_are_explicitly_unavailable ... ok
+test material_session::tests::final_callback_deadline_retains_particles_diagnostics_and_controls ... ok
+test native_family::tests::c1a_particle_failures_retain_controls_diagnostics_and_retry_identity ... ok
+test native_family::tests::c1a_particle_preview_retains_native_controls_diagnostics_and_shortened_dt ... ok
+test native_family::tests::c1a_snapshots_borrow_original_native_fields_without_conversion ... ok
+test native_family::tests::c1a_quota_and_stop_stay_native_owner_failures ... ok
+test native_family::tests::c1a_stale_or_future_generation_cannot_relabel_accepted_history ... ok
+test native_family::tests::c1a_wrong_family_and_declared_source_are_refused_before_callbacks ... ok
+test operator::fixed_box_tests::cached_boundary_diagonals_match_original_order_for_every_row ... ok
+test parallel::row_tests::row_fragments_cover_partial_first_and_last_rows_without_gaps ... ok
+test particle_fluid::physics_tests::diagnostics_commit_only_with_accepted_state_and_balance_pair_force ... ok
+test particle_fluid::physics_tests::gas_pair_expands_into_vacuum_with_equal_and_opposite_momentum ... ok
+test particle_fluid::physics_tests::gravity_accelerates_in_metres_per_second_squared_at_both_scene_scales ... ok
+test particle_fluid::physics_tests::late_overlap_replacement_and_inside_emission_leave_accepted_state_unchanged ... ok
+test particle_fluid::physics_tests::liquid_and_gas_convex_solid_exclude_fill_and_stop_approaching_particles ... ok
+test particle_fluid::physics_tests::moving_vector_emitter_checks_collision_at_current_birth_position ... ok
+test particle_fluid::physics_tests::liquid_and_gas_hit_mesh_with_no_normal_penetration_and_keep_tangent_motion ... ok
+test particle_fluid::physics_tests::pressure_acceleration_matches_independent_compression_energy_gradient ... ok
+test particle_fluid::physics_tests::surface_cohesion_draws_liquid_parcels_together ... ok
+test particle_fluid::physics_tests::unlike_material_pressure_conserves_momentum_and_respects_particle_inertia ... ok
+test particle_fluid::physics_tests::viscosity_reduces_pair_kinetic_energy_without_changing_total_momentum ... ok
+test particle_fluid::physics_tests::wall_drag_and_temperature_use_contact_rates_without_bulk_vacuum_cooling ... ok
+test pressure::comparison_tests::sgs_matches_independently_assembled_triangular_system ... ok
+test pressure_initialization::tests::operator_identity_and_generation_are_required_and_publication_is_staged ... ok
+test pressure_session::tests::deadline_during_final_callback_preserves_qualified_pressure_and_retry ... ok
+test recording::force_fields::tests::binary_rejects_truncation_trailing_unknown_versions_and_invalid_objects ... ok
+test recording::force_fields::tests::binary_roundtrip_preserves_all_variants_ids_disabled_and_float_bits ... ok
+test recording::force_fields::tests::field_schema_limits_and_accepted_custody_fail_closed ... ok
+test recording::force_fields::tests::legacy_run_hash_and_absent_metadata_are_unchanged ... ok
+test recording::force_fields::tests::malformed_run_digest_never_panics_and_is_not_rebound ... ok
+test recording::force_fields::tests::run_binding_rejects_absent_mismatched_and_unbound_metadata ... ok
+test recording::force_fields::tests::maximum_valid_scene_fits_bounded_codec ... ok
+test recording::projection::tests::c1b2_projection_actual_append_limit_preserves_unrecorded_accepted_tail ... ok
+test recording::projection::tests::c1b2_projection_cancelled_generation_zero_has_terminal_but_no_accepted_row ... ok
+test recording::projection::tests::c1b2_projection_cold_decoder_rejects_invalid_native_iteration_bytes ... ok
+test recording::projection::tests::c1b2_projection_rejects_profile_intent_size_source_interval_and_output_corruption ... ok
+test recording::projection::tests::c1b2_projection_real_clean_fallback_and_mixed_failure_are_distinct_cold_facts ... ok
+test recording::projection::tests::c1b2_projection_selected_and_history_reject_forged_input_and_duplicate_attempt ... ok
+test recording::projection::tests::c1b2_projection_terminal_rejects_unknown_source_version_cause_and_forged_snapshot ... ok
+test recording::projection::tests::c1b2_projection_sqlite_round_trip_close_producer_reopen_exact_native_fields ... ok
+test recording::projection::tests::c1b3_projection_cold_cancel_failed_and_accepted_unrecorded_tails ... ok
+test recording::projection::tests::c1b3_projection_intent_decoder_refuses_foreign_version_before_payload ... ok
+test recording::projection::tests::c1b3_projection_publication_and_terminal_refuse_foreign_attempt_version_before_payload ... ok
+test recording::projection::tests::c1b3_projection_selected_method_source_budget_and_profile_corruptions_refuse ... ok
+test recording::projection::tests::c1b3_projection_cold_iteration_failure_corruption_and_history_links_refuse ... ok
+test recording::workflow::tests::accepted_round_trip_and_legacy_profiles_preserve_original_meaning ... ok
+test recording::workflow::tests::advection_cancel_repair_keeps_actual_pressure_failure_failed_live_and_cold ... ok
+test recording::projection::tests::c1b3_projection_sqlite_both_producers_and_real_iteration_failure_fallback ... ok
+test recording::workflow::tests::advection_cancel_tracer_live_and_cold ... ok
+test recording::workflow::tests::advection_cancel_velocity_live_and_cold ... ok
+test recording::workflow::tests::cancellation_at_generation_zero_is_cold_inspectable_without_accepted_row ... ok
+test native_family::tests::c1a_mac_errors_deadline_and_cancellation_preserve_the_native_publication ... ok
+test recording::workflow::tests::forged_native_input_hash_is_rejected_by_bounded_selection_and_archive_chain ... ok
+test recording::workflow::tests::duplicate_attempt_ids_are_rejected_for_publications_and_next_terminal ... ok
+test recording::workflow::tests::candidate_and_fallback_runtime_profiles_round_trip_actual_provider_identity ... ok
+test recording::workflow::tests::iteration_limits_rcp4_matching_inner_counts_already_hit_old_receipt_gate ... ok
+test recording::workflow::tests::iteration_limits_rct2_accepted_candidate_count ... ok
+test recording::workflow::tests::iteration_limits_rct2_native_pressure_count ... ok
+test recording::workflow::tests::iteration_limits_rct2_rejected_candidate_count ... ok
+test recording::workflow::tests::iteration_limits_standalone_accepted_candidate_count ... ok
+test recording::workflow::tests::iteration_limits_standalone_native_pressure_count ... ok
+test recording::workflow::tests::iteration_limits_standalone_rejected_candidate_count ... ok
+test recording::workflow::tests::malformed_cross_linked_and_unknown_workflow_evidence_is_rejected ... ok
+test recording::workflow::tests::legacy_terminal_is_unavailable_and_storage_failure_preserves_accepted_tail ... ok
+test recording::workflow::tests::iteration_limits_valid_edges_and_zero_budget_candidate_are_preserved ... ok
+test session::configured::tests::configured_deadline_crossed_at_final_callback_preserves_history_and_quota ... ok
+test recording::workflow::tests::terminal_rejects_contradictory_runtime_outcome_and_unknown_version ... ok
+test session::projection::tests::c1b2_deadline_stop_quota_counter_and_arc_exclusivity_leave_accepted_state_unchanged ... ok
+test session::projection::tests::c1b2_late_volume_failure_and_native_pressure_failure_allow_clean_retry ... ok
+test session::projection::tests::c1b2_preparation_refusals_have_valid_failed_receipts_before_work ... ok
+test session::projection::tests::c1b2_receipt_validator_rejects_crosslinked_reports_and_impossible_phase_prefixes ... ok
+test session::projection::tests::c1b2_private_faults_keep_clean_fallback_and_refuse_mixed_fallback_without_publication ... ok
+test session::projection::tests::c1b3_distinct_producer_faults_preserve_clean_host_fallback_and_unpublished_mixed_receipts ... ok
+test session::projection::tests::c1b3_deadlines_inner_iterations_late_volume_and_terminal_guards_do_not_publish ... ok
+test session::projection::tests::c1b3_genuine_fallback_iteration_failure_is_unpublished_and_repeatable ... ok
+test session::projection::tests::c1b3_invalid_intents_caps_and_exact_workspace_mismatch_refuse_before_invocation ... ok
+test session::projection::tests::c1b2_cancellation_at_every_observed_checkpoint_preserves_complete_publication ... ok
+test session::projection::tests::c1b3_versioned_receipts_bind_producer_failure_method_cap_and_selected_role ... ok
+test session::tests::deadline_crossed_in_final_callback_preserves_publication_and_retries ... ok
+test session::projection::tests::native_projection_stays_cold_and_never_establishes_legacy_warm_history ... ok
+test solver_provider::composition::projection::tests::c1b1_actual_divergence_rejection_retains_both_pressure_calls_and_native_fallback ... ok
+test solver_provider::composition::projection::tests::c1b1_candidate_numerical_failures_retain_typed_reasons_and_clean_native_fallback ... ok
+test solver_provider::composition::projection::tests::c1b1_divergence_free_wrong_dynamics_fail_the_exact_momentum_witness ... ok
+test solver_provider::composition::projection::tests::c1b1_header_representation_identity_and_domain_refuse_before_callbacks ... ok
+test solver_provider::composition::projection::tests::c1b1_cooperative_cancellation_returns_no_view_and_allows_clean_retry ... ok
+test solver_provider::composition::projection::tests::c1b1_input_identity_binds_every_actual_input_fact_and_exact_face_bits ... ok
+test solver_provider::composition::projection::tests::c1b1_invalid_actual_inputs_are_typed_constructor_errors ... ok
+test solver_provider::composition::projection::tests::c1b1_native_iteration_failure_and_actual_divergence_failure_are_not_qualified ... ok
+test solver_provider::composition::projection::tests::c1b1_signed_zero_uses_in_place_correction_and_preserves_wall_bits ... ok
+test solver_provider::composition::projection::tests::c1b1_workspace_cap_includes_all_managed_array_capacities ... ok
+test solver_provider::composition::tests::c1a_pressure_exact_and_adversarial_candidates_match_original_dispatch ... ok
+test solver_provider::composition::tests::c1a_pressure_invalid_inputs_and_host_cancellation_preserve_original_errors ... ok
+test solver_provider::composition::tests::c1a_unavailable_scopes_preserve_seeded_workspace_and_v1_iteration_semantics ... ok
+test workflow::tests::actual_shortened_interval_and_native_trajectory_match_existing_pressure_path ... ok
+test workflow::tests::cancellation_before_provider_after_return_and_before_commit_never_publishes ... ok
+test workflow::tests::corrupted_prefixes_and_request_controls_are_detected ... ok
+test solver_provider::composition::projection::tests::c1b1_native_and_supplied_match_existing_kernel_for_100_independent_requests ... ok
+test workflow::tests::descriptor_digest_changes_only_with_actual_composition_and_invalid_binding_is_rejected ... ok
+test workflow::tests::dispatch_cancellation_retains_candidate_return_qualification_and_fallback_start_separately ... ok
+test workflow::tests::in_stage_cancellation_and_invalid_attempt_id_preserve_exact_terminal_facts ... ok
+test workflow::tests::observed_candidate_fallback_and_applied_zero_are_real_owner_facts ... ok
+test session::projection::tests::c1b3_each_observed_checkpoint_cancels_without_retry_or_publication_and_reused_scratch_matches_fresh ... ok
+test native_family::tests::c1a_mac_native_baseline_100_intervals_are_bitwise_owner_equivalent ... ok
+
+test result: ok. 108 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.92s
+
+     Running tests/accepted_pressure_history.rs (/workspace/.rheon-tools/target/release/deps/accepted_pressure_history-7cd163899e7ab4d8)
+
+running 7 tests
+test memory_limit_remains_exact_and_invalid_requests_preserve_history ... ok
+test accepted_seed_is_opt_in_and_pressure_stays_in_pa_when_dt_changes ... ok
+test localized_trajectory_matches_cold_accuracy_and_independent_flux_balance ... ok
+test unsupported_surface_and_column_requests_stay_cold ... ok
+test saturated_transport_rejection_preserves_seed_without_relaxing_fraction_bounds ... ok
+test unsupported_publication_invalidates_but_failed_boundary_and_provider_preserve ... ok
+test every_observed_checkpoint_preserves_accepted_seed_and_replays_dirty_scratch ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/configured_provider_session_contract.rs (/workspace/.rheon-tools/target/release/deps/configured_provider_session_contract-57e9913210d65737)
+
+running 9 tests
+test candidate_observes_actual_dt_post_viscosity_rhs_and_owned_accepted_history ... ok
+test changed_viscosity_and_boundary_gaps_reseed_native_history_before_provider_recovery ... ok
+test configured_native_viscosity_is_bit_exact_with_existing_multistep_transport ... ok
+test initialized_publication_clears_configured_receipt_only_after_acceptance ... ok
+test invalid_identity_never_reaches_provider_or_published_binding ... ok
+test provider_cancellation_deadline_and_post_pressure_volume_failure_do_not_publish ... ok
+test workspace_caps_domains_and_invalid_coefficients_fail_before_publication ... ok
+test support_decline_and_bad_candidate_fallback_keep_native_prior_and_prefix ... ok
+test every_checkpoint_cancellation_preserves_fields_receipt_history_and_retry_quota ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/pressure_initial_guess.rs (/workspace/.rheon-tools/target/release/deps/pressure_initial_guess-0ead74ee8fda6e5c)
+
+running 6 tests
+test full_gauge_row_and_compatibility_are_not_hidden_by_guess ... ok
+test exact_and_approximate_guesses_recover_independent_chain_without_extra_arrays ... ok
+test invalid_guess_and_cancelled_dirty_scratch_do_not_poison_retry ... ok
+test zero_rhs_still_checks_seed_and_current_rhs_threshold ... ok
+test seeded_chain_retains_full_gauge_acceptance ... ok
+test independent_neumann_cosine_refines_at_second_order_for_both_initializations ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/projection_session_contract.rs (/workspace/.rheon-tools/target/release/deps/projection_session_contract-f9413c6d0a2ea215)
+
+running 6 tests
+test c1b2_legacy_entry_refusal_preserves_the_accepted_projection_receipt ... ok
+test c1b2_actual_shortened_interval_is_bound_and_matches_original_owner ... ok
+test c1b3_real_iteration_failure_fallback_matches_direct_fallback_for_both_pairs ... ok
+test c1b3_shortened_interval_binds_selected_producer_and_fallback ... ok
+test c1b2_one_hundred_actual_intervals_match_the_original_session_for_each_method ... ok
+test c1b3_one_hundred_selected_intervals_match_direct_producer_for_each_pair ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.21s
+
+     Running tests/provider_step_contract.rs (/workspace/.rheon-tools/target/release/deps/provider_step_contract-9ad9b738aa0d12b7)
+
+running 8 tests
+test budgets_workspace_identity_and_legacy_transition_are_explicit ... ok
+test fallback_and_post_pressure_rejection_do_not_confuse_stage_identity ... ok
+test liquid_failure_after_qualified_pressure_preserves_pair_and_metadata ... ok
+test real_model_advances_production_session_for_twenty_four_intervals ... ignored, requires RHEON_AI_EXPORT from the SHA256-verified checkpoint exporter
+test unsupported_surface_domains_and_workspace_identity_reject_before_callbacks ... ok
+test preferred_and_fallback_remain_cold_after_accepted_native_history ... ok
+test production_numerical_selection_matches_original_full_step_fields ... ok
+test every_observed_callback_preserves_complete_session_publication ... ok
+
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/session_contract.rs (/workspace/.rheon-tools/target/release/deps/session_contract-65aaecab05741c03)
+
+running 5 tests
+test host_clock_uses_shortened_accepted_interval ... ok
+test cancellation_deadline_and_invalid_inputs_preserve_publication_and_retry ... ok
+test lifecycle_identity_export_and_quota ... ok
+test every_observed_checkpoint_preserves_last_accepted_state ... ok
+test output_failure_does_not_poison_session ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/session_interval_start_contract.rs (/workspace/.rheon-tools/target/release/deps/session_interval_start_contract-fabf51169dc72f71)
+
+running 1 test
+test actual_nonbinary_interval_starts_survive_all_session_paths_and_failed_attempts ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

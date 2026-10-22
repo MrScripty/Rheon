@@ -1,0 +1,75 @@
+    Blocking waiting for file lock on build directory
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `release` profile [optimized] target(s) in 1m 34s
+     Running tests/accepted_pressure_history.rs (/workspace/.rheon-tools/target/release/deps/accepted_pressure_history-7cd163899e7ab4d8)
+
+running 7 tests
+test memory_limit_remains_exact_and_invalid_requests_preserve_history ... ok
+test accepted_seed_is_opt_in_and_pressure_stays_in_pa_when_dt_changes ... ok
+test localized_trajectory_matches_cold_accuracy_and_independent_flux_balance ... ok
+test unsupported_surface_and_column_requests_stay_cold ... ok
+test unsupported_publication_invalidates_but_failed_boundary_and_provider_preserve ... ok
+test saturated_transport_rejection_preserves_seed_without_relaxing_fraction_bounds ... ok
+test every_observed_checkpoint_preserves_accepted_seed_and_replays_dirty_scratch ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/configured_provider_session_contract.rs (/workspace/.rheon-tools/target/release/deps/configured_provider_session_contract-57e9913210d65737)
+
+running 9 tests
+test candidate_observes_actual_dt_post_viscosity_rhs_and_owned_accepted_history ... ok
+test initialized_publication_clears_configured_receipt_only_after_acceptance ... ok
+test changed_viscosity_and_boundary_gaps_reseed_native_history_before_provider_recovery ... ok
+test configured_native_viscosity_is_bit_exact_with_existing_multistep_transport ... ok
+test invalid_identity_never_reaches_provider_or_published_binding ... ok
+test provider_cancellation_deadline_and_post_pressure_volume_failure_do_not_publish ... ok
+test workspace_caps_domains_and_invalid_coefficients_fail_before_publication ... ok
+test support_decline_and_bad_candidate_fallback_keep_native_prior_and_prefix ... ok
+test every_checkpoint_cancellation_preserves_fields_receipt_history_and_retry_quota ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/pressure_initial_guess.rs (/workspace/.rheon-tools/target/release/deps/pressure_initial_guess-0ead74ee8fda6e5c)
+
+running 6 tests
+test exact_and_approximate_guesses_recover_independent_chain_without_extra_arrays ... ok
+test full_gauge_row_and_compatibility_are_not_hidden_by_guess ... ok
+test invalid_guess_and_cancelled_dirty_scratch_do_not_poison_retry ... ok
+test seeded_chain_retains_full_gauge_acceptance ... ok
+test zero_rhs_still_checks_seed_and_current_rhs_threshold ... ok
+test independent_neumann_cosine_refines_at_second_order_for_both_initializations ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/provider_step_contract.rs (/workspace/.rheon-tools/target/release/deps/provider_step_contract-9ad9b738aa0d12b7)
+
+running 8 tests
+test budgets_workspace_identity_and_legacy_transition_are_explicit ... ok
+test fallback_and_post_pressure_rejection_do_not_confuse_stage_identity ... ok
+test liquid_failure_after_qualified_pressure_preserves_pair_and_metadata ... ok
+test real_model_advances_production_session_for_twenty_four_intervals ... ignored, requires RHEON_AI_EXPORT from the SHA256-verified checkpoint exporter
+test unsupported_surface_domains_and_workspace_identity_reject_before_callbacks ... ok
+test preferred_and_fallback_remain_cold_after_accepted_native_history ... ok
+test production_numerical_selection_matches_original_full_step_fields ... ok
+test every_observed_callback_preserves_complete_session_publication ... ok
+
+test result: ok. 7 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/session_contract.rs (/workspace/.rheon-tools/target/release/deps/session_contract-65aaecab05741c03)
+
+running 5 tests
+test host_clock_uses_shortened_accepted_interval ... ok
+test cancellation_deadline_and_invalid_inputs_preserve_publication_and_retry ... ok
+test lifecycle_identity_export_and_quota ... ok
+test output_failure_does_not_poison_session ... ok
+test every_observed_checkpoint_preserves_last_accepted_state ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/session_interval_start_contract.rs (/workspace/.rheon-tools/target/release/deps/session_interval_start_contract-fabf51169dc72f71)
+
+running 1 test
+test actual_nonbinary_interval_starts_survive_all_session_paths_and_failed_attempts ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -145,6 +145,8 @@ struct BoundaryStepInput<'a> {
     boundary: crate::BoxFluxStepBoundary,
 }
 struct StepDomains<'a, 'p> {
+    #[cfg(feature = "accepted-pressure-warm-start")]
+    initial_pressure: Option<&'a [f64]>,
     workflow: Option<&'a crate::workflow::Capture>,
     fields: Option<&'a crate::ForceSnapshot>,
     emitter: Option<crate::RotatingCylinderEmitter>,
@@ -461,6 +463,8 @@ impl Simulation {
             source,
             &[],
             StepDomains {
+                #[cfg(feature = "accepted-pressure-warm-start")]
+                initial_pressure: None,
                 workflow: None,
                 fields: (!fields.scene().objects.is_empty()).then_some(fields),
                 emitter,
@@ -503,6 +507,8 @@ impl Simulation {
             None,
             &[],
             StepDomains {
+                #[cfg(feature = "accepted-pressure-warm-start")]
+                initial_pressure: None,
                 workflow: None,
                 fields: None,
                 emitter: Some(emitter),
@@ -587,6 +593,8 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                #[cfg(feature = "accepted-pressure-warm-start")]
+                initial_pressure: None,
                 workflow: None,
                 fields: None,
                 emitter: None,
@@ -626,6 +634,8 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                #[cfg(feature = "accepted-pressure-warm-start")]
+                initial_pressure: None,
                 workflow: None,
                 fields: None,
                 emitter: None,
@@ -651,6 +661,7 @@ impl Simulation {
         surface: Option<crate::column_surface::PressureSurface<'_>>,
         viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
         provider: Option<crate::provider_step::ProviderStepInput<'_, '_>>,
+        #[cfg(feature = "accepted-pressure-warm-start")] initial_pressure: Option<&[f64]>,
         workflow: Option<&crate::workflow::Capture>,
         projection: Option<crate::projection_step::ProjectionStepInput<'_>>,
         cancel: impl FnMut(StepStage) -> bool,
@@ -660,6 +671,8 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                #[cfg(feature = "accepted-pressure-warm-start")]
+                initial_pressure,
                 workflow,
                 fields: None,
                 emitter: None,
@@ -807,6 +820,8 @@ impl Simulation {
         self.inspection_pressure = None;
         self.inspection_force_pressure = None;
         let StepDomains {
+            #[cfg(feature = "accepted-pressure-warm-start")]
+            initial_pressure,
             workflow,
             fields,
             emitter,
@@ -1182,6 +1197,26 @@ impl Simulation {
                 provider_report = Some(report);
                 pressure
             } else {
+                #[cfg(feature = "accepted-pressure-warm-start")]
+                let pressure = if let Some(initial) = initial_pressure {
+                    self.workspace.solve_velocity_with_initial_pressure(
+                        &operator,
+                        self.candidate.velocity(),
+                        initial,
+                        dt,
+                        self.config.pressure,
+                        || cancel(StepStage::PressureIteration),
+                    )?
+                } else {
+                    self.workspace.solve_velocity(
+                        &operator,
+                        self.candidate.velocity(),
+                        dt,
+                        self.config.pressure,
+                        || cancel(StepStage::PressureIteration),
+                    )?
+                };
+                #[cfg(not(feature = "accepted-pressure-warm-start"))]
                 let pressure = self.workspace.solve_velocity(
                     &operator,
                     self.candidate.velocity(),

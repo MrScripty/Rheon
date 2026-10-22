@@ -841,3 +841,59 @@ fn invalid_identity_never_reaches_provider_or_published_binding() {
         );
     }
 }
+
+#[cfg(feature = "accepted-pressure-warm-start")]
+#[test]
+fn initialized_publication_clears_configured_receipt_only_after_acceptance() {
+    let mut owner = session(8);
+    let mut pressure = workspace();
+    owner
+        .step_with_configured_pressure(inputs(&[]), &mut pressure, None, None, None, |_| false)
+        .unwrap();
+    assert!(owner.snapshot().configured_provider_report().is_some());
+    let before = bytes(&owner);
+    let start = owner.snapshot().accepted_interval_start();
+    let warm = PressureInitializationPolicy::AcceptedPreviousV1;
+    assert!(
+        owner
+            .step_with_initialization(inputs(&[]), warm, None, |stage| stage
+                == LiquidStepStage::BeforeCommit)
+            .is_err()
+    );
+    assert_eq!(bytes(&owner), before);
+    assert_eq!(owner.snapshot().accepted_interval_start(), start);
+    assert!(owner.snapshot().configured_provider_report().is_some());
+    let actual_start = owner.snapshot().state().carrier.time;
+    let report = owner
+        .step_with_initialization(inputs(&[]), warm, None, |_| false)
+        .unwrap();
+    assert_eq!(
+        report.pressure_initialization.actual,
+        PressureInitializationPolicy::Cold
+    );
+    assert!(owner.snapshot().configured_provider_report().is_none());
+    assert!(owner.snapshot().provider_report().is_none());
+    assert_eq!(
+        owner.snapshot().accepted_interval_start(),
+        Some(actual_start)
+    );
+    let report = owner
+        .step_with_initialization(inputs(&[]), warm, None, |_| false)
+        .unwrap();
+    assert_eq!(report.pressure_initialization.actual, warm);
+    // A later configured publication is cold and replaces native seed eligibility.
+    owner
+        .step_with_configured_pressure(inputs(&[]), &mut pressure, None, None, None, |_| false)
+        .unwrap();
+    let report = owner
+        .step_with_initialization(inputs(&[]), warm, None, |_| false)
+        .unwrap();
+    assert_eq!(
+        report.pressure_initialization.actual,
+        PressureInitializationPolicy::Cold
+    );
+    assert_eq!(
+        report.pressure_initialization.cold_reason,
+        Some(PressureColdReason::Invalidated)
+    );
+}

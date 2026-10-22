@@ -1751,3 +1751,82 @@ requires verified PR142 merged-main identity, any necessary exact-source
 revalidation, independent final review and the sole lead's normal merge.
 No general cut/free-surface PDE, physical/production-water, graphical hardware,
 learned/GPU or performance acceptance is granted by this reference/build stage.
+
+## PR59 optional accepted-pressure warm start, actual ordered main, 2026-10-22
+
+Actual ordered normal merges are PR142 `b70dbae515d01ced3762e0fff030df7f8b13363e`,
+PR138 `7befee45270280d07693b91f4afa934ec1780b66`, and PR143
+`20a0e1e20538b859193c08eaf25a3b8cd26135a5`. The actual PR143 merge has ordered
+parents `[7befee45270280d07693b91f4afa934ec1780b66,
+159fa74bd271f8fcc07f3837d66e4738925c820c]` and full tree
+`d66c930d091f8e84cf445f0920922d65afed8f8e`, exactly the independently reviewed
+PR143 tree. GitHub merged state, fetched live main, graph and full tree were
+verified. Its new main CI remains a separate gate, not a source-admission result.
+
+This explicit proposed v3 admission retains every byte of the prior 118,614-byte
+review above (SHA256 `b4e7fcaf0c33b9e220fc7626d04969a95b31767897e9779eee850a9cfd71d0f9`).
+The unchanged conservative selector now covers **153 regular inputs: 1 added,
+7 changed, 145 unchanged, 0 removed** against actual PR143 main. The complete
+[review input](../plans/accepted-pressure-warm-start/integration-20261021/final-source/source-map.json)
+records every proposed identity, with canonical sorted compact source-map SHA256
+`8055a53c319ddec6aade4bed35fdc642c7ab07839e4e0bb2866a00a4a03d3688` (no newline).
+Actual main's predecessor map remains
+`9a10497158827e189fe505f65e1aa203cd8a28fe894c469408977071b055375f`.
+These are the exact independently assessed preliminary153 identities, now
+explicitly proposed after actual ordered composition; no hash is refreshed to
+make an unknown change pass. Final independent source/admission/protocol approval
+must precede clean committed-source execution.
+
+The added path is `src/pressure_initialization.rs`. Changed paths are Cargo.toml,
+src/lib.rs, src/liquid_step.rs, src/pressure.rs, src/session.rs,
+src/session/projection_tests.rs and src/simulation.rs. The
+[complete preliminary per-path assessment](../plans/accepted-pressure-warm-start/integration-20261021/preview/dependency-source-map.json)
+and final source review distinguish unchanged inputs and exact reviewed changes.
+Cargo.toml SHA256 is
+`40f59222652c9d6b9236dd85b2beab83e8e7e9a8fdd8418bf3bd617801724487`;
+Cargo.lock stays `e64beca355b3963812b80d49ac5b17d0b1626f03f5d651b50e4dd25823dce96f`.
+The exact PR138 development dependencies remain; no new dependency/build script,
+toolchain, selector, qualifier, oracle, numerical formula or acceptance tolerance
+is introduced by this warm-start integration.
+
+Cargo feature `accepted-pressure-warm-start` is explicit and nondefault. Default,
+parallel and desktop builds do not implicitly enable it. Without it, warm solver
+branches, history/owner identity allocation, warm reports and entry points are
+excluded; Session API version3 explicitly reports warm capability false. Enabled
+consumers still opt in per step. Standalone Simulation and configured/provider,
+boundary, viscosity, surface, column and immutable native projection paths stay
+cold. This is a deliberately limited optional CPU capability, not a universal
+performance promise or a pending runtime toggle.
+
+The unique accepted-owner pressure borrow and process-local history are retained,
+without another retained pressure array. Full RHS compatibility, pressure gauge,
+residual, divergence, transport and acceptance checks remain. No timestep rescale,
+hidden retry, iteration-budget or tolerance change is admitted. Initialized Session
+uses the actual interval start and clears stale configured/provider receipts and
+separate configured pressure history only after successful acceptance. Failed
+publication preserves accepted state/history. Native projection stays cold, and
+legacy initialized entries reject immutable projection intent before callbacks,
+quota, clock or mutation. History staging respects PR142's prospective publication
+seal and assigns only after infallible accepted owner swaps. Dense3D/frame export
+does not turn process-local warm history into restart provenance.
+
+All original source branches, receipt identities, failed/cancelled attempts and
+the historical default1000-particle +1.83% screening/+2.20% confirmation remain.
+The previous qualified-source refusal is not a failed numerical comparison and
+cannot be erased or cleared by copying receipts. Frozen v1/v2 bytes/digests,
+immutable primary/base ancestry, complete v3 schema/base, old review prefix,
+private PR138/143 source/seal records and checker/oracle refusal gates are preserved.
+
+Follow the [prospective protocol](../plans/accepted-pressure-warm-start/integration-20261021/protocol.md).
+After exact-source independent approval and normal source publication, run fresh
+clean ordinary native/rational qualification (unchanged18-command route), a fresh
+real packet with26 normal and26 optimized tests/no skips, source-only strict CI
+contracts, required ordinary feature CI and one fixed prospective default-control
+cohort. That cohort is twelve balanced pairs each at1000/4096, not a rerun of any
+sealed numerical campaign. Positive median or positive upper endpoint of the
+predeclared [3rd,10th] interval blocks independently per case; no tolerance,
+extension, pooling or construction waiver is admitted. Historical warm gains bind
+their original workloads/binaries only. Source admission permits attempting fresh
+qualification; results, final review, full CI and sole-lead normal merge remain
+separate gates. No numerical/physical/PDE, native-window, learned/GPU, universal
+speedup or whole-application production acceptance is granted here.
