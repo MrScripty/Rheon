@@ -1,4 +1,9 @@
-# M5 acceptance reconciliation — review draft
+# M5 acceptance reconciliation
+
+**Final disposition (2026-10-22): Accepted bounded A1–A6/M5 on ordinary source `ca5922a5c167aa939a765dc9a0b13ab61bfd382a`.** The [ordinary artifact report](m5-normal-artifact-evidence.md), [separate complete final review](m5-final-feature-review.md) and [acceptance summary](m5-acceptance-summary.md) supersede the draft's then-pending gates below. The final reviewer accepted all six criteria with no required correction, after independently inspecting all19 actual ordinary captures,37 evidence hashes and28 current reviewed source identities. The focused checks, removed temporary transport and changed ordinary binary are complete; CI/current-main/serial integration remain unaccepted. The source-bound draft below is retained as reviewed history and precise numerical/persistence traceability, not current availability/status.
+
+## Reviewed reconciliation draft (historical)
+
 
 **Status: pending final independent review and ordinary-artifact qualification.** This is a source-bound reconciliation at isolated implementation HEAD `1e8c00fe32c88a2571ae583f26e0626c540d5845`, not a change to canonical A1–A6 status or permission to expose, integrate or publish the feature. The initial draft was prepared read-only. Subsequent parent-owned focused checks and separate review dispositions are incorporated below; they do not repeat completed numerical/native campaigns.
 
@@ -67,3 +72,9 @@ No accepted run intent is retroactively rewritten by Draft/default/preset edits.
 This draft is ready for the parent and genuinely separate reviewer to make those bounded dispositions. The canonical plan/ledger remain the lifecycle authority; they have not been edited here.
 
 M5 focused numerical command logs are `.generated/voxel-material/m5-dual-defect.log`, `m5-interface-shear.log` and `m5-hydrostatic-geometry.log`, each one passed selected test; publication log `m5-publish-faults.log` records two passed tests. Core/desktop strict Clippy logs are `m5-prerequisite-clippy-{core,desktop}.log`. Fresh draft process and ordinary-artifact evidence receive their own actual outcomes before final disposition.
+
+## Final ordinary-artifact and feature disposition
+
+The actual ordinary non-test binary has SHA-256 `94a6056c327f18854a5197a279e30d0107476f362b0305261dd032acb856074c`, tracked source-material declaration `32906c3300a4dff33742486a49f2fd7a296901c6264628f0a47004387ca3e3df`. No CLI argument or qualification defaults were used. Actual UI created4³, filled occupied Air, replaced four metric cells with Water, removed to Vacuum with both launch controls refused, undid to valid state, saved/altered/loaded, ran one0.001s zero-gravity interval, inspected original typed fields and opened the closed saved result. The separately reviewed deciding artifact audit passed1 and verified exact seed/policy/publications and unchanged originals. Native cold rerun, moving dynamics, compact/150% editing and real cancellation remain the accepted earlier M3/M4 contributions; this smoke did not repeat them. Both owned processes exited0. This is software-rendered local debug/non-test evidence, not a packaged release, physical GPU or performance result.
+
+A1–A6 are each **Accepted bounded** by the final review, including the explicit R2 decomposition and protected-local-filesystem contract in the draft. The minor stale legacy startup-status caption is recorded in final review/issues as a nonblocking copy limitation; it is not captured intent. No solver/model/schema/contract change followed the observed source. Final delivery commits contain evidence/lifecycle documents only. Historical denials/uncertain upload remain stopped, with no repeated simulation, benchmark or publication attempt hidden in reconciliation. Authorized draft-PR delivery and pending current-main/CI/sole-lead review are separate from local implementation acceptance.
