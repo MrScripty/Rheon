@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 pub const DT: f64 = 1.0 / 60.0;
 pub const RHO: f64 = 1000.0;
 pub const MU: f64 = 0.001;
-pub const HISTORY_BYTES: usize = 96 * 1024 * 1024;
+pub const HISTORY_BYTES: usize = 1024 * 1024 * 1024;
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Scene {
@@ -44,16 +44,16 @@ impl Scene {
         if self.seed >= (1_u64 << 53) {
             return Err("Seed must fit an exact 53-bit integer".into());
         }
-        if !self.counts.iter().all(|n| (5..=128).contains(n))
-            || self.counts.iter().product::<usize>() > 65_536
+        if !self.counts.iter().all(|n| (5..=256).contains(n))
+            || self.counts.iter().product::<usize>() > 16_777_216
         {
-            return Err("Choose 5–128 cells per axis, at most 65,536 cells total".into());
+            return Err("Choose 5–256 cells per axis, at most 16,777,216 cells total".into());
         }
         if !(1..=crate::MAX_CELLS_PER_METRE).contains(&self.cells_per_metre)
-            || !(1..=512).contains(&self.steps)
+            || !(1..=3600).contains(&self.steps)
         {
             return Err(
-                "Choose 1–1000 cells/m and 1–512 steps; density is independent of grid counts"
+                "Choose 1–1000 cells/m and 1–3600 steps; density is independent of grid counts"
                     .into(),
             );
         }
@@ -62,7 +62,7 @@ impl Scene {
         }
         if self.history_bytes()? > HISTORY_BYTES {
             return Err(
-                "Full-resolution paired history exceeds 96 MiB; reduce steps or counts".into(),
+                "Full-resolution paired history exceeds 1024 MiB; reduce steps or counts".into(),
             );
         }
         for (value, lo, hi) in [
@@ -151,7 +151,7 @@ mod tests {
         s.counts = [128; 3];
         assert!(s.validate().is_err());
         s.counts = [32; 3];
-        s.steps = 512;
+        s.steps = 2048;
         assert!(s.validate().is_err());
     }
 }

@@ -5,7 +5,7 @@
 //! performs native fallback/refinement. `TeacherStage` advances native history.
 //! The legacy raw-continuation mode remains an explicitly selected experimental
 //! trajectory policy; callers must inspect every returned quality observation.
-mod engine;
+pub mod engine;
 mod scene;
 mod wire;
 use crate::recording::diagnostic::NoCandidateReason;
@@ -25,3 +25,5 @@ pub struct PredictionFailure {
     /// Digest of the complete invalid packet, never a truncated prefix.
     pub invalid_payload_sha256: Option<[u8; 32]>,
 }
+
+pub mod scheduled_forcing;

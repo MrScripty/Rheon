@@ -1,7 +1,7 @@
 //! Independent raw-AI diagnostic and strictly qualified native reference tracks.
 //! These experimental frames are never published as accepted Simulation snapshots.
 use super::PredictionFailure;
-use super::scene::{DT, MU, RHO, Scene};
+use super::scene::{MU, RHO, Scene};
 use crate::recording::diagnostic::{
     BindingIdentity, DiagnosticAttempt, DiagnosticMode, DiagnosticRequest, DiagnosticRun,
     HistoryTransition, NativeReference, NoCandidateReason, ObservedHistory, PredictionOutcome,
@@ -256,9 +256,9 @@ impl DiagnosticSession {
         } else {
             PressureImplementation::JacobiPcgV1
         };
-        let solver = PressureWorkspace::with_implementation(&grid, 128 * 1024 * 1024, method)
+        let solver = PressureWorkspace::with_implementation(&grid, 2 * 1024 * 1024 * 1024, method)
             .map_err(error)?;
-        let viscosity = ViscosityWorkspace::new(grid.clone(), 128 * 1024 * 1024).map_err(error)?;
+        let viscosity = ViscosityWorkspace::new(grid.clone(), 2 * 1024 * 1024 * 1024).map_err(error)?;
         Ok(Self {
             scene,
             grid,
@@ -274,6 +274,25 @@ impl DiagnosticSession {
             clock: 0.0,
             attempts: 0,
         })
+    }
+    /// Observations of committed independent tracks; no simulation mutation.
+    pub fn trajectory_drift(&self) -> (f64, f64, f64, f64) {
+        fn measure<'a>(pairs: impl Iterator<Item = (&'a f32, &'a f32)>) -> (f64, f64) {
+            let mut error = 0.0_f64;
+            let mut signal = 0.0_f64;
+            let mut maximum = 0.0_f64;
+            for (candidate, reference) in pairs {
+                let reference = f64::from(*reference);
+                let difference = f64::from(*candidate) - reference;
+                error += difference * difference;
+                signal += reference * reference;
+                maximum = maximum.max(difference.abs());
+            }
+            (error.sqrt() / signal.sqrt().max(1e-30), maximum)
+        }
+        let velocity = measure(self.ai.velocity.iter().flatten().zip(self.reference.velocity.iter().flatten()));
+        let tracer = measure(self.ai.tracer.iter().zip(&self.reference.tracer));
+        (velocity.0, tracer.0, velocity.1, tracer.1)
     }
     pub fn initial(&self) -> Frame {
         self.frame(None, None, 0.0, 0.0)
@@ -333,7 +352,7 @@ impl DiagnosticSession {
         });
         Ok(DiagnosticRun {
             run_id: self.run_id.clone(), source_revision, grid: self.grid.clone(), density: RHO,
-            viscosity: MU, dt: DT, mode, native_prefix_steps: self.step.min(self.scene.warmup_steps),
+            viscosity: MU, dt: super::scheduled_forcing::dt(), mode, native_prefix_steps: self.step.min(self.scene.warmup_steps),
             binding, provenance: "Existing sealed-water diagnostic DiagnosticSession; host-observed native/AI histories, not accepted Session publications".into(),
             seed, seed_origin,
         })
@@ -368,8 +387,8 @@ impl DiagnosticSession {
         }
         let legacy = self.policy == ExecutionPolicy::LegacyRawContinuation;
         let teacher = self.policy == ExecutionPolicy::TeacherStage;
-        let next_time = (self.step + 1) as f64 * DT;
-        let force_time = self.step as f64 * DT;
+        let next_time = (self.step + 1) as f64 * super::scheduled_forcing::dt();
+        let force_time = self.step as f64 * super::scheduled_forcing::dt();
         let start = std::time::Instant::now();
         let reference_prepared = prepare(
             &self.scene,
@@ -417,7 +436,7 @@ impl DiagnosticSession {
             PressureContextInput {
                 grid: &self.grid,
                 density: RHO,
-                dt: DT,
+                dt: super::scheduled_forcing::dt(),
                 interval_start: self.clock,
                 rhs: &prepared.rhs,
                 prior: (self.step > 0).then_some(PressureHistory {
@@ -606,7 +625,7 @@ fn native_solve(
         .solve_rhs(
             &operator,
             &prepared.rhs,
-            DT,
+            super::scheduled_forcing::dt(),
             PressureSettings {
                 relative_residual: 1e-8,
                 absolute_residual: 1e-12,
@@ -618,7 +637,79 @@ fn native_solve(
         .map_err(error)?;
     finish(grid, prepared, solver.pressure().to_vec(), 1e-8)
 }
+
+/// Seconds spent in the last successful preparation on this thread.
+#[derive(Clone, Copy, Default, serde::Serialize)]
+pub struct PreparationProfile {
+    pub allocation: f64,
+    pub advect_velocity: f64,
+    pub advect_tracer: f64,
+    pub forcing: f64,
+    pub viscosity: f64,
+    pub rhs: f64,
+}
+thread_local! {
+    static LAST_PREPARATION: std::cell::Cell<PreparationProfile> = std::cell::Cell::new(PreparationProfile::default());
+}
+pub fn last_preparation_profile() -> PreparationProfile {
+    LAST_PREPARATION.with(std::cell::Cell::get)
+}
 fn prepare(
+    scene: &Scene,
+    grid: &GridGeometry,
+    track: &Track,
+    viscosity: &mut ViscosityWorkspace,
+    time: f64,
+    cancel: &AtomicBool,
+) -> Result<Prepared, String> {
+    let tick = std::time::Instant::now();
+    let mut pre = std::array::from_fn(|d| vec![0.0; grid.face_len(AXES[d])]);
+    let mut velocity = pre.clone();
+    let mut tracer = vec![0.0; grid.cell_len()];
+    let allocation = tick.elapsed().as_secs_f64();
+    let tick = std::time::Instant::now();
+    advect_velocity(grid, refs(&track.velocity), super::scheduled_forcing::dt(), muts(&mut pre), || {
+        cancel.load(Ordering::Relaxed)
+    })
+    .map_err(error)?;
+    let advect_velocity = tick.elapsed().as_secs_f64();
+    let tick = std::time::Instant::now();
+    advect_tracer(
+        grid,
+        &track.tracer,
+        refs(&track.velocity),
+        super::scheduled_forcing::dt(),
+        &mut tracer,
+        || cancel.load(Ordering::Relaxed),
+    )
+    .map_err(error)?;
+    let advect_tracer = tick.elapsed().as_secs_f64();
+    let tick = std::time::Instant::now();
+    force(scene, grid, &mut pre, time, cancel)?;
+    let forcing = tick.elapsed().as_secs_f64();
+    let tick = std::time::Instant::now();
+    viscosity
+        .update(refs(&pre), RHO, MU, super::scheduled_forcing::dt(), muts(&mut velocity), |_| {
+            cancel.load(Ordering::Relaxed)
+        })
+        .map_err(error)?;
+    let viscosity = tick.elapsed().as_secs_f64();
+    let tick = std::time::Instant::now();
+    let operator = PressureOperator::new(grid, RHO).map_err(error)?;
+    let mut rhs = vec![0.0; grid.cell_len()];
+    operator
+        .build_rhs(refs(&velocity), super::scheduled_forcing::dt(), &mut rhs)
+        .map_err(error)?;
+    let rhs_seconds = tick.elapsed().as_secs_f64();
+    LAST_PREPARATION.with(|profile| profile.set(PreparationProfile { allocation, advect_velocity, advect_tracer, forcing, viscosity, rhs: rhs_seconds }));
+    Ok(Prepared {
+        velocity,
+        tracer,
+        rhs,
+    })
+}
+#[cfg(test)]
+fn prepare_unprofiled(
     scene: &Scene,
     grid: &GridGeometry,
     track: &Track,
@@ -629,7 +720,7 @@ fn prepare(
     let mut pre = std::array::from_fn(|d| vec![0.0; grid.face_len(AXES[d])]);
     let mut velocity = pre.clone();
     let mut tracer = vec![0.0; grid.cell_len()];
-    advect_velocity(grid, refs(&track.velocity), DT, muts(&mut pre), || {
+    advect_velocity(grid, refs(&track.velocity), super::scheduled_forcing::dt(), muts(&mut pre), || {
         cancel.load(Ordering::Relaxed)
     })
     .map_err(error)?;
@@ -637,21 +728,21 @@ fn prepare(
         grid,
         &track.tracer,
         refs(&track.velocity),
-        DT,
+        super::scheduled_forcing::dt(),
         &mut tracer,
         || cancel.load(Ordering::Relaxed),
     )
     .map_err(error)?;
     force(scene, grid, &mut pre, time, cancel)?;
     viscosity
-        .update(refs(&pre), RHO, MU, DT, muts(&mut velocity), |_| {
+        .update(refs(&pre), RHO, MU, super::scheduled_forcing::dt(), muts(&mut velocity), |_| {
             cancel.load(Ordering::Relaxed)
         })
         .map_err(error)?;
     let operator = PressureOperator::new(grid, RHO).map_err(error)?;
     let mut rhs = vec![0.0; grid.cell_len()];
     operator
-        .build_rhs(refs(&velocity), DT, &mut rhs)
+        .build_rhs(refs(&velocity), super::scheduled_forcing::dt(), &mut rhs)
         .map_err(error)?;
     Ok(Prepared {
         velocity,
@@ -683,10 +774,10 @@ fn finish(
         maximum = maximum.max((b - a).abs());
     }
     let residual_l2 = residual.sqrt();
-    let predicted = DT * maximum / grid.cell_volume();
+    let predicted = super::scheduled_forcing::dt() * maximum / grid.cell_volume();
     let mut velocity: Velocity = std::array::from_fn(|d| vec![0.0; grid.face_len(AXES[d])]);
     operator
-        .correct_velocity(refs(&pre.velocity), &pressure, DT, muts(&mut velocity))
+        .correct_velocity(refs(&pre.velocity), &pressure, super::scheduled_forcing::dt(), muts(&mut velocity))
         .map_err(error)?;
     operator
         .divergence(refs(&velocity), &mut action)
@@ -697,7 +788,7 @@ fn finish(
         1e-12_f64.max(1e-8 * action.iter().map(|v| v.abs()).sum::<f64>() * grid.cell_volume());
     let courant = (0..3)
         .map(|d| {
-            DT * velocity[d]
+            super::scheduled_forcing::dt() * velocity[d]
                 .iter()
                 .fold(0.0_f64, |a, b| a.max(f64::from(*b).abs()))
                 / grid.spacing()[d]
@@ -759,10 +850,17 @@ fn force(
     let radius = scene.radius * extents.into_iter().fold(f64::INFINITY, f64::min);
     let (direction, phase) = scene.direction_phase();
     let omega = std::f64::consts::TAU * scene.frequency;
-    let center = std::array::from_fn::<_, 3, _>(|d| {
-        extents[d] * (scene.center[d] + 0.05 * (omega * time + phase + d as f64).sin())
-    });
-    let pulse = 0.65 + 0.35 * (omega * time + phase).sin();
+    let control = super::scheduled_forcing::sample(time)?;
+    let center = match control {
+        Some(frame) => std::array::from_fn::<_, 3, _>(|d| extents[d] * frame.center[d]),
+        None => std::array::from_fn::<_, 3, _>(|d| {
+            extents[d] * (scene.center[d] + 0.05 * (omega * time + phase + d as f64).sin())
+        }),
+    };
+    let pulse = match control {
+        Some(frame) => frame.pulse,
+        None => 0.65 + 0.35 * (omega * time + phase).sin(),
+    };
     for d in 0..3 {
         let shape = grid.face_counts(AXES[d]);
         for k in 0..shape[2] {
@@ -801,7 +899,7 @@ fn force(
                         * envelope
                         * (direction[d] + scene.swirl * rotation + scene.fluctuation * wave);
                     let index = grid.face_index(AXES[d], p).ok_or("Force index")?;
-                    velocity[d][index] = (f64::from(velocity[d][index]) + DT * acceleration) as f32;
+                    velocity[d][index] = (f64::from(velocity[d][index]) + super::scheduled_forcing::dt() * acceleration) as f32;
                 }
             }
         }
@@ -902,3 +1000,252 @@ mod tests {
 #[cfg(test)]
 #[path = "engine_typed_tests.rs"]
 mod typed_tests;
+
+#[cfg(test)]
+mod trajectory_drift_observation_tests {
+    use super::*;
+    #[test]
+    fn equal_tracks_have_zero_drift_and_observation_is_read_only() {
+        let engine = DiagnosticSession::new(Scene::default()).unwrap();
+        let before = engine.ai.tracer.clone();
+        assert_eq!(engine.trajectory_drift(), (0.0, 0.0, 0.0, 0.0));
+        assert_eq!(engine.trajectory_drift(), (0.0, 0.0, 0.0, 0.0));
+        assert_eq!(engine.ai.tracer, before);
+    }
+    #[test]
+    fn observed_velocity_and_tracer_norms_match_known_perturbations() {
+        let mut engine = DiagnosticSession::new(Scene::default()).unwrap();
+        engine.reference.velocity[0][1] = 1.0;
+        engine.ai.velocity[0][1] = 2.0;
+        engine.reference.tracer.fill(0.0);
+        engine.ai.tracer.fill(0.0);
+        engine.reference.tracer[0] = 1.0;
+        engine.ai.tracer[0] = 0.5;
+        assert_eq!(engine.trajectory_drift(), (1.0, 0.5, 1.0, 0.5));
+    }
+}
+
+// Included inside diagnostic::engine in the isolated experimental Rheon copy.
+// No reference track, same-request oracle solve, frame history or fallback.
+pub struct SingleTrackSession {
+    scene: Scene,
+    grid: GridGeometry,
+    track: Track,
+    solver: PressureWorkspace,
+    viscosity: ViscosityWorkspace,
+    step: usize,
+    halted: bool,
+}
+#[derive(Serialize)]
+pub struct SingleStep {
+    pub step: usize,
+    pub preparation_seconds: f64,
+    pub pressure_seconds: f64,
+    pub projection_seconds: f64,
+    pub frame_seconds: f64,
+    pub quality: Quality,
+    pub advanced: bool,
+}
+impl SingleTrackSession {
+    pub fn new(scene: Scene) -> Result<Self, String> {
+        // Reuse the qualified initializer, discarding its unused reference before
+        // stepping. This temporary duplicate initialization is included in setup.
+        if !(1..=38400).contains(&scene.steps) || scene.warmup_steps >= scene.steps {
+            return Err("Choose 1–38400 streamed steps and a shorter warmup".into());
+        }
+        // Validate and allocate only the initializer's actual one-frame needs.
+        // The original scene still owns all forcing, step and warmup semantics.
+        let setup = Scene { steps: 1, warmup_steps: 0, ..scene.clone() };
+        let session = DiagnosticSession::new(setup)?;
+        Ok(Self { scene, grid: session.grid, track: session.ai,
+            solver: session.solver, viscosity: session.viscosity, step: 0, halted: false })
+    }
+    pub fn state_fields(&self) -> (&[f64], [&[f32]; 3], &[f32]) {
+        (&self.track.pressure, refs(&self.track.velocity), &self.track.tracer)
+    }
+    pub fn advance(
+        &mut self,
+        native: bool,
+        native_tolerance: f64,
+        mut predict: impl FnMut(&[f64], &[f64]) -> Result<Vec<f64>, String>,
+    ) -> Result<SingleStep, String> {
+        if self.halted || self.step >= self.scene.steps {
+            return Err("Single track already stopped".into());
+        }
+        let start = std::time::Instant::now();
+        let cancel = AtomicBool::new(false);
+        let prepared = prepare(&self.scene, &self.grid, &self.track,
+            &mut self.viscosity, self.step as f64 * super::scheduled_forcing::dt(), &cancel)?;
+        let preparation_seconds = start.elapsed().as_secs_f64();
+        let pressure_start = std::time::Instant::now();
+        let pressure = if native || self.step < self.scene.warmup_steps {
+            let operator = PressureOperator::new(&self.grid, RHO).map_err(error)?;
+            self.solver.solve_rhs(&operator, &prepared.rhs, super::scheduled_forcing::dt(),
+                PressureSettings { relative_residual: native_tolerance,
+                    absolute_residual: 1e-12, divergence_limit: 1e-7,
+                    max_iterations: PRESSURE_ITERATION_LIMIT }, || false).map_err(error)?;
+            self.solver.pressure().to_vec()
+        } else {
+            let operator = PressureOperator::new(&self.grid, RHO).map_err(error)?;
+            let mut residual = vec![0.0; self.grid.cell_len()];
+            operator.apply_full(&self.track.pressure, &mut residual).map_err(error)?;
+            for (r, b) in residual.iter_mut().zip(&prepared.rhs) { *r = b - *r; }
+            predict(&self.track.pressure, &residual)?
+        };
+        let pressure_seconds = pressure_start.elapsed().as_secs_f64();
+        let projection_start = std::time::Instant::now();
+        let (track, quality) = finish(&self.grid, &prepared, pressure, 1e-6)?;
+        let projection_seconds = projection_start.elapsed().as_secs_f64();
+        let advanced = quality.qualified;
+        if advanced { self.track = track; self.step += 1; } else { self.halted = true; }
+        Ok(SingleStep { step: self.step, preparation_seconds, pressure_seconds,
+            projection_seconds, frame_seconds: start.elapsed().as_secs_f64(), quality, advanced })
+    }
+}
+#[cfg(test)]
+mod single_track_tests {
+    use super::*;
+    #[test]
+    fn native_single_track_matches_existing_reference_fields_exactly() {
+        let scene = Scene { counts: [8, 7, 5], steps: 8, warmup_steps: 2,
+            acceleration: 0.125, ..Default::default() };
+        let mut paired = DiagnosticSession::new(scene.clone()).unwrap();
+        let mut single = SingleTrackSession::new(scene).unwrap();
+        for _ in 0..8 {
+            paired.advance(&AtomicBool::new(false), |r| Ok(r.initial_guess.to_vec())).unwrap();
+            let step = single.advance(true, 1e-8, |_, _| panic!("native callback")).unwrap();
+            assert!(step.advanced);
+            assert_eq!(single.track.pressure, paired.reference.pressure);
+            assert_eq!(single.track.velocity, paired.reference.velocity);
+            assert_eq!(single.track.tracer, paired.reference.tracer);
+        }
+    }
+    #[test]
+    fn rejected_candidate_never_advances_and_no_oracle_or_fallback_is_called() {
+        let mut single = SingleTrackSession::new(Scene { counts: [8, 7, 5],
+            steps: 2, warmup_steps: 0, ..Default::default() }).unwrap();
+        let prior = single.track.clone();
+        let mut calls = 0;
+        let step = single.advance(false, 1e-8, |base, _| { calls += 1; Ok(vec![0.0; base.len()]) }).unwrap();
+        assert!(!step.advanced);
+        assert_eq!(calls, 1);
+        assert_eq!(single.step, 0);
+        assert_eq!(single.track.pressure, prior.pressure);
+        assert_eq!(single.track.velocity, prior.velocity);
+        assert_eq!(single.track.tracer, prior.tracer);
+        assert!(single.advance(true, 1e-8, |_, _| unreachable!()).is_err());
+    }
+}
+
+#[cfg(test)]
+mod profile_parity_tests {
+    use super::*;
+    #[test]
+    fn timed_preparation_preserves_all_fields_bitwise() {
+        for counts in [[8, 7, 5], [16, 16, 16]] {
+            let scene = Scene { counts, steps: 2, warmup_steps: 0, ..Default::default() };
+            let session = SingleTrackSession::new(scene.clone()).unwrap();
+            let mut v1 = ViscosityWorkspace::new(session.grid.clone(), 128*1024*1024).unwrap();
+            let mut v2 = ViscosityWorkspace::new(session.grid.clone(), 128*1024*1024).unwrap();
+            for time in [0., 0.5] {
+                let a = prepare(&scene, &session.grid, &session.track, &mut v1, time, &AtomicBool::new(false)).unwrap();
+                let b = prepare_unprofiled(&scene, &session.grid, &session.track, &mut v2, time, &AtomicBool::new(false)).unwrap();
+                assert_eq!(a.velocity, b.velocity);
+                assert_eq!(a.tracer, b.tracer);
+                assert_eq!(a.rhs, b.rhs);
+            }
+        }
+    }
+}
+
+#[cfg(test)]
+mod streamed_state_tests {
+    use super::*;
+    #[test]
+    fn streaming_does_not_require_historical_frame_storage() {
+        let scene = Scene { counts: [32; 3], steps: 2000, warmup_steps: 0, ..Default::default() };
+        assert!(scene.validate().is_err()); // Paired history would exceed its guard.
+        let single = SingleTrackSession::new(scene).unwrap();
+        let (pressure, velocity, tracer) = single.state_fields();
+        assert_eq!(pressure.len(), 32usize.pow(3));
+        assert_eq!(tracer.len(), pressure.len());
+        assert!(velocity.iter().all(|v| v.len() == 33*32*32));
+        assert_eq!(single.scene.steps, 2000);
+    }
+    #[test]
+    fn streaming_preserves_geometry_and_step_bounds() {
+        for scene in [
+            Scene { steps: 0, warmup_steps: 0, ..Default::default() },
+            Scene { steps: 38401, ..Default::default() },
+            Scene { counts: [257; 3], ..Default::default() },
+            Scene { steps: 2, warmup_steps: 2, ..Default::default() },
+        ] { assert!(SingleTrackSession::new(scene).is_err()); }
+    }
+}
+
+// Isolated research restart API; the existing advance/finish pressure gates are unchanged.
+impl SingleTrackSession {
+    pub fn state_step(&self) -> usize { self.step }
+    pub fn restore_state_fields(&mut self, step: usize, pressure: Vec<f64>,
+        velocity: [Vec<f32>;3], tracer: Vec<f32>) -> Result<(),String> {
+        if step>self.scene.steps || pressure.len()!=self.grid.cell_len() || tracer.len()!=self.grid.cell_len()
+            || pressure.first()!=Some(&0.) || pressure.iter().any(|v|!v.is_finite())
+            || tracer.iter().any(|v|!v.is_finite())
+            || (0..3).any(|d|velocity[d].len()!=self.grid.face_len(AXES[d]) || velocity[d].iter().any(|v|!v.is_finite())) {
+            return Err("Invalid complete research restart state".into());
+        }
+        let solver=PressureWorkspace::new(&self.grid,2*1024*1024*1024).map_err(error)?;
+        let viscosity=ViscosityWorkspace::new(self.grid.clone(),2*1024*1024*1024).map_err(error)?;
+        self.track=Track {pressure,velocity,tracer};self.step=step;self.halted=false;
+        self.solver=solver;self.viscosity=viscosity;
+        Ok(())
+    }
+}
+#[cfg(test)]
+mod temporal_restart_tests {
+    use super::*;
+    #[test]
+    fn eight_future_native_steps_are_bitwise_equal_after_complete_restart() {
+        for counts in [[8,7,5],[16,16,16]] {
+            let scene=Scene {counts,steps:16,warmup_steps:0,..Default::default()};
+            let mut original=SingleTrackSession::new(scene.clone()).unwrap();
+            for _ in 0..4 { assert!(original.advance(true,1e-8,|_,_|unreachable!()).unwrap().advanced); }
+            let mut restarted=SingleTrackSession::new(scene).unwrap();
+            restarted.restore_state_fields(original.step,original.track.pressure.clone(),
+                original.track.velocity.clone(),original.track.tracer.clone()).unwrap();
+            for _ in 0..8 {
+                assert!(original.advance(true,1e-8,|_,_|unreachable!()).unwrap().advanced);
+                assert!(restarted.advance(true,1e-8,|_,_|unreachable!()).unwrap().advanced);
+                assert_eq!(original.step,restarted.step);
+                assert_eq!(original.track.pressure,restarted.track.pressure);
+                assert_eq!(original.track.velocity,restarted.track.velocity);
+                assert_eq!(original.track.tracer,restarted.track.tracer);
+            }
+        }
+    }
+    #[test]
+    fn invalid_restart_preserves_the_prior_state() {
+        let mut session=SingleTrackSession::new(Scene {steps:16,warmup_steps:0,..Default::default()}).unwrap();
+        let before=session.track.clone();
+        let mut bad=before.pressure.clone();bad[0]=f64::NAN;
+        assert!(session.restore_state_fields(0,bad,before.velocity.clone(),before.tracer.clone()).is_err());
+        assert!(session.restore_state_fields(17,before.pressure.clone(),before.velocity.clone(),before.tracer.clone()).is_err());
+        assert_eq!(session.track.pressure,before.pressure);assert_eq!(session.step,0);
+    }
+}
+
+// Included only in the isolated research engine for independent forcing tests.
+impl SingleTrackSession {
+    pub fn preview_prescribed_force(&self, step: usize, mut velocity: [Vec<f32>; 3])
+        -> Result<[Vec<f32>; 3], String>
+    {
+        if step >= self.scene.steps || velocity.iter().enumerate().any(|(d, values)| {
+            values.len() != self.grid.face_counts(AXES[d]).iter().product::<usize>()
+                || values.iter().any(|v| !v.is_finite())
+        }) {
+            return Err("Bounded finite prescribed-force preview required".into());
+        }
+        force(&self.scene, &self.grid, &mut velocity, step as f64 * super::scheduled_forcing::dt(), &AtomicBool::new(false))?;
+        Ok(velocity)
+    }
+}
