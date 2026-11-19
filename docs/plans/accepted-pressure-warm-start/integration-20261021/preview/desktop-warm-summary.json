@@ -1,0 +1,19 @@
+{
+  "source_commit": "ca9e640695d25fa3336b63bf28cc483ca6f11409",
+  "command": [
+    "cargo",
+    "clippy",
+    "--locked",
+    "--all-targets",
+    "--features",
+    "desktop accepted-pressure-warm-start",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "exit": 0,
+  "result": "pass",
+  "phase": "preliminary PR142 composition",
+  "runtime_native_window_evidence": false,
+  "log_sha256": "ec386cc5c5071899579643d847fdb0232cf13f77ea590e4dfd696a5d214a245d"
+}

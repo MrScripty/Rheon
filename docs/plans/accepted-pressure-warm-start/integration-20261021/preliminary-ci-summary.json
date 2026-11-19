@@ -1,0 +1,106 @@
+{
+  "observed_utc": "2026-10-21T23:06:37.752323+00:00",
+  "scope": "preliminary0b3e3fc, not final composed qualification; no reruns requested",
+  "runs": [
+    {
+      "id": 39687940378,
+      "name": "Experimental outward-qualified aligned Stokes",
+      "head_sha": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/MrScripty/Rheon/actions/runs/39687940378"
+    },
+    {
+      "id": 39687940495,
+      "name": "Native VTK interchange",
+      "head_sha": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/MrScripty/Rheon/actions/runs/39687940495"
+    },
+    {
+      "id": 39687940290,
+      "name": "Moving-plate shear coupling",
+      "head_sha": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/MrScripty/Rheon/actions/runs/39687940290"
+    },
+    {
+      "id": 39687940295,
+      "name": "Bounded dense3D producer metadata",
+      "head_sha": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/MrScripty/Rheon/actions/runs/39687940295"
+    },
+    {
+      "id": 39687940216,
+      "name": "Reconstructed isolated aligned strain",
+      "head_sha": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/MrScripty/Rheon/actions/runs/39687940216"
+    },
+    {
+      "id": 39687940379,
+      "name": "Cloud correctness and CPU scheduling",
+      "head_sha": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/MrScripty/Rheon/actions/runs/39687940379"
+    },
+    {
+      "id": 39687940422,
+      "name": "Rheon research book and Pages",
+      "head_sha": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/MrScripty/Rheon/actions/runs/39687940422"
+    },
+    {
+      "id": 39687940278,
+      "name": "Static collision mesh evidence",
+      "head_sha": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/MrScripty/Rheon/actions/runs/39687940278"
+    },
+    {
+      "id": 39687940496,
+      "name": "Real AI pressure checkpoint qualification",
+      "head_sha": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/MrScripty/Rheon/actions/runs/39687940496"
+    },
+    {
+      "id": 39687940342,
+      "name": "Rheon Rust headless milestone",
+      "head_sha": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+      "event": "pull_request",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/MrScripty/Rheon/actions/runs/39687940342"
+    }
+  ]
+}

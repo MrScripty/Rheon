@@ -1,0 +1,23 @@
+{
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "python": "3.12.14",
+  "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "cpu_quota": "400000 100000",
+  "memory_limit": "17179869184",
+  "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+  "rust": "rustc 1.92.0 (ded5c06cf 2025-12-08)\nbinary: rustc\ncommit-hash: ded5c06cf21d2b93bffd5d884aa6e96934ee4234\ncommit-date: 2025-12-08\nhost: x86_64-unknown-linux-gnu\nrelease: 1.92.0\nLLVM version: 21.1.3\n",
+  "base": "3525c979e16629b295a6865e3abbb2a36803cc93",
+  "production_candidate": "ec535bcfe1ce944c73b61653d83f4bb2e206c7c5",
+  "features": "work-observation",
+  "build": "cargo build --locked --release --features work-observation --example accepted_pressure_lab",
+  "baseline_source": "isolated git archive, harness warm dispatch replaced by legacy step; invoked cold only",
+  "baseline_harness_sha256": "71b3fcad0e9dc4a4face80d3b806980d13b26227958573ad52e1544a0e14e3e4",
+  "baseline_binary_sha256": "49af4cf058f6fd9ba3c5fc3578f69891155cd78bf79098fc1b66dd6cbd9add49",
+  "candidate_binary_sha256": "1c9d3aa3398c826dcdf85724cc3f0fd22dea1c7f1b592ef96db02c75c8eee956"
+}

@@ -1,0 +1,874 @@
+{
+  "trials": [
+    {
+      "repeat": 0,
+      "order": [
+        "base",
+        "warm",
+        "cold"
+      ],
+      "commands": {
+        "base": [
+          "/workspace/scratch/warm-bench/bin/base-3525c97",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "warm",
+          "rest",
+          "jacobi"
+        ],
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ]
+      },
+      "complete": true,
+      "exact": true,
+      "seconds": {
+        "base": {
+          "full": 0.620078525,
+          "pressure": 0.044460606,
+          "capture": 0.006758142,
+          "startup": 0.001311192,
+          "step0": 0.036031117
+        },
+        "warm": {
+          "full": 0.613582889,
+          "pressure": 0.045366695,
+          "capture": 0.006773573,
+          "startup": 0.001450101,
+          "step0": 0.036417581
+        },
+        "cold": {
+          "full": 0.6320698459999999,
+          "pressure": 0.046482781,
+          "capture": 0.007065708,
+          "startup": 0.001266825,
+          "step0": 0.038554158
+        }
+      },
+      "cold_vs_base_pct": 1.9338391052971637,
+      "warm_vs_base_pct": -1.0475505501500892,
+      "warm_vs_cold_pct": -2.924828184257333
+    },
+    {
+      "repeat": 1,
+      "order": [
+        "cold",
+        "base",
+        "warm"
+      ],
+      "commands": {
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "base": [
+          "/workspace/scratch/warm-bench/bin/base-3525c97",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "warm",
+          "rest",
+          "jacobi"
+        ]
+      },
+      "complete": true,
+      "exact": true,
+      "seconds": {
+        "cold": {
+          "full": 0.638709566,
+          "pressure": 0.046550079,
+          "capture": 0.007267944,
+          "startup": 0.00166081,
+          "step0": 0.042843816
+        },
+        "base": {
+          "full": 0.607033291,
+          "pressure": 0.044971044,
+          "capture": 0.006807509,
+          "startup": 0.001515731,
+          "step0": 0.03830699
+        },
+        "warm": {
+          "full": 0.612082812,
+          "pressure": 0.045183057,
+          "capture": 0.007016871,
+          "startup": 0.001196578,
+          "step0": 0.037497431
+        }
+      },
+      "cold_vs_base_pct": 5.2182105116208355,
+      "warm_vs_base_pct": 0.831835926441804,
+      "warm_vs_cold_pct": -4.168835949452476
+    },
+    {
+      "repeat": 2,
+      "order": [
+        "cold",
+        "base",
+        "warm"
+      ],
+      "commands": {
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "base": [
+          "/workspace/scratch/warm-bench/bin/base-3525c97",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "warm",
+          "rest",
+          "jacobi"
+        ]
+      },
+      "complete": true,
+      "exact": true,
+      "seconds": {
+        "cold": {
+          "full": 0.63322189,
+          "pressure": 0.044305566,
+          "capture": 0.006692517,
+          "startup": 0.001373204,
+          "step0": 0.038273966000000006
+        },
+        "base": {
+          "full": 0.674939878,
+          "pressure": 0.050245578,
+          "capture": 0.007168176,
+          "startup": 0.001547267,
+          "step0": 0.043201197999999996
+        },
+        "warm": {
+          "full": 0.633304644,
+          "pressure": 0.049882417,
+          "capture": 0.006887545,
+          "startup": 0.00129104,
+          "step0": 0.039353648000000005
+        }
+      },
+      "cold_vs_base_pct": -6.1809932054422205,
+      "warm_vs_base_pct": -6.168732261512632,
+      "warm_vs_cold_pct": 0.013068720665998512
+    },
+    {
+      "repeat": 3,
+      "order": [
+        "base",
+        "cold",
+        "warm"
+      ],
+      "commands": {
+        "base": [
+          "/workspace/scratch/warm-bench/bin/base-3525c97",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "warm",
+          "rest",
+          "jacobi"
+        ]
+      },
+      "complete": true,
+      "exact": true,
+      "seconds": {
+        "base": {
+          "full": 0.6347991629999999,
+          "pressure": 0.043945268,
+          "capture": 0.006901083,
+          "startup": 0.001317129,
+          "step0": 0.036070288
+        },
+        "cold": {
+          "full": 0.633247245,
+          "pressure": 0.044255131,
+          "capture": 0.007036865,
+          "startup": 0.001409649,
+          "step0": 0.046888745999999995
+        },
+        "warm": {
+          "full": 0.617557954,
+          "pressure": 0.04516909,
+          "capture": 0.006819134,
+          "startup": 0.00136984,
+          "step0": 0.036084334
+        }
+      },
+      "cold_vs_base_pct": -0.2444738573166627,
+      "warm_vs_base_pct": -2.7160100398556986,
+      "warm_vs_cold_pct": -2.477593250326726
+    },
+    {
+      "repeat": 4,
+      "order": [
+        "warm",
+        "base",
+        "cold"
+      ],
+      "commands": {
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "warm",
+          "rest",
+          "jacobi"
+        ],
+        "base": [
+          "/workspace/scratch/warm-bench/bin/base-3525c97",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ]
+      },
+      "complete": true,
+      "exact": true,
+      "seconds": {
+        "warm": {
+          "full": 0.6255722180000001,
+          "pressure": 0.044838353,
+          "capture": 0.006541756,
+          "startup": 0.001419625,
+          "step0": 0.037276845
+        },
+        "base": {
+          "full": 0.627283145,
+          "pressure": 0.044701495,
+          "capture": 0.007173361,
+          "startup": 0.001366034,
+          "step0": 0.03727332
+        },
+        "cold": {
+          "full": 0.64377572,
+          "pressure": 0.048298971999999996,
+          "capture": 0.007131881,
+          "startup": 0.001480348,
+          "step0": 0.038567406
+        }
+      },
+      "cold_vs_base_pct": 2.629207421155888,
+      "warm_vs_base_pct": -0.27275194840441497,
+      "warm_vs_cold_pct": -2.8276154931720643
+    },
+    {
+      "repeat": 5,
+      "order": [
+        "warm",
+        "cold",
+        "base"
+      ],
+      "commands": {
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "warm",
+          "rest",
+          "jacobi"
+        ],
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "base": [
+          "/workspace/scratch/warm-bench/bin/base-3525c97",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ]
+      },
+      "complete": true,
+      "exact": true,
+      "seconds": {
+        "warm": {
+          "full": 0.622703829,
+          "pressure": 0.048550413,
+          "capture": 0.006769879,
+          "startup": 0.001363871,
+          "step0": 0.037295994
+        },
+        "cold": {
+          "full": 0.616499775,
+          "pressure": 0.044529135,
+          "capture": 0.006956545,
+          "startup": 0.001106041,
+          "step0": 0.039182204
+        },
+        "base": {
+          "full": 0.685666586,
+          "pressure": 0.045536843,
+          "capture": 0.008502149,
+          "startup": 0.00129689,
+          "step0": 0.043042949000000004
+        }
+      },
+      "cold_vs_base_pct": -10.08752831365185,
+      "warm_vs_base_pct": -9.182707497430831,
+      "warm_vs_cold_pct": 1.0063351604629567
+    },
+    {
+      "repeat": 6,
+      "order": [
+        "base",
+        "cold",
+        "warm"
+      ],
+      "commands": {
+        "base": [
+          "/workspace/scratch/warm-bench/bin/base-3525c97",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "warm",
+          "rest",
+          "jacobi"
+        ]
+      },
+      "complete": true,
+      "exact": true,
+      "seconds": {
+        "base": {
+          "full": 0.606368387,
+          "pressure": 0.043780654,
+          "capture": 0.006668274,
+          "startup": 0.001116938,
+          "step0": 0.038554045
+        },
+        "cold": {
+          "full": 0.633061155,
+          "pressure": 0.046308164,
+          "capture": 0.00713553,
+          "startup": 0.00133701,
+          "step0": 0.039388789
+        },
+        "warm": {
+          "full": 0.608865797,
+          "pressure": 0.045296564,
+          "capture": 0.0065346399999999995,
+          "startup": 0.001411753,
+          "step0": 0.035734327999999996
+        }
+      },
+      "cold_vs_base_pct": 4.402071178555711,
+      "warm_vs_base_pct": 0.4118634898425233,
+      "warm_vs_cold_pct": -3.8219621925783875
+    },
+    {
+      "repeat": 7,
+      "order": [
+        "warm",
+        "base",
+        "cold"
+      ],
+      "commands": {
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "warm",
+          "rest",
+          "jacobi"
+        ],
+        "base": [
+          "/workspace/scratch/warm-bench/bin/base-3525c97",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ]
+      },
+      "complete": true,
+      "exact": true,
+      "seconds": {
+        "warm": {
+          "full": 0.608714396,
+          "pressure": 0.044263046,
+          "capture": 0.006493831,
+          "startup": 0.00147606,
+          "step0": 0.036062814000000006
+        },
+        "base": {
+          "full": 0.599751747,
+          "pressure": 0.044461464,
+          "capture": 0.006818118,
+          "startup": 0.001604464,
+          "step0": 0.0358087
+        },
+        "cold": {
+          "full": 0.585110728,
+          "pressure": 0.04283081,
+          "capture": 0.006510836,
+          "startup": 0.00123757,
+          "step0": 0.036466234
+        }
+      },
+      "cold_vs_base_pct": -2.441179883716127,
+      "warm_vs_base_pct": 1.4943931459694415,
+      "warm_vs_cold_pct": 4.034051482986989
+    },
+    {
+      "repeat": 8,
+      "order": [
+        "warm",
+        "cold",
+        "base"
+      ],
+      "commands": {
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "warm",
+          "rest",
+          "jacobi"
+        ],
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "base": [
+          "/workspace/scratch/warm-bench/bin/base-3525c97",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ]
+      },
+      "complete": true,
+      "exact": true,
+      "seconds": {
+        "warm": {
+          "full": 0.664656213,
+          "pressure": 0.048335246,
+          "capture": 0.006831781,
+          "startup": 0.001787,
+          "step0": 0.042631487999999995
+        },
+        "cold": {
+          "full": 0.594307043,
+          "pressure": 0.04261495,
+          "capture": 0.006616049,
+          "startup": 0.001457943,
+          "step0": 0.035600039
+        },
+        "base": {
+          "full": 0.584044806,
+          "pressure": 0.04225187,
+          "capture": 0.006641676,
+          "startup": 0.001362379,
+          "step0": 0.036412987
+        }
+      },
+      "cold_vs_base_pct": 1.7570975539161093,
+      "warm_vs_base_pct": 13.802264170807476,
+      "warm_vs_cold_pct": 11.837175888894858
+    },
+    {
+      "repeat": 9,
+      "order": [
+        "cold",
+        "warm",
+        "base"
+      ],
+      "commands": {
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "warm",
+          "rest",
+          "jacobi"
+        ],
+        "base": [
+          "/workspace/scratch/warm-bench/bin/base-3525c97",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ]
+      },
+      "complete": true,
+      "exact": true,
+      "seconds": {
+        "cold": {
+          "full": 0.622535194,
+          "pressure": 0.04495931,
+          "capture": 0.007090893,
+          "startup": 0.001639508,
+          "step0": 0.037641804
+        },
+        "warm": {
+          "full": 0.597465105,
+          "pressure": 0.043753129,
+          "capture": 0.006659563,
+          "startup": 0.001337752,
+          "step0": 0.036433658
+        },
+        "base": {
+          "full": 0.614349522,
+          "pressure": 0.043377009,
+          "capture": 0.006677,
+          "startup": 0.001397382,
+          "step0": 0.036908275000000004
+        }
+      },
+      "cold_vs_base_pct": 1.3324128540625813,
+      "warm_vs_base_pct": -2.748340544814487,
+      "warm_vs_cold_pct": -4.0270958560456815
+    },
+    {
+      "repeat": 10,
+      "order": [
+        "base",
+        "warm",
+        "cold"
+      ],
+      "commands": {
+        "base": [
+          "/workspace/scratch/warm-bench/bin/base-3525c97",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "warm",
+          "rest",
+          "jacobi"
+        ],
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ]
+      },
+      "complete": true,
+      "exact": true,
+      "seconds": {
+        "base": {
+          "full": 0.654364273,
+          "pressure": 0.048348673,
+          "capture": 0.006686215,
+          "startup": 0.001594079,
+          "step0": 0.037850939
+        },
+        "warm": {
+          "full": 0.613411246,
+          "pressure": 0.044278043,
+          "capture": 0.0069268920000000005,
+          "startup": 0.001403852,
+          "step0": 0.036301793
+        },
+        "cold": {
+          "full": 0.610266863,
+          "pressure": 0.044662706999999996,
+          "capture": 0.006652319,
+          "startup": 0.001607739,
+          "step0": 0.03703782
+        }
+      },
+      "cold_vs_base_pct": -6.738969686995732,
+      "warm_vs_base_pct": -6.25844482802319,
+      "warm_vs_cold_pct": 0.5152472124313912
+    },
+    {
+      "repeat": 11,
+      "order": [
+        "cold",
+        "warm",
+        "base"
+      ],
+      "commands": {
+        "cold": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ],
+        "warm": [
+          "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "warm",
+          "rest",
+          "jacobi"
+        ],
+        "base": [
+          "/workspace/scratch/warm-bench/bin/base-3525c97",
+          "32",
+          "32",
+          "32",
+          "1",
+          "16",
+          "cold",
+          "rest",
+          "jacobi"
+        ]
+      },
+      "complete": true,
+      "exact": true,
+      "seconds": {
+        "cold": {
+          "full": 0.630661198,
+          "pressure": 0.047189244,
+          "capture": 0.006721553,
+          "startup": 0.001577763,
+          "step0": 0.038670748
+        },
+        "warm": {
+          "full": 0.624990358,
+          "pressure": 0.045735518,
+          "capture": 0.006687123,
+          "startup": 0.001415498,
+          "step0": 0.037530435
+        },
+        "base": {
+          "full": 0.627946899,
+          "pressure": 0.044913707,
+          "capture": 0.00668598,
+          "startup": 0.001462359,
+          "step0": 0.036391313
+        }
+      },
+      "cold_vs_base_pct": 0.43224976575606533,
+      "warm_vs_base_pct": -0.4708265945270629,
+      "warm_vs_cold_pct": -0.8991896152773848
+    }
+  ],
+  "cold_vs_base_pct": {
+    "median": 0.8823313099093233,
+    "min": -10.08752831365185,
+    "max": 5.2182105116208355,
+    "adverse_pairs": 7
+  },
+  "warm_vs_base_pct": {
+    "median": -0.7591885723385761,
+    "min": -9.182707497430831,
+    "max": 13.802264170807476,
+    "adverse_pairs": 4
+  },
+  "warm_vs_cold_pct": {
+    "median": -1.6883914328020555,
+    "min": -4.168835949452476,
+    "max": 11.837175888894858,
+    "adverse_pairs": 5
+  }
+}

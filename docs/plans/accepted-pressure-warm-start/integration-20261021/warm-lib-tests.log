@@ -1,0 +1,41 @@
+    Blocking waiting for file lock on build directory
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `release` profile [optimized] target(s) in 55.84s
+     Running unittests src/lib.rs (/workspace/.rheon-tools/target/release/deps/rheon-3811278ecadf3a8d)
+
+running 32 tests
+test emitter::tests::nozzle_pressure_is_nonuniform_and_end_heads_are_independent ... ok
+test force_field::tests::rotated_subnormal_fields_respect_acceleration_bound ... ok
+test forces::tests::finite_step_work_can_be_negative_and_uses_both_velocity_endpoints ... ok
+test forces::tests::authored_field_face_sampling_density_walls_and_work ... ok
+test forces::tests::work_accounts_for_actual_storage_rounding_and_closed_wall_faces ... ok
+test operator::fixed_box_tests::cached_boundary_diagonals_match_original_order_for_every_row ... ok
+test material_session::tests::final_callback_deadline_retains_particles_diagnostics_and_controls ... ok
+test parallel::row_tests::row_fragments_cover_partial_first_and_last_rows_without_gaps ... ok
+test particle_fluid::physics_tests::diagnostics_commit_only_with_accepted_state_and_balance_pair_force ... ok
+test particle_fluid::physics_tests::gas_pair_expands_into_vacuum_with_equal_and_opposite_momentum ... ok
+test particle_fluid::physics_tests::gravity_accelerates_in_metres_per_second_squared_at_both_scene_scales ... ok
+test particle_fluid::physics_tests::late_overlap_replacement_and_inside_emission_leave_accepted_state_unchanged ... ok
+test particle_fluid::physics_tests::liquid_and_gas_convex_solid_exclude_fill_and_stop_approaching_particles ... ok
+test particle_fluid::physics_tests::pressure_acceleration_matches_independent_compression_energy_gradient ... ok
+test particle_fluid::physics_tests::liquid_and_gas_hit_mesh_with_no_normal_penetration_and_keep_tangent_motion ... ok
+test particle_fluid::physics_tests::moving_vector_emitter_checks_collision_at_current_birth_position ... ok
+test particle_fluid::physics_tests::surface_cohesion_draws_liquid_parcels_together ... ok
+test particle_fluid::physics_tests::unlike_material_pressure_conserves_momentum_and_respects_particle_inertia ... ok
+test particle_fluid::physics_tests::viscosity_reduces_pair_kinetic_energy_without_changing_total_momentum ... ok
+test pressure::comparison_tests::sgs_matches_independently_assembled_triangular_system ... ok
+test particle_fluid::physics_tests::wall_drag_and_temperature_use_contact_rates_without_bulk_vacuum_cooling ... ok
+test pressure_initialization::tests::operator_identity_and_generation_are_required_and_publication_is_staged ... ok
+test pressure_session::tests::deadline_during_final_callback_preserves_qualified_pressure_and_retry ... ok
+test recording::force_fields::tests::binary_roundtrip_preserves_all_variants_ids_disabled_and_float_bits ... ok
+test recording::force_fields::tests::binary_rejects_truncation_trailing_unknown_versions_and_invalid_objects ... ok
+test recording::force_fields::tests::legacy_run_hash_and_absent_metadata_are_unchanged ... ok
+test recording::force_fields::tests::field_schema_limits_and_accepted_custody_fail_closed ... ok
+test recording::force_fields::tests::malformed_run_digest_never_panics_and_is_not_rebound ... ok
+test recording::force_fields::tests::run_binding_rejects_absent_mismatched_and_unbound_metadata ... ok
+test session::configured::tests::configured_deadline_crossed_at_final_callback_preserves_history_and_quota ... ok
+test recording::force_fields::tests::maximum_valid_scene_fits_bounded_codec ... ok
+test session::tests::deadline_crossed_in_final_callback_preserves_publication_and_retries ... ok
+
+test result: ok. 32 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,272 @@
+{
+  "observed_utc": "2026-10-21T22:43:25.212647+00:00",
+  "run": {
+    "id": 39687940422,
+    "head_sha": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "failure",
+    "html_url": "https://github.com/MrScripty/Rheon/actions/runs/39687940422",
+    "run_attempt": 1
+  },
+  "jobs": [
+    {
+      "id": 119526660820,
+      "name": "bounded-lessons",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 2,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "number": 3,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Prepare source-only teaching edition",
+          "number": 4,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check volume controls and desktop/mobile rendering",
+          "number": 5,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check modal decay controls and real glyphs",
+          "number": 6,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check engineering controls and real glyphs",
+          "number": 7,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check pressure gauges and component compatibility",
+          "number": 8,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check reconstruction and coupling controls",
+          "number": 9,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check practical mechanisms and every chapter/appendix placement",
+          "number": 10,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Retain practical mechanism evidence",
+          "number": 11,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Retain reconstruction and coupling evidence",
+          "number": 12,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Retain pressure gauge evidence",
+          "number": 13,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Retain engineering evidence",
+          "number": 14,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Retain modal decay evidence",
+          "number": 15,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Retain volume lesson evidence",
+          "number": 16,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "number": 31,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 32,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "number": 33,
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119526661160,
+      "name": "build",
+      "status": "completed",
+      "conclusion": "failure",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 2,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check reviewed native admission before expensive qualification",
+          "number": 3,
+          "status": "completed",
+          "conclusion": "failure"
+        },
+        {
+          "name": "Set external artifact and tool directories",
+          "number": 4,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Install isolated official pinned Rust toolchain",
+          "number": 5,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "number": 6,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Install renderer and locked browser assets",
+          "number": 7,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Check local reference mechanisms",
+          "number": 8,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Qualify bounded compressible Euler references",
+          "number": 9,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Construct and qualify only static geometry controls",
+          "number": 10,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Qualify bounded obstacle pressure and reduced shear controls",
+          "number": 11,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Capture and independently qualify finite aligned strain",
+          "number": 12,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Build the bounded native browser fixtures",
+          "number": 13,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Build complete static edition and verify local links",
+          "number": 14,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Verify retained browser bindings and current Chromium laboratories",
+          "number": 15,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Retain reviewable site",
+          "number": 16,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Configure Pages",
+          "number": 17,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Upload Pages artifact",
+          "number": 18,
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 36,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "number": 37,
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119526748064,
+      "name": "deploy",
+      "status": "completed",
+      "conclusion": "skipped",
+      "steps": []
+    }
+  ],
+  "scope": "metadata-only read; no artifact/log download; failure preserved and not rerun"
+}

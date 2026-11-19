@@ -1,0 +1,35 @@
+[
+  {
+    "name": "default-tests",
+    "command": "cargo test --release --locked",
+    "summaries": 81,
+    "passed": 610,
+    "failed": 0,
+    "ignored": 10,
+    "exit_status": 0,
+    "source_material": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+    "scope": "preliminary before ordered dependency merges"
+  },
+  {
+    "name": "warm-lib-tests",
+    "command": "cargo test --release --locked --features accepted-pressure-warm-start --lib",
+    "summaries": 1,
+    "passed": 32,
+    "failed": 0,
+    "ignored": 0,
+    "exit_status": 0,
+    "source_material": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+    "scope": "preliminary before ordered dependency merges"
+  },
+  {
+    "name": "warm-all-tests",
+    "command": "cargo test --release --locked --features accepted-pressure-warm-start",
+    "summaries": 81,
+    "passed": 626,
+    "failed": 0,
+    "ignored": 10,
+    "exit_status": 0,
+    "source_material": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+    "scope": "preliminary before ordered dependency merges"
+  }
+]

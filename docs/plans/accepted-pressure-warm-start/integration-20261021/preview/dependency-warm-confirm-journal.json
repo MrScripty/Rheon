@@ -1,0 +1,17 @@
+{
+  "reason": "first tool reported outerexit1 despite92successful summaries and792passed/0failed/13explicit skips; original retained",
+  "command": [
+    "cargo",
+    "test",
+    "--release",
+    "--locked",
+    "--features",
+    "accepted-pressure-warm-start"
+  ],
+  "started_at": "2026-10-22T00:22:52.742446+00:00",
+  "ended_at": "2026-10-22T00:23:51.843621+00:00",
+  "child_returncode": 0,
+  "log_sha256": "8a8dee9a657de9ac327c85aedf03e385cc06d46197385f1b3b8318975f02bafa",
+  "preliminary": true,
+  "sealed_campaigns_selected": false
+}
