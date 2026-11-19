@@ -1,4 +1,4 @@
-"""Independent VTK9.3.1 reader compares two cold exports with SQLite native bits.
+"""Independent VTK 9.7.2 reader compares two cold exports with SQLite native bits.
 
 Usage: python verify_recorded_carrier_vtk.py RUN.sqlite CONSTRUCTOR.vti STEP1.vti
 The Rust example must first verify/select/export the archive. Not a physics receipt.
