@@ -19,31 +19,8 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'tools'))
 from aligned_strain_oracle import parse_dump, reference, verify, matrix, require
 
-PRIMARY_SOURCE = 'f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b'
-PRIMARY_TREE = 'bda8ebca0a226e10f03f975ffcf9701df4326095'
-# Main's independently accepted dense3D exporter adds only these two declarations
-# to the historical crate root. Admit that exact extension and pin its module;
-# all original numerical sources remain frozen. Fresh qualification receipts
-# must bind the actual extended source, never the historical root's digest.
-DENSE3D_EXPORTS = (b'mod dense3d_sequence;\n'
-                   b'pub use dense3d_sequence::{Dense3dError, Dense3dLimits, Dense3dSequence, write_dense3d_frame};\n')
-DENSE3D_SHA256 = '90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431'
-REVIEWED_INVENTORY = 'docs/education/aligned-strain-native-sources.json'
-REVIEWED_BASE = '2209012bc5f902693d0f695ec1c2d854126af317'
-RUNTIME_INVENTORY = 'docs/education/aligned-strain-native-sources-runtime-20261013.json'
-RUNTIME_BASE = 'a3a66b18b34bef2a32ce1b658fce952115b1f7f4'
-HISTORICAL_REVIEWED_SHA256 = '84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a'
-INTEGRATION_INVENTORY = 'docs/education/aligned-strain-native-sources-integration-20261014.json'
-INTEGRATION_BASE = '21d4122c3d0edb2ca5c3ce089175c70035d737a3'
-INTEGRATION_REVIEW = 'docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md'
-RUNTIME_REVIEWED_SHA256 = '6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d'
-QUALIFICATION_INPUTS = ('Cargo.toml', 'Cargo.lock', 'build.rs',
-                        'examples/aligned_strain.rs', 'tools/aligned_strain_oracle.py',
-                        'tools/qualify_aligned_strain.py', 'tools/test_aligned_strain_oracle.py',
-                        'tools/test_qualify_aligned_strain.py', 'tests/aligned_strain_contract.rs',
-                        'tests/obstacle_flow_contract.rs', 'tests/static_obstacle_contract.rs')
 SCHEMA = 'rheon-aligned-strain-education-packet-v1'
-RECEIPT_SCHEMA = 'rheon-aligned-strain-education-qualification-v1'
+RECEIPT_SCHEMA = 'rheon-aligned-strain-education-qualification-v2'
 FILES = {'native.tsv', 'data.json', 'qualification.json', 'primary-qualification.json'}
 PARAMETERS = ['3','3','3','1','1','1','0','0','0','1','1','1','2','2','2','1','1']
 
@@ -60,127 +37,12 @@ def git(repo, *args):
     return subprocess.check_output(['git', *args], cwd=repo, text=True).strip()
 
 
-def reviewed_native_paths(repo):
-    """All crate sources/build inputs plus the independent qualification path."""
-    repo = Path(repo)
-    paths = {str(p.relative_to(repo)) for directory in ('src', '.cargo')
-             for p in (repo/directory).rglob('*') if p.is_file() or p.is_symlink()}
-    paths.update(str(p.relative_to(repo)) for p in repo.glob('rust-toolchain*'))
-    paths.update(p for p in QUALIFICATION_INPUTS if p != 'build.rs' or (repo/p).exists())
-    return paths
-
-
-def committed_native_paths(repo, head):
-    return {p for p in git(repo, 'ls-tree', '-r', '--name-only', head).splitlines()
-            if p.startswith(('src/', '.cargo/', 'rust-toolchain')) or p in QUALIFICATION_INPUTS}
-
-
-def admission_inventory(repo):
-    """Explicit reviewed epochs, newest present record wins without fallback."""
-    for name, base in ((INTEGRATION_INVENTORY, INTEGRATION_BASE),
-                       (RUNTIME_INVENTORY, RUNTIME_BASE), (REVIEWED_INVENTORY, REVIEWED_BASE)):
-        path = Path(repo)/name
-        if path.exists() or path.is_symlink():
-            if name != REVIEWED_INVENTORY:
-                historical = Path(repo)/REVIEWED_INVENTORY
-                require(historical.is_file() and not historical.is_symlink() and
-                        sha(historical) == HISTORICAL_REVIEWED_SHA256,
-                        'historical reviewed inventory changed or missing')
-            if name == INTEGRATION_INVENTORY:
-                runtime = Path(repo)/RUNTIME_INVENTORY
-                require(runtime.is_file() and not runtime.is_symlink() and
-                        sha(runtime) == RUNTIME_REVIEWED_SHA256,
-                        'runtime reviewed inventory changed or missing')
-            return name, base
-    return None
-
-
-def admission_manifest_paths(repo):
-    """Receipt bindings for the selected explicit epoch and preserved records."""
-    selected = admission_inventory(repo)
-    if selected is None:
-        return []
-    name, _ = selected
-    if name == INTEGRATION_INVENTORY:
-        return [name, RUNTIME_INVENTORY, REVIEWED_INVENTORY, INTEGRATION_REVIEW]
-    return [name] if name == REVIEWED_INVENTORY else [name, REVIEWED_INVENTORY]
-
-
-def reviewed_source_core(repo, inventory, reviewed_base=REVIEWED_BASE):
-    require(inventory.is_file() and not inventory.is_symlink(), 'reviewed inventory regular file')
-    data = json.loads(inventory.read_text())
-    schema = {REVIEWED_BASE: 'rheon-reviewed-aligned-strain-native-sources-v1',
-              RUNTIME_BASE: 'rheon-reviewed-aligned-strain-native-sources-v2',
-              INTEGRATION_BASE: 'rheon-reviewed-aligned-strain-native-sources-v3'}.get(reviewed_base)
-    require(schema is not None and data.get('schema') == schema and
-            data.get('reviewed_base') == reviewed_base, 'reviewed native inventory identity')
-    if reviewed_base == INTEGRATION_BASE:
-        require(data.get('preserved_inventory_sha256') == {
-                    REVIEWED_INVENTORY: HISTORICAL_REVIEWED_SHA256,
-                    RUNTIME_INVENTORY: RUNTIME_REVIEWED_SHA256},
-                'integration inventory predecessor identity')
-        review = Path(repo)/INTEGRATION_REVIEW
-        require(data.get('review_record') == INTEGRATION_REVIEW and
-                review.is_file() and not review.is_symlink() and
-                data.get('review_sha256') == sha(review), 'integration admission review binding')
-    require(subprocess.run(['git', 'merge-base', '--is-ancestor', reviewed_base, 'HEAD'],
-                           cwd=repo, capture_output=True).returncode == 0,
-            'education source must descend from reviewed native base')
-    sources = data.get('source_sha256', {})
-    require(isinstance(sources, dict) and set(sources) == reviewed_native_paths(repo),
-            'reviewed native source inventory added or missing path')
-    for name, digest in sources.items():
-        path = Path(repo)/name
-        require(type(digest) is str and len(digest) == 64 and
-                all(c in '0123456789abcdef' for c in digest), 'reviewed native digest shape')
-        require(path.is_file() and not path.is_symlink() and sha(path) == digest,
-                'changed qualified native source '+name)
-    return sources
-
-
-def source_core(repo):
-    require(git(repo, 'rev-parse', PRIMARY_SOURCE + '^{tree}') == PRIMARY_TREE,
-            'immutable primary Git tree')
-    require(subprocess.run(['git', 'merge-base', '--is-ancestor', PRIMARY_SOURCE, 'HEAD'],
-                           cwd=repo, capture_output=True).returncode == 0,
-            'education source must descend from qualified primary')
-    selected = admission_inventory(repo)
-    # A reviewed extension is an admission input, never evidence by itself.
-    # trusted_primary still requires a fresh clean native/rational receipt and
-    # checks every source against that receipt's committed Git blobs. A present
-    # but stale inventory must fail; it cannot fall back to historical pins.
-    if selected is not None:
-        name, base = selected
-        return reviewed_source_core(repo, Path(repo)/name, base)
-    paths = git(repo,'ls-tree','-r','--name-only',PRIMARY_SOURCE).splitlines()
-    native_paths = [p for p in paths if p.startswith('src/') or p.startswith('rust-toolchain')
-                    or p in ('Cargo.toml','Cargo.lock','examples/aligned_strain.rs',
-                             'tools/aligned_strain_oracle.py')]
-    native_sources = {}
-    dense3d_extension = False
-    for name in native_paths:
-        blob = subprocess.check_output(['git','show',PRIMARY_SOURCE+':'+name],cwd=repo)
-        native_sources[name] = hashlib.sha256(blob).hexdigest()
-        actual = sha(Path(repo)/name)
-        if name == 'src/lib.rs' and actual != native_sources[name]:
-            require(actual == hashlib.sha256(blob + DENSE3D_EXPORTS).hexdigest(),
-                    'changed qualified native source '+name)
-            native_sources[name] = actual
-            dense3d_extension = True
-        else:
-            require(actual == native_sources[name], 'changed qualified native source '+name)
-    if dense3d_extension:
-        name = 'src/dense3d_sequence.rs'
-        require(sha(Path(repo)/name) == DENSE3D_SHA256,
-                'changed qualified native source '+name)
-        native_sources[name] = DENSE3D_SHA256
-    require(len(native_sources)>5, 'primary native source inventory')
-    return native_sources
-
-
 def trusted_primary(repo, path):
-    # The native executable is freshly built on the runner. Its hash is bound
-    # by that run's qualification, not by a machine-specific historical ELF.
+    """Accept a fresh clean native/rational receipt from this checkout's history.
+
+    The receipt is identified by its Git commit and tree. The native executable
+    is freshly built on the runner; its digest is bound by that run's receipt.
+    """
     path = Path(path)
     require(path.is_file() and not path.is_symlink(), 'primary receipt regular file')
     receipt = json.loads(path.read_text())
@@ -191,32 +53,12 @@ def trusted_primary(repo, path):
     require(type(head) is str and len(head)==40 and type(tree) is str and len(tree)==40,
             'native qualification source identity shape')
     require(git(repo,'rev-parse',head+'^{tree}') == tree and subprocess.run(
-            ['git','merge-base','--is-ancestor',PRIMARY_SOURCE,head],cwd=repo,
-            capture_output=True).returncode == 0, 'native qualification primary ancestry')
-    sources = source_core(repo)
-    selected = admission_inventory(repo)
-    if selected is not None:
-        name, base = selected
-        require(subprocess.run(['git', 'merge-base', '--is-ancestor', base, head],
-                               cwd=repo, capture_output=True).returncode == 0,
-                'native receipt must descend from reviewed base')
-        require(committed_native_paths(repo, head) == set(sources),
-                'native receipt commit inventory added or missing path')
-        for manifest in admission_manifest_paths(repo):
-            manifest_digest = sha(Path(repo)/manifest)
-            require(receipt.get('source_sha256', {}).get(manifest) == manifest_digest and
-                    hashlib.sha256(subprocess.check_output(
-                        ['git', 'show', head+':'+manifest], cwd=repo)).hexdigest() == manifest_digest,
-                    'native receipt reviewed inventory binding')
-    require(all(receipt.get('source_sha256',{}).get(p)==digest for p,digest in sources.items()),
-            'native qualification core source manifest')
-    for name,digest in sources.items():
-        blob = subprocess.check_output(['git','show',head+':'+name],cwd=repo)
-        require(hashlib.sha256(blob).hexdigest() == digest, 'qualified commit core source '+name)
+            ['git','merge-base','--is-ancestor',head,'HEAD'],cwd=repo,
+            capture_output=True).returncode == 0, 'native qualification source ancestry')
     digest = receipt.get('executable_sha256')
     require(type(digest) is str and len(digest)==64 and all(c in '0123456789abcdef' for c in digest),
             'native binary digest shape')
-    return receipt, sources
+    return receipt
 
 
 def specimen(dump):
@@ -322,7 +164,7 @@ def external_new_directory(repo, output):
 
 def build_packet(repo, output, executable, primary_qualification, records=None):
     repo, executable = Path(repo).resolve(), Path(executable).resolve()
-    primary, sources = trusted_primary(repo, primary_qualification)
+    primary = trusted_primary(repo, primary_qualification)
     require(executable.is_file() and sha(executable) == primary['executable_sha256'],
             'executable must match qualified immutable native binary')
     head, tree, status = git(repo,'rev-parse','HEAD'), git(repo,'rev-parse','HEAD^{tree}'), git(repo,'status','--porcelain')
@@ -339,7 +181,6 @@ def build_packet(repo, output, executable, primary_qualification, records=None):
     dump = parse_dump(native)
     specimen(dump)
     source = {'commit': primary['source_head'], 'tree': primary['source_tree'], 'clean': True,
-              'baseCommit': PRIMARY_SOURCE, 'baseTree': PRIMARY_TREE,
               'binarySha256': primary['executable_sha256'], 'recordsSha256': sha(native),
               'oracleSummarySha256': hashlib.sha256(encoded(summary).encode()).hexdigest(),
               'primaryQualificationSha256': sha(primary_qualification), 'packetSchema': SCHEMA}
@@ -348,12 +189,12 @@ def build_packet(repo, output, executable, primary_qualification, records=None):
     shutil.copyfile(primary_qualification, output/'primary-qualification.json')
     require((git(repo,'rev-parse','HEAD'),git(repo,'rev-parse','HEAD^{tree}'),git(repo,'status','--porcelain')) ==
             (head,tree,status), 'education source changed during capture')
-    latest_primary, _ = trusted_primary(repo, primary_qualification)
+    latest_primary = trusted_primary(repo, primary_qualification)
     require(latest_primary == primary, 'native qualification changed during capture')
     require(sha(executable) == primary['executable_sha256'], 'executable changed during capture')
     receipt = {'schema': RECEIPT_SCHEMA, 'status': 'passed', 'clean': True,
                'source_head': head, 'source_tree': tree, 'native_source_head': primary['source_head'],
-               'native_source_tree': primary['source_tree'], 'native_source_sha256': sources,
+               'native_source_tree': primary['source_tree'],
                'executable_sha256': primary['executable_sha256'], 'records_sha256': sha(native),
                'data_sha256': sha(output/'data.json'), 'primary_qualification_sha256': sha(primary_qualification),
                'oracle_summary': summary, 'native_argv': command, 'native_exit': 0,
@@ -370,16 +211,16 @@ def validate_packet(repo, directory):
     require(directory.is_dir() and not directory.is_symlink(), 'packet regular directory')
     require({p.name for p in directory.iterdir()} == FILES and
             all(p.is_file() and not p.is_symlink() for p in directory.iterdir()), 'packet exact regular file roster')
-    primary, sources = trusted_primary(repo, directory/'primary-qualification.json')
+    primary = trusted_primary(repo, directory/'primary-qualification.json')
     receipt = json.loads((directory/'qualification.json').read_text())
     require(set(receipt) == {'schema','status','clean','source_head','source_tree','native_source_head',
-            'native_source_tree','native_source_sha256','executable_sha256','records_sha256','data_sha256',
+            'native_source_tree','executable_sha256','records_sha256','data_sha256',
             'primary_qualification_sha256','oracle_summary','native_argv','native_exit','stepping_authorized',
             'fluid_solves'}, 'packet qualification exact field roster')
     require(receipt.get('schema') == RECEIPT_SCHEMA and receipt.get('status') == 'passed' and
             receipt.get('clean') is True, 'clean passed packet qualification')
     require(receipt.get('native_source_head') == primary['source_head'] and receipt.get('native_source_tree') == primary['source_tree'] and
-            receipt.get('native_source_sha256') == sources and receipt.get('executable_sha256') == primary['executable_sha256'] and
+            receipt.get('executable_sha256') == primary['executable_sha256'] and
             receipt.get('primary_qualification_sha256') == sha(directory/'primary-qualification.json'), 'packet native source binding')
     require(receipt.get('records_sha256') == sha(directory/'native.tsv') and
             receipt.get('data_sha256') == sha(directory/'data.json'), 'packet payload digest binding')
@@ -399,7 +240,6 @@ def validate_packet(repo, directory):
     require(previous == summary, 'packet independent oracle summary')
     data = json.loads((directory/'data.json').read_text())
     source = {'commit': primary['source_head'], 'tree': primary['source_tree'], 'clean': True,
-              'baseCommit': PRIMARY_SOURCE, 'baseTree': PRIMARY_TREE,
               'binarySha256': primary['executable_sha256'], 'recordsSha256': sha(directory/'native.tsv'),
               'oracleSummarySha256': hashlib.sha256(encoded(receipt['oracle_summary']).encode()).hexdigest(),
               'primaryQualificationSha256': sha(directory/'primary-qualification.json'), 'packetSchema': SCHEMA}

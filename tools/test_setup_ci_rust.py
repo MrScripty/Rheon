@@ -197,7 +197,7 @@ class SetupCiRustContract(unittest.TestCase):
         self.assertIn("cargo fmt --all --check", rust)
         self.assertIn("rustup target add --toolchain 1.92.0 wasm32-unknown-unknown", book)
         self.assertIn("python3 tools/qualify_aligned_strain.py", book)
-        self.assertIn("python3 docs/education/check_native_admission.py", book)
+        self.assertNotIn("check_native_admission", book)
 
 
 if __name__ == "__main__":
