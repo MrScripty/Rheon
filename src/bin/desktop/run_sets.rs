@@ -6,6 +6,8 @@
 pub mod configured;
 #[path = "run_sets/source.rs"]
 pub mod source;
+#[path = "run_sets/voxel_material.rs"]
+pub mod voxel_material;
 
 use rheon::{
     GridGeometry, PressureImplementation, PressureSettings, SessionIdentity, Simulation,
@@ -30,6 +32,40 @@ const FORCE_SPEC_VERSION: u32 = 2;
 const MAX_MANIFEST_BYTES: u64 = 1024 * 1024;
 const MAX_MEMBERS: usize = 64;
 const MAX_TEXT_BYTES: usize = 1000;
+
+/// Checked actual retained allocations; inline values are charged by their owner.
+/// This is an enumerated payload policy, not allocator/process memory telemetry.
+pub(super) struct OwnedCapacity(pub usize);
+impl OwnedCapacity {
+    pub fn add(&mut self, count: usize) -> Result<(), RunSetError> {
+        self.0 = self
+            .0
+            .checked_add(count)
+            .ok_or(RunSetError::Invalid("retained run-set capacity overflow"))?;
+        Ok(())
+    }
+    pub fn vector<T>(&mut self, values: &Vec<T>) -> Result<(), RunSetError> {
+        self.add(
+            values
+                .capacity()
+                .checked_mul(std::mem::size_of::<T>())
+                .ok_or(RunSetError::Invalid("retained run-set capacity overflow"))?,
+        )
+    }
+    pub fn strings<const N: usize>(&mut self, values: [&String; N]) -> Result<(), RunSetError> {
+        for text in values {
+            self.add(text.capacity())?;
+        }
+        Ok(())
+    }
+    pub fn force(&mut self, scene: &rheon::ForceScene) -> Result<(), RunSetError> {
+        self.vector(&scene.objects)?;
+        for object in &scene.objects {
+            self.add(object.name.capacity())?;
+        }
+        Ok(())
+    }
+}
 
 #[derive(Debug)]
 pub enum RunSetError {
@@ -552,6 +588,27 @@ pub struct RunSetRevision {
     pub members: Vec<RunSetMember>,
 }
 impl RunSetRevision {
+    /// Includes actual profile/attempt/force Vec and String capacities.
+    pub fn owned_capacity(&self) -> Result<usize, RunSetError> {
+        let mut bytes = OwnedCapacity(std::mem::size_of::<Self>());
+        bytes.strings([&self.set_id, &self.baseline_member])?;
+        bytes.vector(&self.members)?;
+        for member in &self.members {
+            bytes.add(member.member_id.capacity())?;
+            bytes.vector(&member.differences_from_baseline)?;
+            if let Some(fields) = &member.spec.force_fields {
+                bytes.force(fields)?;
+            }
+            if let Some(attempt) = &member.attempt {
+                bytes.strings([
+                    &attempt.attempt_id,
+                    &attempt.archive_relative_path,
+                    &attempt.expected_source_revision,
+                ])?;
+            }
+        }
+        Ok(bytes.0)
+    }
     pub fn validate(&self) -> Result<(), RunSetError> {
         version(self.schema_version)?;
         text(&self.set_id)?;
@@ -906,11 +963,35 @@ fn read_document(path: &Path, max_bytes: u64) -> Result<Vec<u8>, RunSetError> {
     }
     Ok(bytes)
 }
+#[cfg(test)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+enum PublicationFailure {
+    BeforeStage,
+    BeforeFlush,
+    BeforeLink,
+    FirstDirectorySync,
+    RemoveTemporary,
+    FinalDirectorySync,
+}
 /// Atomic no-replace publication on caller-owned local filesystems supporting
 /// hard links and directory sync. Protect every path component from concurrent
 /// replacement throughout use. Existing data and abandoned temporary files are
 /// never overwritten as recovery. Interrupted staging is not authoritative.
 pub(crate) fn publish_new(path: &Path, bytes: &[u8], max_bytes: u64) -> Result<(), RunSetError> {
+    publish_new_impl(
+        path,
+        bytes,
+        max_bytes,
+        #[cfg(test)]
+        None,
+    )
+}
+fn publish_new_impl(
+    path: &Path,
+    bytes: &[u8],
+    max_bytes: u64,
+    #[cfg(test)] failure: Option<PublicationFailure>,
+) -> Result<(), RunSetError> {
     if max_bytes == 0 || max_bytes == u64::MAX {
         return Err(RunSetError::Invalid("document byte limit"));
     }
@@ -928,23 +1009,59 @@ pub(crate) fn publish_new(path: &Path, bytes: &[u8], max_bytes: u64) -> Result<(
         std::process::id(),
         NEXT.fetch_add(1, Ordering::Relaxed)
     ));
+    #[cfg(test)]
+    if failure == Some(PublicationFailure::BeforeStage) {
+        return Err(std::io::Error::other("injected before staging").into());
+    }
     let mut file = OpenOptions::new()
         .write(true)
         .create_new(true)
         .open(&temporary)?;
-    let staged = file.write_all(bytes).and_then(|()| file.sync_all());
+    let staged = file.write_all(bytes).and_then(|()| {
+        #[cfg(test)]
+        if failure == Some(PublicationFailure::BeforeFlush) {
+            return Err(std::io::Error::other("injected staging flush failure"));
+        }
+        file.sync_all()
+    });
     drop(file);
     if let Err(error) = staged {
         return Err(RunSetError::Io(error));
     }
+    #[cfg(test)]
+    if failure == Some(PublicationFailure::BeforeLink) {
+        return Err(std::io::Error::other("injected before publication").into());
+    }
     fs::hard_link(&temporary, path)?;
     // Once linked, errors mean the durable publication outcome needs inspection.
+    #[cfg(test)]
+    if failure == Some(PublicationFailure::FirstDirectorySync) {
+        return Err(RunSetError::PublicationUncertain(std::io::Error::other(
+            "injected first directory sync failure",
+        )));
+    }
     directory
         .sync_all()
         .map_err(RunSetError::PublicationUncertain)?;
+    #[cfg(test)]
+    if failure == Some(PublicationFailure::RemoveTemporary) {
+        return Err(RunSetError::PublicationUncertain(std::io::Error::other(
+            "injected temporary unlink failure",
+        )));
+    }
     fs::remove_file(&temporary).map_err(RunSetError::PublicationUncertain)?;
+    #[cfg(test)]
+    if failure == Some(PublicationFailure::FinalDirectorySync) {
+        return Err(RunSetError::PublicationUncertain(std::io::Error::other(
+            "injected final directory sync failure",
+        )));
+    }
     directory
         .sync_all()
         .map_err(RunSetError::PublicationUncertain)?;
     Ok(())
 }
+
+#[cfg(test)]
+#[path = "run_sets_publish_tests.rs"]
+mod publication_tests;

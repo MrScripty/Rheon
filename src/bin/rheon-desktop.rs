@@ -52,6 +52,8 @@ pub mod run_sets;
 pub mod saved_comparison;
 use rheon::recording::comparison as native_comparison;
 use saved_comparison as comparison;
+#[path = "desktop/authoring_history.rs"]
+mod authoring_history;
 #[path = "desktop/force_run_policy.rs"]
 mod force_run_policy;
 #[cfg(test)]
@@ -63,6 +65,8 @@ mod force_runtime_integration_tests;
 #[cfg(test)]
 #[path = "desktop/force_runtime_ui_tests.rs"]
 mod force_runtime_ui_tests;
+#[path = "desktop/initial_contents_ui.rs"]
+mod initial_contents_ui;
 #[cfg(test)]
 #[path = "desktop/native_presentation_harness.rs"]
 mod native_presentation_harness;
@@ -84,6 +88,17 @@ mod timeline_ui_tests;
 mod transport_view;
 #[path = "desktop/viewport.rs"]
 mod viewport;
+#[path = "desktop/voxel_material_authoring.rs"]
+mod voxel_material_authoring;
+#[path = "desktop/voxel_material_execution.rs"]
+mod voxel_material_execution;
+#[cfg(test)]
+#[path = "desktop/voxel_material_integration_tests.rs"]
+mod voxel_material_integration_tests;
+#[path = "desktop/voxel_material_launch.rs"]
+mod voxel_material_launch;
+#[path = "desktop/voxel_material_setup.rs"]
+mod voxel_material_setup;
 #[path = "desktop/workflow_inspector.rs"]
 mod workflow_inspector;
 use eframe::egui;
@@ -123,6 +138,7 @@ struct Request {
     configured_set: Option<ConfiguredRequest>,
     /// Direct source run IDs to avoid even after producer-process restart.
     prior_run_ids: Vec<u64>,
+    voxel: Option<voxel_material_execution::VoxelRequest>,
     manifest_receipt: Option<Arc<std::sync::Mutex<std::path::PathBuf>>>,
     #[cfg(test)]
     progress_gate: Option<Arc<ProgressGate>>,
@@ -156,6 +172,16 @@ impl Request {
             .edge(self.domain_side, self.size as usize)
     }
     fn preview_history(&self) -> Result<Arc<LiveHistory>, String> {
+        if self.voxel.is_some() {
+            return LiveHistory::with_voxel_resolution(
+                self.preview_edge()?,
+                self.steps,
+                self.history_budget_mib
+                    .checked_mul(1024 * 1024)
+                    .ok_or("Voxel history budget overflow")?,
+                self.preview_resolution.exact(),
+            );
+        }
         LiveHistory::with_resolution(
             self.preview_edge()?,
             self.steps,
@@ -167,6 +193,14 @@ impl Request {
         )
     }
     fn track_label(&self, index: usize) -> String {
+        if self.voxel.is_some() {
+            return if index == 0 {
+                voxel_material_execution::METHOD
+            } else {
+                "Unavailable voxel track"
+            }
+            .into();
+        }
         if let Some(configured) = &self.configured_set {
             let Some(member) = configured.revision.members.get(index) else {
                 return "Unavailable configured member".into();
@@ -239,10 +273,10 @@ impl Worker {
         });
         let progress = Arc::new(AtomicUsize::new(0));
         let history = request.preview_history().map_err(std::io::Error::other)?;
-        let h = request.domain_side / request.size as f64;
-        let grid = GridGeometry::new([request.size; 3], [h; 3], [0.0; 3])
-            .map_err(std::io::Error::other)?;
         let observer = if request.observe {
+            let h = request.domain_side / request.size as f64;
+            let grid = GridGeometry::new([request.size; 3], [h; 3], [0.0; 3])
+                .map_err(std::io::Error::other)?;
             Some(CalculationObserver::new(&grid, request.threads).map_err(std::io::Error::other)?)
         } else {
             None
@@ -280,6 +314,9 @@ fn configured_executor() -> run_sets::configured::ExecutorDeclaration {
     }
 }
 fn validate_request(request: &Request) -> Result<(), String> {
+    if request.voxel.is_some() {
+        return voxel_material_execution::validate(request);
+    }
     if !request.force_fields.is_empty() && request.force_fields.len() != request.methods.len() {
         return Err("Force snapshots must match the exact track count".into());
     }
@@ -473,6 +510,9 @@ fn run_simulations(
     progress: &AtomicUsize,
     history: &LiveHistory,
 ) -> Result<Vec<ResultRow>, String> {
+    if request.voxel.is_some() {
+        return voxel_material_execution::run(request, cancel, progress, history);
+    }
     if let Some(config) = request.material {
         return run_material(request, config, cancel, progress, history);
     }
@@ -1167,6 +1207,7 @@ impl SetupWorkflow {
 #[derive(Clone, Copy)]
 enum SetupAction {
     Run(SetupWorkflow),
+    RunContents,
     Cancel,
 }
 fn running_setup_ui(ui: &mut egui::Ui, request: &Request) {
@@ -1185,7 +1226,11 @@ fn running_setup_ui(ui: &mut egui::Ui, request: &Request) {
         request.steps,
         settings::duration(request.requested_dt)
     ));
-    if request.configured_set.is_some() {
+    if request.voxel.is_some() {
+        ui.small(voxel_material_execution::METHOD);
+        ui.small("Filled incompressible Water/Air · starts at rest · closed free-slip walls");
+        ui.small("Actual accepted intervals may be shorter than the requested maximum.");
+    } else if request.configured_set.is_some() {
         ui.small("Sealed full liquid · starts at rest · no inlet");
         ui.small(
             "Constant forcing only; no appearance, emitter, phase source, or model accuracy claim.",
@@ -1361,7 +1406,9 @@ impl TimelineControls {
                     ui,
                     format!(
                         "{} · Step {} / {}",
-                        if frame.material_color.is_some() {
+                        if frame.voxel.is_some() {
+                            voxel_material_execution::METHOD.to_owned()
+                        } else if frame.material_color.is_some() {
                             "Material fluid".to_owned()
                         } else {
                             track_caption.to_owned()
@@ -1390,6 +1437,18 @@ impl TimelineControls {
                             r.particles,
                             r.total_mass,
                             r.mean_temperature_kelvin - 273.15
+                        ),
+                    );
+                }
+                if let Some(report) = frame.voxel.as_ref().and_then(|v| v.report) {
+                    ui.separator();
+                    timeline_caption(
+                        ui,
+                        format!(
+                            "{} pressure iterations · divergence {:.2e} · accepted dt{}s",
+                            report.projection.pressure.iterations,
+                            report.projection.actual_divergence_max,
+                            report.dt
                         ),
                     );
                 }
@@ -1448,6 +1507,7 @@ struct App {
     textures: Vec<egui::TextureHandle>,
     status: String,
     running_request: Option<Request>,
+    pending_voxel: Option<voxel_material_launch::PendingVoxel>,
     closing: bool,
     history: Option<Arc<LiveHistory>>,
     viewport: viewport::Viewport,
@@ -1507,6 +1567,7 @@ impl Default for App {
             textures: Vec::new(),
             status: "Ready — rotating two-ended pressure emitter.".into(),
             running_request: None,
+            pending_voxel: None,
             closing: false,
             history: None,
             viewport: viewport::Viewport::default(),
@@ -1586,7 +1647,11 @@ impl App {
                 egui::ScrollArea::vertical()
                     .id_salt(("sidebar-content", self.setup_workflow as u8))
                     .show(ui, |ui| {
-                        if self.inspector_open {
+                        if let Some(pending) = &self.pending_voxel {
+                            ui.heading("Preparing voxel run");
+                            running_setup_ui(ui, &pending.request);
+                            ui.label("Current Inspector and playback selection held until verified adoption.");
+                        } else if self.inspector_open {
                             ui.heading("Numerical inspector");
                             if let Some(history) = &self.history {
                                 if self
@@ -1629,6 +1694,11 @@ impl App {
                         self.status = error;
                     }
                 }
+                SetupAction::RunContents => {
+                    if let Err(error) = self.start_contents() {
+                        self.status = error;
+                    }
+                }
                 SetupAction::Cancel => self.cancel(),
             }
             ctx.request_repaint();
@@ -1643,6 +1713,9 @@ impl App {
     fn run_controls(&mut self, ui: &mut egui::Ui) -> Option<SetupAction> {
         let mut action = None;
         if let Some(worker) = &self.worker {
+            if self.pending_voxel.is_some() {
+                ui.small("Preparing voxel Water/Air · current result held");
+            }
             let n = worker.progress.load(Ordering::Relaxed);
             ui.add(
                 egui::ProgressBar::new(n as f32 / worker.total as f32)
@@ -1659,6 +1732,24 @@ impl App {
             }
             if let Some((_, step, elapsed)) = worker.history.timing() {
                 ui.small(format!("Calculating step {step} · {elapsed:.3} s"));
+            }
+        } else if self.scene.contents_selected() {
+            let readiness = self.contents_run_readiness();
+            let disabled = readiness.as_ref().err().map_or("", String::as_str);
+            if ui
+                .add_enabled(
+                    readiness.is_ok(),
+                    egui::Button::new("Simulate contents")
+                        .min_size(egui::vec2(ui.available_width(), 32.0)),
+                )
+                .on_disabled_hover_text(disabled)
+                .clicked()
+            {
+                action = Some(SetupAction::RunContents);
+            }
+            if let Err(error) = readiness {
+                ui.colored_label(egui::Color32::YELLOW, "Initial contents run unavailable")
+                    .on_hover_text(error);
             }
         } else {
             let readiness = self
@@ -1678,8 +1769,15 @@ impl App {
                 }
             };
             if let Err(error) = readiness {
-                ui.colored_label(egui::Color32::YELLOW, "Authored-force runs unavailable")
-                    .on_hover_text(error);
+                ui.colored_label(
+                    egui::Color32::YELLOW,
+                    if self.scene.contents_selected() || self.scene.contents.busy() {
+                        "Initial contents run unavailable"
+                    } else {
+                        "Authored-force runs unavailable"
+                    },
+                )
+                .on_hover_text(error);
             }
             if launch {
                 action = Some(SetupAction::Run(self.setup_workflow));
@@ -1857,6 +1955,7 @@ impl App {
                 runtime: None,
             }),
             prior_run_ids,
+            voxel: None,
             manifest_receipt: Some(Arc::new(std::sync::Mutex::new(intent_path.clone()))),
             #[cfg(test)]
             progress_gate: None,
@@ -2011,6 +2110,7 @@ impl App {
             saved_set: None,
             configured_set: None,
             prior_run_ids: Vec::new(),
+            voxel: None,
             manifest_receipt: None,
             #[cfg(test)]
             progress_gate: None,
@@ -2080,6 +2180,7 @@ impl App {
                 .iter()
                 .filter_map(|member| member.attempt.as_ref().map(|a| a.expected_run_id))
                 .collect(),
+            voxel: None,
             manifest_receipt: None,
             #[cfg(test)]
             progress_gate: None,
@@ -2113,7 +2214,42 @@ impl App {
         self.run_sets.path = root.join("intent.json").to_string_lossy().into();
         self.launch_request(request)
     }
+    /// Sole production queued-authoring boundary. Never execute a stale command
+    /// against retained/pending simulation custody; report refusal in its own UI.
+    fn service_initial_contents_commands(&mut self, ctx: &egui::Context) {
+        if self.worker.is_some() || self.pending_voxel.is_some() {
+            let queued = std::mem::take(&mut self.scene.contents.create_requested)
+                | self.scene.contents.draft_action.take().is_some()
+                | std::mem::take(&mut self.scene.contents.run_requested);
+            if queued {
+                self.scene.contents.io_feedback = "Initial contents command not executed while a run is preparing/running; issue it again in idle Draft.".into();
+            }
+            return;
+        }
+        self.service_draft_file_action(ctx);
+        if self.scene.contents.create_requested {
+            self.scene.contents.create_requested = false;
+            let result = GridGeometry::new(
+                [self.size; 3],
+                [self.domain_side / self.size as f64; 3],
+                [0.0; 3],
+            )
+            .map_err(|e| e.to_string())
+            .and_then(|grid| self.scene.create_contents(grid));
+            if let Err(error) = result {
+                self.status = error;
+            }
+        }
+        if std::mem::take(&mut self.scene.contents.run_requested)
+            && let Err(error) = self.start_contents()
+        {
+            self.status = error;
+        }
+    }
     fn launch_request(&mut self, request: Request) -> Result<(), String> {
+        if request.voxel.is_some() {
+            return self.launch_voxel_request(request);
+        }
         match Worker::start(request.clone()) {
             Ok(worker) => {
                 self.scheduler = Some(Arc::clone(&worker.scheduler));
@@ -2149,9 +2285,22 @@ impl App {
         }
     }
     fn poll(&mut self, ctx: &egui::Context) {
+        if let Err(error) = self.acknowledge_voxel_constructor() {
+            self.status = format!(
+                "Voxel constructor acknowledgment unavailable: {error}; previous result held"
+            );
+        }
         if self.worker.as_ref().is_some_and(|w| w.handle.is_finished()) {
             let worker = self.worker.take().expect("finished worker");
-            let cancelled = worker.cancel.load(Ordering::Relaxed);
+            if self.pending_voxel.is_some() {
+                self.pending_voxel_terminal(worker.handle.join());
+                return;
+            }
+            let cancelled = worker.cancel.load(Ordering::Relaxed)
+                && self
+                    .running_request
+                    .as_ref()
+                    .is_none_or(|r| r.voxel.is_none());
             match worker.handle.join() {
                 Ok(Ok(_)) if cancelled => {
                     self.status = "Cancelled; accepted preview frames retained".into()
@@ -2202,6 +2351,19 @@ impl App {
     /// One render-frame snapshot of track, appearance and force metadata. Track
     /// intents painted later apply visually next frame, never to half a frame.
     fn prepare_scene_presentation(&mut self) -> Option<(usize, Option<Arc<PreviewFrame>>)> {
+        if let Some(pending) = &self.pending_voxel {
+            return (self.scene.context == scene_ui::SceneContext::Retained)
+                .then(|| pending.view());
+        }
+        if self
+            .running_request
+            .as_ref()
+            .is_some_and(|r| r.voxel.is_some())
+        {
+            self.scene.bind_retained_no_forces(self.track);
+            return (self.scene.context == scene_ui::SceneContext::Retained)
+                .then(|| self.selected_frame());
+        }
         let view =
             (self.scene.context == scene_ui::SceneContext::Retained).then(|| self.selected_frame());
         if let Some(request) = &self.running_request
@@ -2223,6 +2385,9 @@ impl App {
         &mut self,
         resolve_active_track: bool,
     ) -> (usize, Option<Arc<PreviewFrame>>) {
+        if let Some(pending) = &self.pending_voxel {
+            return pending.view();
+        }
         let Some(history) = &self.history else {
             return (0, None);
         };
@@ -2247,7 +2412,7 @@ impl App {
                 if let Some(frame) = &frame {
                     self.timeline_step = frame.step;
                     {
-                        let inspector = if frame.material_color.is_some() {
+                        let inspector = if frame.material_color.is_some() && frame.voxel.is_none() {
                             &history.inspector
                         } else {
                             &history.carrier_inspectors[self.track]
@@ -2289,6 +2454,14 @@ impl App {
         count: usize,
         frame: Option<&PreviewFrame>,
     ) -> egui::Rect {
+        if self.pending_voxel.is_some() {
+            return egui::TopBottomPanel::bottom("timeline")
+                .show(ctx, |ui| {
+                    ui.label("Playback and numerical selection held while preparing voxel run");
+                })
+                .response
+                .rect;
+        }
         let mut controls = TimelineControls {
             timeline_step: self.timeline_step,
             track: self.track,
@@ -2343,6 +2516,10 @@ impl App {
         response.response.rect
     }
     fn controls(&mut self, ui: &mut egui::Ui) {
+        if self.scene.contents_selected() {
+            self.contents_setup_ui(ui);
+            return;
+        }
         let configured = self.setup_workflow == SetupWorkflow::AcceptedSession;
         let material_preview = self.material_mode && !configured;
         ui.heading("Rheon");
@@ -2539,7 +2716,10 @@ impl App {
                     if let Ok((_, Some(frame))) =
                         history.view(self.track, self.timeline_step, self.follow_live)
                     {
-                        if frame.material_color.is_some() {
+                        if frame.voxel.is_some() {
+                            ui.small(format!("Cells with positive liquid fraction: {}", frame.nonzero_tracer_cells));
+                            ui.small("Liquid appearance only; transparent gas remains occupied. Inspect both fractions in Numerical inspector.");
+                        } else if frame.material_color.is_some() {
                             ui.small(format!(
                                 "Occupied preview cells: {}",
                                 frame.nonzero_tracer_cells
@@ -2586,7 +2766,9 @@ impl App {
                                  not pressure recomputed on the displayed accepted particles.",
                             );
                         } else {
-                            ui.label(&row.label).on_hover_text(format!("Native baseline/fallback implementation: {}",row.method.label()));
+                            ui.label(&row.label).on_hover_text(if self.running_request.as_ref().is_some_and(|r| r.voxel.is_some()) {
+                                "Filled-box two-material voxel method; Jacobi is its pressure component".to_owned()
+                            } else { format!("Native baseline/fallback implementation: {}",row.method.label()) });
                             ui.label(format!(
                                 "{} iterations · divergence {:.2e}",
                                 row.iterations, row.divergence
@@ -2600,6 +2782,13 @@ impl App {
 }
 impl eframe::App for App {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        if self.ai_comparison.is_some()
+            || self.saved_comparison_active
+            || self.run_sets.active
+            || self.archive.active
+        {
+            self.scene.contents.hidden(ctx);
+        }
         if let Some(comparison) = self.ai_comparison.as_mut() {
             if !comparison.show(ctx) {
                 self.ai_comparison = None;
@@ -2685,6 +2874,7 @@ impl eframe::App for App {
                 let result = match revision {
                     run_set_view::SavedRunSet::Native(set) => self.rerun_saved(set),
                     run_set_view::SavedRunSet::Configured(set) => self.rerun_configured(set),
+                    run_set_view::SavedRunSet::Voxel(set) => self.rerun_voxel(set),
                 };
                 if let Err(error) = result {
                     self.status = error;
@@ -2703,10 +2893,10 @@ impl eframe::App for App {
             self.workflow_window(ctx);
             return;
         }
-        if self.scene.context == scene_ui::SceneContext::Draft {
+        if self.pending_voxel.is_none() && self.scene.context == scene_ui::SceneContext::Draft {
             self.playing = false;
         }
-        if self.playing {
+        if self.playing && self.pending_voxel.is_none() {
             self.play_time += self.playback_speed * ctx.input(|i| i.stable_dt.min(0.1)) as f64;
         }
         if self.scene.open && ctx.content_rect().width() < 1100.0 {
@@ -2715,6 +2905,7 @@ impl eframe::App for App {
             self.sidebar(ctx);
         }
         if self.archive.active || self.run_sets.active || self.saved_comparison_active {
+            self.scene.contents.hidden(ctx);
             ctx.request_repaint();
             return;
         }
@@ -2731,14 +2922,22 @@ impl eframe::App for App {
             bounds: mesh.bounds(),
         });
         let previous_context = self.scene.context;
-        self.scene.show(
-            ctx,
-            self.running_request.is_some(),
-            self.worker.is_some(),
-            model,
-            self.setup_workflow.force_target(self.material_mode),
-        );
+        if self.pending_voxel.is_some() {
+            self.scene.show_preparing(ctx);
+        } else {
+            let contents_readiness = self.contents_run_readiness();
+            self.scene.show(
+                ctx,
+                self.running_request.is_some(),
+                self.worker.is_some(),
+                model,
+                self.setup_workflow.force_target(self.material_mode),
+                contents_readiness,
+            );
+        }
+        self.service_initial_contents_commands(ctx);
         if previous_context != self.scene.context {
+            self.scene.contents.cancel();
             self.playing = false;
         }
         let retained = self.scene.context == scene_ui::SceneContext::Retained;
@@ -2793,22 +2992,24 @@ impl eframe::App for App {
         egui::CentralPanel::default()
             .frame(egui::Frame::NONE)
             .show(ctx, |ui| {
-                self.viewport.show_scene(
-                    ui,
-                    viewport::ViewInputs {
-                        frame,
-                        emitter,
-                        workers: &workers,
-                        grid_edge: grid,
-                        inspector: self
-                            .history
-                            .as_ref()
-                            .filter(|_| retained)
-                            .map(|h| &h.inspector),
-                        scene: Some(&mut self.scene),
-                        editable_scene,
-                    },
-                )
+                ui.add_enabled_ui(self.pending_voxel.is_none(), |ui| {
+                    self.viewport.show_scene(
+                        ui,
+                        viewport::ViewInputs {
+                            frame,
+                            emitter,
+                            workers: &workers,
+                            grid_edge: grid,
+                            inspector: self
+                                .history
+                                .as_ref()
+                                .filter(|_| retained)
+                                .map(|h| &h.inspector),
+                            scene: Some(&mut self.scene),
+                            editable_scene,
+                        },
+                    );
+                });
             });
         self.workflow_window(ctx);
         if self.worker.is_some() || self.playing {
@@ -2841,28 +3042,7 @@ fn main() -> eframe::Result {
             style.spacing.item_spacing = egui::vec2(8.0, 7.0);
             cc.egui_ctx.set_style(style);
             let mut app = App::default();
-            let mut args = std::env::args().skip(1);
-            let mut run = false;
-            while let Some(arg) = args.next() {
-                match arg.as_str() {
-                    "--collision-mesh" => {
-                        app.collision.path = args
-                            .next()
-                            .filter(|p| !p.is_empty() && !p.starts_with("--"))
-                            .ok_or("--collision-mesh requires a local path")?;
-                    }
-                    "--collision-policy" => match args.next().as_deref() {
-                        Some("solid") => app.collision.solid = true,
-                        Some("surface") => app.collision.solid = false,
-                        _ => return Err("--collision-policy requires solid or surface".into()),
-                    },
-                    "--collision-run" => {
-                        run = true;
-                        app.steps = 180;
-                    }
-                    _ => return Err(format!("Unknown argument: {arg}").into()),
-                }
-            }
+            let run = app.configure_arguments(std::env::args().skip(1))?;
             if !app.collision.path.is_empty() {
                 app.collision
                     .apply(app.domain_side)
@@ -3329,6 +3509,7 @@ mod tests {
             saved_set: None,
             configured_set: None,
             prior_run_ids: Vec::new(),
+            voxel: None,
             manifest_receipt: None,
             progress_gate: None,
             #[cfg(test)]
@@ -3549,6 +3730,7 @@ mod tests {
             saved_set: None,
             configured_set: None,
             prior_run_ids: Vec::new(),
+            voxel: None,
             manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
@@ -3607,6 +3789,7 @@ mod tests {
             saved_set: None,
             configured_set: None,
             prior_run_ids: Vec::new(),
+            voxel: None,
             manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
@@ -3695,6 +3878,7 @@ mod tests {
             saved_set: None,
             configured_set: None,
             prior_run_ids: Vec::new(),
+            voxel: None,
             manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
@@ -3783,6 +3967,7 @@ mod tests {
             saved_set: None,
             configured_set: None,
             prior_run_ids: Vec::new(),
+            voxel: None,
             manifest_receipt: None,
             progress_gate: None,
             #[cfg(test)]
@@ -3881,6 +4066,7 @@ mod tests {
                     saved_set: None,
                     configured_set: None,
                     prior_run_ids: Vec::new(),
+                    voxel: None,
                     manifest_receipt: None,
                     progress_gate: None,
                     failure_gate: None

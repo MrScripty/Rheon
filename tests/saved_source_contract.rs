@@ -170,6 +170,7 @@ fn configured() -> ConfiguredRunSetRevision {
 }
 fn with_attempt(set: &mut SavedRunSet) {
     match set {
+        SavedRunSet::Voxel(_) => panic!("native/configured fixture required"),
         SavedRunSet::Native(set) => {
             set.members[0].attempt = Some(RunAttempt {
                 attempt_id: "native-attempt".into(),
@@ -203,6 +204,7 @@ fn write_constructor(root: &Path, member: SavedMember<'_>) -> StepRecorder {
     };
     let limits = member.limits();
     let (run, publication) = match member {
+        SavedMember::Voxel(_) => panic!("native/configured fixture required"),
         SavedMember::Native(member) => {
             let simulation = member.spec.spec.create_simulation().unwrap();
             (
@@ -231,6 +233,7 @@ fn write_constructor(root: &Path, member: SavedMember<'_>) -> StepRecorder {
 }
 fn pin(root: &Path, set: &mut SavedRunSet) {
     match set {
+        SavedRunSet::Voxel(_) => panic!("native/configured fixture required"),
         SavedRunSet::Native(set) => {
             let member = &mut set.members[0];
             member
@@ -254,6 +257,7 @@ fn pin(root: &Path, set: &mut SavedRunSet) {
 fn save(root: &Path, set: &SavedRunSet) -> PathBuf {
     let path = root.join(format!("{}.json", set.set_id()));
     match set {
+        SavedRunSet::Voxel(_) => panic!("native/configured fixture required"),
         SavedRunSet::Native(set) => set.save_new(&path).unwrap(),
         SavedRunSet::Configured(set) => set.save_new(&path).unwrap(),
     }
