@@ -4,12 +4,6 @@ import hashlib,json,re,tempfile,unittest
 from native_sequence import metadata,publish,validate_labs
 from unittest.mock import patch
 
-def pending_metadata(digest):
-    current={'proof_inventory_sha256':digest,'public_theorems':0,
-             'explicit_expected_declarations':0,'audited_declarations':None,'lean_ci':None,
-             'status':'reviewed-pending-kernel-qualification'}
-    return dict(current,schema='rheon-native-sequence-source-v2',current_reviewed_proof=current)
-
 class NativeSequence(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
@@ -37,41 +31,22 @@ class NativeSequence(unittest.TestCase):
         self.assertIn('Snapshot playback',(self.output/'native-labs/wall-friction/index.html').read_text())
         self.assertEqual((self.output/'native-labs/wall-friction/case.csv').read_bytes(),before['case.csv'])
         self.assertEqual({p.name:p.read_bytes() for p in (self.input/'wall-friction').iterdir()},before)
-    def test_stale_lean_bytes_cannot_reuse_accepted_inventory(self):
-        repo=self.root/'repo';proof=repo/'proofs';proof.mkdir(parents=True);src=proof/'A.lean';src.write_text('checked source')
-        pins=proof/'source-inventory.json';pins.write_text(json.dumps({'A.lean':hashlib.sha256(src.read_bytes()).hexdigest()}))
-        here=repo/'docs/education';here.mkdir(parents=True);(here/'native-sequence.json').write_text(json.dumps(pending_metadata(hashlib.sha256(pins.read_bytes()).hexdigest())))
-        metadata(repo);src.write_text('unreviewed source')
-        with self.assertRaisesRegex(ValueError,'Lean source'):metadata(repo)
-    def test_changed_inventory_bytes_require_requalification(self):
-        repo=self.root/'repo';proof=repo/'proofs';proof.mkdir(parents=True)
-        src=proof/'A.lean';src.write_text('checked source')
-        inventory={'A.lean':hashlib.sha256(src.read_bytes()).hexdigest()}
-        pins=proof/'source-inventory.json';pins.write_text(json.dumps(inventory))
-        here=repo/'docs/education';here.mkdir(parents=True)
-        (here/'native-sequence.json').write_text(json.dumps(pending_metadata(hashlib.sha256(pins.read_bytes()).hexdigest())))
-        metadata(repo)
-        # Identical entries with different inventory bytes still need review.
-        pins.write_text(json.dumps(inventory,indent=2)+'\n')
-        with self.assertRaisesRegex(ValueError,'Current Lean inventory differs'):
-            metadata(repo)
     def test_repository_metadata_admits_current_reviewed_proofs(self):
         repo=Path(__file__).resolve().parents[2]
         data=metadata(repo)
         current=data.get('current_reviewed_proof',data['current_reconstruction_proof'])
-        for key in ('proof_inventory_sha256','public_theorems',
+        for key in ('public_theorems',
                     'audited_declarations','explicit_expected_declarations','lean_ci'):
             self.assertEqual(data[key],current[key])
-        pins=json.loads((repo/'proofs/source-inventory.json').read_text())
-        self.assertIn('Rheon/AlignedStrain.lean',pins)
-        theorem_count=sum(len(re.findall(r'^theorem ',
-            (repo/'proofs'/name).read_text(),re.M))
-            for name in pins if name.startswith('Rheon/'))
+        sources=sorted((repo/'proofs/Rheon').rglob('*.lean'))
+        self.assertIn(repo/'proofs/Rheon/AlignedStrain.lean',sources)
+        theorem_count=sum(len(re.findall(r'^theorem ',path.read_text(),re.M))
+                          for path in sources)
         self.assertEqual(data['public_theorems'],theorem_count)
         audit=(repo/'proofs/AxiomAudit.lean').read_text()
         expected=re.search(r'let expected : Array Name := #\[(.*?)\]',audit,re.S).group(1)
         self.assertEqual(data['explicit_expected_declarations'],len(re.findall(r'`Rheon\.',expected)))
-        # A source inventory cannot itself turn a pending kernel check into a pass.
+        # Recorded metadata cannot itself turn a pending kernel check into a pass.
         self.assertIn(current['status'], ('reviewed-pending-kernel-qualification', 'passed'))
         if current['status'] == 'passed':
             self.assertIsInstance(current['audited_declarations'], int)

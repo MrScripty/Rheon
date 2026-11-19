@@ -44,7 +44,7 @@ lake env lean AxiomAudit.lean
 python3 scripts/test_audit.py
 ~~~
 
-Inventory digests are reviewed, not regenerated in CI. Changed statements require mathematical review, inventory updates and full qualification. A digest establishes source identity, not truth.
+`check_sources.py` checks the toolchain and dependency pins; Lean source files are not pinned by hash. Changed statements require mathematical review and a fresh build and audit.
 
 The first successful qualification is [workflow run 37141752646](https://github.com/MrScripty/Rheon/actions/runs/37141752646), associated with source head ecf97d3a943ebe30d20acc1cf01b94dc08ff96a2. The runner checked the pull-request merge ref against then-current main. The retained log records actual checkout and all proof/audit stages. Later proof changes require new qualification.
 

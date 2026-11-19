@@ -67,7 +67,7 @@ fields, nonfinite metrics, incomplete trajectories, excessive divergence and inc
 Replay fingerprint is a regression diagnostic (64-bit collision risk), not a mathematical proof; native
 contract tests provide separate field/report assertions.
 
-`proofs/scripts/check_sources.py` verifies exact reviewed Lean source inventory and pins only. This run
+`proofs/scripts/check_sources.py` verifies the Lean toolchain and dependency pins only. This run
 does not rebuild Lean or rerun the kernel axiom audit. Existing exact finite-real theorems do not certify
 Rust/IEEE refinement, geometry assembly, solver convergence, continuum correctness or performance.
 See `proofs/README.md` for the actual theorem hypotheses and historical source-bound qualification.

@@ -228,7 +228,7 @@ at distances below \(10^{-10}h\). Those hypotheses must remain visible when
 interpreting a successful finite-difference comparison.
 
 Source statements are not a proof-run receipt. Publication must bind these
-modules to the current reviewed source inventory, pinned normal Lean build and
+modules to a reviewed source commit, pinned normal Lean build and
 allowed-axiom audit. Native execution tests separately connect the code to
 independent equations and exercise ownership failures. Neither evidence layer
 establishes a physically calibrated multiphase solver, full-scene convergence,

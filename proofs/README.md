@@ -12,7 +12,7 @@ Use the exact lean-toolchain and lake-manifest.json. From this directory run:
     lake env lean AxiomAudit.lean
     python3 scripts/test_audit.py
 
-The source inventory records reviewed bytes. Do not regenerate it in CI. Review changed statements and the audit inventory before updating digests. The kernel audit allows only propext, Classical.choice and Quot.sound. It rejects admitted and custom assumptions; negative fixtures verify both rejection paths. Native-evaluation axioms are outside the allowlist.
+`check_sources.py` checks only the Lean toolchain and mathlib dependency pins; Lean source files are not pinned by hash. Review changed statements and the expected-declaration list in `AxiomAudit.lean`, then rerun the build and audit. The kernel audit allows only propext, Classical.choice and Quot.sound. It rejects admitted and custom assumptions; negative fixtures verify both rejection paths. Native-evaluation axioms are outside the allowlist.
 
 ## Qualified evidence
 
@@ -44,9 +44,8 @@ for overlap, volume complement, shared incidence, component-constant jumps and
 residual/divergence scaling. The complete geometry-stage source locally compiled with
 pinned Lean 4.19.0: 64 public theorems, 87 audited declarations and the unchanged
 allowlist. Three actual negative audit probes reject custom axioms, sorry and a
-missing expected declaration. `source-inventory.json` records current reviewed
-bytes; `source-inventory-pr24.json` preserves the earlier accepted 57/77 source.
-The PR24 CI receipt does not qualify this new module. Rust mesh admission,
+missing expected declaration. The earlier accepted 57/77 PR24 source remains in
+Git history. The PR24 CI receipt does not qualify this new module. Rust mesh admission,
 binary64 arithmetic, component construction and obstacle solver refinement
 remain outside these statements.
 
@@ -63,8 +62,9 @@ missing expected declaration in both normal and optimized Python. The four
 source/pin-gate tests also pass in both modes. No `sorry`, custom axioms or
 native-evaluation axioms are accepted.
 
-The current reviewed `source-inventory.json` SHA256 is
-`d33f1ee1614084b5fce8d6d4a93ed7f539b07c9bea2e14c563618f3720064c61`.
+At that time the reviewed source-inventory SHA256 was
+`d33f1ee1614084b5fce8d6d4a93ed7f539b07c9bea2e14c563618f3720064c61`; the
+inventory file has since been removed.
 This qualification used the pinned compiler directly with a private artifact
 search path: existing pinned dependency artifacts were read-only, 205 missing
 imports were compiled from their pinned sources, and all current Rheon modules
@@ -182,8 +182,8 @@ All statements concern finite exact real arithmetic. Mesh and face assembly,
 Riemann solvers, reconstruction and limiters, floating-point refinement,
 entropy stability, shock solutions, viscous/thermal boundaries, reacting or
 multiphase equations of state and continuum convergence remain outside these
-proofs. The root import, twenty-name expected audit extension and current
-reviewed source inventory keep the existing axiom allowlist and source gate.
+proofs. The root import and twenty-name expected audit extension keep the
+existing axiom allowlist.
 
 The following local receipt belongs to PR68's earlier 116-statement inventory,
 not the combined inventory. The combined source retains all PR67 modules and

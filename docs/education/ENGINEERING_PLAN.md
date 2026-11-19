@@ -24,7 +24,7 @@ velocity fields embedded in a unit cube. State the reduced dimension explicitly.
    geometry, desktop and 390/320px controls, deep links and collapsed proofs.
 3. Add exact-real Lean statements for shared incidence cancellation, two-cell
    boundary work, the periodic checkerboard witness and affine strain power.
-   Review assumptions, extend the explicit audit and source inventory; require
+   Review assumptions, extend the explicit audit; require
    a fresh pinned kernel build. Prior proof receipts stay historical.
 4. Update chapters 4/8/22, a research dossier and the coverage ledger. Run book,
    math/link/PDF, reference, source-policy and hosted UI/Lean checks. Review the

@@ -29,7 +29,7 @@ The analytic shear ansatz removes advection and spatial discretization from the
 comparison. Lean proves only exact scalar amplification contracts, not the PDE,
 trigonometric integration, continuum convergence, execution or floating point.
 
-Current source inventory status is in `native-sequence.json`. Updating hashes
+Current proof status is in `native-sequence.json`. Editing that record
 never promotes a pending kernel check. PR44's exact-source receipt is historical.
 The new source changes no Cargo.lock/native admission binding and uses no absent
 native packet as substitute data. Local Lean bootstrap and sandboxed Chromium

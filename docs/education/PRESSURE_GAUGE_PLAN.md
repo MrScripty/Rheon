@@ -26,7 +26,7 @@ mesh reader, main merge or deployment changes belong to this slice.
 3. Prove finite exact-real component cancellation, gauge invariance, compatibility,
    fixed-cell residual counterexamples and pressure-work shift identities in Lean.
    State positive/nonzero assumptions and geometric limits. Extend the explicit
-   axiom audit and proof inventory; preserve prior qualification as historical.
+   axiom audit; preserve prior qualification as historical.
 4. Validate all finite controls with an independent rational oracle, mutation
    counterexamples, desktop/390px/320px actual rendering, scroll/deep-link presets,
    controls and collapsed proof checks. Run book/PDF/links and pinned Lean CI.

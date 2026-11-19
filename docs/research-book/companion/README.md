@@ -46,13 +46,12 @@ threadpoolctl 3.6.0 dependency verifies the loaded libraries rather than trustin
 the environment variable alone. Different or missing runtime identities fail.
 
 The archived `reproduction/haswell-openblas-0.3.30.json` contains a separately recorded CG
-history, not a replacement for `results.json`. Before using it, the comparator
-requires exact SHA256 matches for both preserved historical files and both
-experiment sources. Only `projection.histories.cg` selects the qualified replay
-history; the iteration count, every other numerical field, shapes and keys keep
-their original checks and tolerances. Changed sources or historical evidence
-require explicit profile review and requalification. There is no automatic
-fallback to whichever profile happens to pass, and CI never regenerates profiles.
+history, not a replacement for `results.json`. Only `projection.histories.cg`
+selects the qualified replay history; the iteration count, every other numerical
+field, shapes and keys keep their original checks and tolerances, so a changed
+experiment fails on the numbers it produces. The comparator does not pin the
+experiment source files by hash. There is no automatic fallback to whichever
+profile happens to pass, and CI never regenerates profiles.
 
 See [the diagnosis and retained experiments](../evidence/cg-reproduction/README.md)
 for the exact failed CI value, CPU-kernel isolation, direct-solve comparison,
