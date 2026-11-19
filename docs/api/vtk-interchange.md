@@ -29,7 +29,7 @@ without a trailing NUL. Source identity is not authenticated provenance. Units a
 pressure semantics are encoded. No replay, restore or stable cross-run particle
 identity is promised.
 
-Independent verification uses VTK 9.3.1, not a second custom XML parser:
+Independent verification uses VTK 9.7.2, not a second custom XML parser:
 
 ```sh
 cargo test --locked --no-default-features --test vtk_export_contract

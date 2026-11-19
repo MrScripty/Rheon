@@ -80,6 +80,7 @@ fn request(root: &Path, fields: &ForceSnapshot) -> Request {
         saved_set: None,
         configured_set: None,
         prior_run_ids: vec![],
+        voxel: None,
         manifest_receipt: None,
         progress_gate: None,
         failure_gate: None,

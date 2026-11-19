@@ -3,7 +3,7 @@
 
 Generate first: cargo run --locked --example vtk_export_fixture -- /tmp/rheon-vtk
 Then: python tools/verify_vtk_roundtrip.py /tmp/rheon-vtk
-Consumer qualification dependency: vtk==9.3.1 (includes NumPy dependency).
+Consumer qualification dependency: vtk==9.7.2 with numpy==2.3.5.
 Metadata *_utf8 fields are UInt8 bytes, without a trailing NUL.
 """
 import json

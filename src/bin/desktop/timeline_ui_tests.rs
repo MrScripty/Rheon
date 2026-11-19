@@ -193,6 +193,7 @@ fn timeline_controls_retain_transitions_and_physical_time() {
         density: vec![],
         report: None,
         particle_report: None,
+        voxel: None,
         material_color: None,
     };
     let ctx = context();
@@ -267,6 +268,7 @@ fn inert_carrier_request() -> Request {
         saved_set: None,
         configured_set: None,
         prior_run_ids: vec![],
+        voxel: None,
         manifest_receipt: None,
         progress_gate: None,
         failure_gate: None,
@@ -283,6 +285,7 @@ fn presentation() -> PreviewFrame {
         density: vec![],
         report: None,
         particle_report: None,
+        voxel: None,
         material_color: None,
     }
 }

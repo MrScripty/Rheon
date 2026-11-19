@@ -74,16 +74,11 @@ Chapter 9 adds swept-volume geometry and chapter 12 adds recomputed periodic
 shear decay to distinguish stability from temporal accuracy. See the
 [coverage ledger](COVERAGE.md#modal-time-integration-milestone).
 
-The aligned-strain admission path also has an explicit reviewed current-source
-inventory, `aligned-strain-native-sources.json`. It covers crate/build inputs and
-the independent qualification path, rejects changed/added/missing files, and
-requires a fresh clean native/rational receipt whose committed sources and
-inventory match. Historical native admission remains exact; changing a manifest
-is not numerical qualification or authority to reuse a previous packet.
-The separately reviewed runtime and recording/S1 integration epochs preserve
-earlier inventory bytes. The [integration admission review](NATIVE_ADMISSION_INTEGRATION_REVIEW.md)
-describes the complete source closure and new receipt bindings. A present stale
-epoch refuses admission; qualification still requires fresh committed execution.
+The aligned-strain packet is identified by the Git commit and tree of a fresh,
+clean native/rational qualification run on the same checkout history, plus the
+digest of the executable that run built. No per-file source hash inventory gates
+the build. A packet is never reused: every edition reruns the native specimen,
+compares it with the independent rational oracle and rebuilds its data.
 
 ## Recomputed sampling and transport lessons
 
@@ -300,8 +295,8 @@ Engineering continuation: [finite research plan](ENGINEERING_PLAN.md),
 [derived controls](../research-book/engineering/mesh-faces-to-collocated-flux.md)
 and current [proof source status](native-sequence.json). PR51's 152-theorem,
 266-declaration result remains historical; the 14 additional engineering
-statements passed their own [kernel build and 282-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38449564095). The checked merge proof tree equals `dd0d81c`; exact source binding is recorded in the metadata. Native admission hashes and
-dependency locks are unchanged.
+statements passed their own [kernel build and 282-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38449564095). The checked merge proof tree equals `dd0d81c`; exact source binding is recorded in the metadata. Dependency locks are
+unchanged.
 
 
 Pressure-gauge continuation: [plan](PRESSURE_GAUGE_PLAN.md) and
@@ -311,7 +306,7 @@ full residual and boundary work separate. Fifteen added exact-real statements
 passed their [kernel and 297-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38463683974)
 on `98abec6`; the synthetic merge proof tree was verified identical. PR60's
 282-declaration evidence is historical.
-Native source admission and all dependency locks remain unchanged.
+All dependency locks remain unchanged.
 
 ## Computed compressible fields
 

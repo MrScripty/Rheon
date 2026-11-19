@@ -51,6 +51,7 @@ pub struct PressureOperator<'a> {
     acceleration_factor: [f64; 3],
     surface: Option<crate::column_surface::PressureSurface<'a>>,
     flat_columns: Option<crate::FlatColumnMacGeometry<'a>>,
+    face_densities: Option<[&'a [f64]; 3]>,
 }
 
 impl<'a> PressureOperator<'a> {
@@ -91,6 +92,47 @@ impl<'a> PressureOperator<'a> {
             acceleration_factor,
             surface: None,
             flat_columns: None,
+            face_densities: None,
+        })
+    }
+
+    /// Filled sealed box with one positive density per MAC face. Interior
+    /// values are the mass of two adjacent half cells divided by cell volume.
+    /// Boundary values are checked but do not introduce wall momentum degrees.
+    /// The borrowed coefficients must belong to the same candidate as the RHS.
+    pub fn with_face_densities(
+        grid: &'a GridGeometry,
+        densities: [&'a [f64]; 3],
+    ) -> Result<Self, OperatorError> {
+        let h = grid.spacing();
+        let face_area = [h[1] * h[2], h[0] * h[2], h[0] * h[1]];
+        for axis in Axis::ALL {
+            let d = axis.index();
+            if densities[d].len() != grid.face_len(axis) {
+                return Err(OperatorError::LengthMismatch);
+            }
+            for &rho in densities[d] {
+                if !rho.is_finite() || rho <= 0.0 {
+                    return Err(OperatorError::InvalidDensity);
+                }
+                let acceleration = 1.0 / (rho * h[d]);
+                if !acceleration.is_normal()
+                    || !(face_area[d] * acceleration).is_normal()
+                    || face_area[d] <= 0.0
+                {
+                    return Err(OperatorError::InvalidCoefficient);
+                }
+            }
+        }
+        Ok(Self {
+            grid,
+            face_area,
+            weight: [0.0; 3],
+            box_diagonals: [0.0; 64],
+            acceleration_factor: [0.0; 3],
+            surface: None,
+            flat_columns: None,
+            face_densities: Some(densities),
         })
     }
 
@@ -190,6 +232,11 @@ impl<'a> PressureOperator<'a> {
         }
     }
     pub(crate) fn neighbor_weight(&self, axis: Axis, p: [usize; 3]) -> f64 {
+        if let Some(densities) = self.face_densities {
+            let d = axis.index();
+            return self.face_area[d]
+                / (densities[d][self.grid.face_unchecked(axis, p)] * self.grid.spacing()[d]);
+        }
         self.flat_columns
             .map_or(self.weight[axis.index()], |g| g.weight(axis, p))
     }
@@ -197,9 +244,15 @@ impl<'a> PressureOperator<'a> {
     // coefficient authority here while allowing SGS to skip surface queries.
     #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
     pub(crate) fn fixed_box_weights(&self) -> Option<[f64; 3]> {
-        self.surface.is_none().then_some(self.weight)
+        self.uniform_box_weights()
+    }
+    fn uniform_box_weights(&self) -> Option<[f64; 3]> {
+        (self.surface.is_none() && self.face_densities.is_none()).then_some(self.weight)
     }
     fn face_weight(&self, axis: Axis, p: [usize; 3]) -> f64 {
+        if self.face_densities.is_some() {
+            return self.neighbor_weight(axis, p);
+        }
         if let Some(geometry) = self.flat_columns {
             return geometry.weight(axis, p);
         }
@@ -278,6 +331,12 @@ impl<'a> PressureOperator<'a> {
         low[d] -= 1;
         let left = self.grid.cell_unchecked(low);
         let right = self.grid.cell_unchecked(p);
+        if let Some(densities) = self.face_densities {
+            return Some(
+                (pressure[right] - pressure[left])
+                    / (densities[d][self.grid.face_unchecked(axis, p)] * self.grid.spacing()[d]),
+            );
+        }
         if let Some(geometry) = self.flat_columns {
             let acceleration = geometry.acceleration(axis, p);
             if acceleration == 0.0 {
@@ -324,7 +383,7 @@ impl<'a> PressureOperator<'a> {
         let [nx, ny, _] = self.grid.counts();
         let counts = self.grid.counts();
         let strides = [1, nx, nx * ny];
-        let box_weights = self.surface.is_none().then_some(self.weight);
+        let box_weights = self.uniform_box_weights();
         crate::parallel::try_for_each_chunk_mut(
             out,
             crate::observation::CalculationStage::PressureOperator,
@@ -545,7 +604,7 @@ impl<'a> PressureOperator<'a> {
                         left[d] -= 1;
                         let difference = pressure[self.grid.cell_unchecked(p)]
                             - pressure[self.grid.cell_unchecked(left)];
-                        let value = if self.surface.is_some() {
+                        let value = if self.surface.is_some() || self.face_densities.is_some() {
                             self.correction(axis, p, pressure)
                                 .map_or(0.0, |gradient| f64::from(old[d][index]) - dt * gradient)
                         } else {
@@ -591,7 +650,7 @@ impl<'a> PressureOperator<'a> {
                         left[d] -= 1;
                         let difference = pressure[self.grid.cell_unchecked(p)]
                             - pressure[self.grid.cell_unchecked(left)];
-                        let value = if self.surface.is_some() {
+                        let value = if self.surface.is_some() || self.face_densities.is_some() {
                             self.correction(axis, p, pressure)
                                 .map_or(0.0, |gradient| f64::from(values[index]) - dt * gradient)
                         } else {
@@ -608,8 +667,151 @@ impl<'a> PressureOperator<'a> {
         Ok(())
     }
 
+    /// Full-box binary64 RHS. Surface/column distances belong to the existing
+    /// f32 paths and are deliberately not inferred for this new interface.
+    pub fn build_rhs_f64(
+        &self,
+        velocity: [&[f64]; 3],
+        dt: f64,
+        out: &mut [f64],
+    ) -> Result<(), OperatorError> {
+        if !dt.is_finite() || dt <= 0.0 {
+            return Err(OperatorError::InvalidTimeStep);
+        }
+        self.validate_velocity_f64(velocity)?;
+        if out.len() != self.grid.cell_len() {
+            return Err(OperatorError::LengthMismatch);
+        }
+        let [nx, ny, nz] = self.grid.counts();
+        for k in 0..nz {
+            for j in 0..ny {
+                for i in 0..nx {
+                    let p = [i, j, k];
+                    let mut flux = 0.0;
+                    for axis in Axis::ALL {
+                        let d = axis.index();
+                        let mut hi = p;
+                        hi[d] += 1;
+                        flux += self.face_area[d]
+                            * (velocity[d][self.grid.face_unchecked(axis, p)]
+                                - velocity[d][self.grid.face_unchecked(axis, hi)]);
+                    }
+                    let value = flux / dt;
+                    if !value.is_finite() {
+                        return Err(OperatorError::ArithmeticFailure);
+                    }
+                    out[self.grid.cell_unchecked(p)] = value;
+                }
+            }
+        }
+        Ok(())
+    }
+
+    /// Directly differentiate stored full-box binary64 faces, including gauge.
+    pub fn divergence_f64(
+        &self,
+        velocity: [&[f64]; 3],
+        out: &mut [f64],
+    ) -> Result<(), OperatorError> {
+        self.validate_velocity_f64(velocity)?;
+        if out.len() != self.grid.cell_len() {
+            return Err(OperatorError::LengthMismatch);
+        }
+        let [nx, ny, nz] = self.grid.counts();
+        for k in 0..nz {
+            for j in 0..ny {
+                for i in 0..nx {
+                    let p = [i, j, k];
+                    let mut value = 0.0;
+                    for axis in Axis::ALL {
+                        let d = axis.index();
+                        let mut hi = p;
+                        hi[d] += 1;
+                        value += (velocity[d][self.grid.face_unchecked(axis, hi)]
+                            - velocity[d][self.grid.face_unchecked(axis, p)])
+                            / self.grid.spacing()[d];
+                    }
+                    if !value.is_finite() {
+                        return Err(OperatorError::ArithmeticFailure);
+                    }
+                    out[self.grid.cell_unchecked(p)] = value;
+                }
+            }
+        }
+        Ok(())
+    }
+
+    /// Correct disposable full-box binary64 candidate faces. An error can leave
+    /// scratch partly written; accepted state must not alias this candidate.
+    pub fn correct_candidate_f64(
+        &self,
+        pressure: &[f64],
+        dt: f64,
+        candidate: [&mut [f64]; 3],
+    ) -> Result<(), OperatorError> {
+        if !dt.is_finite() || dt <= 0.0 {
+            return Err(OperatorError::InvalidTimeStep);
+        }
+        self.validate_velocity_f64([candidate[0], candidate[1], candidate[2]])?;
+        self.validate_cells(pressure)?;
+        for (d, field) in candidate.into_iter().enumerate() {
+            let axis = Axis::ALL[d];
+            let [nx, ny, nz] = self.grid.face_counts(axis);
+            for k in 0..nz {
+                for j in 0..ny {
+                    for i in 0..nx {
+                        let p = [i, j, k];
+                        if p[d] == 0 || p[d] == self.grid.counts()[d] {
+                            continue;
+                        }
+                        let index = self.grid.face_unchecked(axis, p);
+                        let gradient = self
+                            .correction(axis, p, pressure)
+                            .ok_or(OperatorError::InvalidPressureDomain)?;
+                        let value = field[index] - dt * gradient;
+                        if !value.is_finite() {
+                            return Err(OperatorError::ArithmeticFailure);
+                        }
+                        field[index] = value;
+                    }
+                }
+            }
+        }
+        Ok(())
+    }
+
+    pub(crate) fn validate_velocity_f64(&self, velocity: [&[f64]; 3]) -> Result<(), OperatorError> {
+        if self.surface.is_some() || self.flat_columns.is_some() {
+            return Err(OperatorError::InvalidPressureDomain);
+        }
+        for axis in Axis::ALL {
+            let d = axis.index();
+            if velocity[d].len() != self.grid.face_len(axis) {
+                return Err(OperatorError::LengthMismatch);
+            }
+            if velocity[d].iter().any(|v| !v.is_finite()) {
+                return Err(OperatorError::NonFiniteInput);
+            }
+            let [nx, ny, nz] = self.grid.face_counts(axis);
+            for k in 0..nz {
+                for j in 0..ny {
+                    for i in 0..nx {
+                        let p = [i, j, k];
+                        if p[d] == 0 || p[d] == self.grid.counts()[d] {
+                            let index = self.grid.face_unchecked(axis, p);
+                            if velocity[d][index] != 0.0 {
+                                return Err(OperatorError::NonZeroWallVelocity { axis, index });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Ok(())
+    }
+
     pub(crate) fn diagonal(&self, coordinate: [usize; 3]) -> f64 {
-        if self.surface.is_none() {
+        if self.uniform_box_weights().is_some() {
             let counts = self.grid.counts();
             let mut mask = 0;
             for d in 0..3 {
@@ -676,6 +878,23 @@ impl<'a> PressureOperator<'a> {
 #[cfg(test)]
 mod fixed_box_tests {
     use super::*;
+    #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+    #[test]
+    fn variable_full_box_declines_uniform_sgs_weights() {
+        let grid = GridGeometry::new([4; 3], [0.2; 3], [0.0; 3]).unwrap();
+        let rho = Axis::ALL.map(|axis| vec![2.0; grid.face_len(axis)]);
+        let variable =
+            PressureOperator::with_face_densities(&grid, rho.each_ref().map(|v| v.as_slice()))
+                .unwrap();
+        assert_eq!(variable.fixed_box_weights(), None);
+        assert!((variable.neighbor_weight(Axis::X, [1, 1, 1]) - 0.1).abs() < 1e-15);
+        assert!(
+            PressureOperator::new(&grid, 2.0)
+                .unwrap()
+                .fixed_box_weights()
+                .is_some()
+        );
+    }
     #[test]
     fn cached_boundary_diagonals_match_original_order_for_every_row() {
         for counts in [[5, 4, 3], [1, 7, 2], [3, 1, 1], [1, 1, 1]] {

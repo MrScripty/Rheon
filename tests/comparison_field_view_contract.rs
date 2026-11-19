@@ -764,6 +764,8 @@ fn single_sample_axes_and_slice_work_limit_are_explicit() {
 fn native_set_mut(set: &mut source::SavedRunSet) -> &mut RunSetRevision {
     match set {
         source::SavedRunSet::Native(set) => set,
-        source::SavedRunSet::Configured(_) => panic!("native fixture required"),
+        source::SavedRunSet::Configured(_) | source::SavedRunSet::Voxel(_) => {
+            panic!("native fixture required")
+        }
     }
 }

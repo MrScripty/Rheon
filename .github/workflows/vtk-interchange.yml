@@ -43,7 +43,7 @@ jobs:
       - name: Install qualified independent VTK reader
         run: |
           python3 -m venv "$RUNNER_TEMP/vtk-reader"
-          "$RUNNER_TEMP/vtk-reader/bin/pip" install vtk==9.3.1 numpy==2.3.5
+          "$RUNNER_TEMP/vtk-reader/bin/pip" install vtk==9.7.2 numpy==2.3.5
       - name: Rust boundary contract and static checks
         run: |
           cargo test --locked --no-default-features --test vtk_export_contract --test recording_carrier_contract

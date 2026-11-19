@@ -144,6 +144,11 @@ impl SavedRecipe {
         recipe: Recipe,
     ) -> Result<Self> {
         recipe.validate()?;
+        if run_set.voxel().is_some() {
+            return Err(ComparisonArchiveError::Unsupported(
+                "voxel material comparisons",
+            ));
+        }
         run_set.validate()?;
         let mut selected_bytes = 0;
         let reference = capture_member(
@@ -176,6 +181,11 @@ impl SavedRecipe {
     pub fn validate(&self) -> Result<()> {
         analysis_version(self.analysis_version)?;
         self.recipe.validate()?;
+        if self.run_set.voxel().is_some() {
+            return Err(ComparisonArchiveError::Unsupported(
+                "voxel material comparisons",
+            ));
+        }
         self.run_set.validate()?;
         if self.run_set_sha256 != self.run_set.sha256()? {
             return Err(ComparisonArchiveError::Integrity("run-set revision digest"));
@@ -593,4 +603,89 @@ fn validate_field(field: &FieldComparison, recipe: Recipe) -> Result<()> {
         return Err(ComparisonArchiveError::Invalid("nonpressure gauge report"));
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod voxel_profile_tests {
+    use super::super::run_sets::{
+        ArchiveBudget,
+        configured::ExecutorDeclaration,
+        voxel_material::{
+            ExecutionPolicy, FrozenInput, PressurePolicy as VoxelPressurePolicy,
+            run_set::{VoxelRunSetMember, VoxelRunSetRevision, VoxelSetKind},
+        },
+    };
+    use super::*;
+    use rheon::{
+        GridGeometry, SceneObjectId,
+        initial_contents::{ContentsEditor, ContentsMaterial, InitialContents},
+    };
+    #[test]
+    fn voxel_profile_refuses_before_source_open_or_legacy_inventory() {
+        let editor = ContentsEditor::new(
+            InitialContents::new(
+                SceneObjectId(1),
+                GridGeometry::new([4; 3], [0.25; 3], [0.0; 3]).unwrap(),
+                ContentsMaterial::Air,
+            )
+            .unwrap(),
+        );
+        let spec = FrozenInput::capture(
+            &editor,
+            ExecutionPolicy {
+                requested_dt_s: 0.001,
+                requested_steps: 1,
+                gravity_m_s2: [0.0; 3],
+                pressure: VoxelPressurePolicy {
+                    relative_residual: 1e-11,
+                    absolute_residual: 1e-12,
+                    divergence_limit: 1e-8,
+                    max_iterations: 2000,
+                },
+                numerical_memory_limit_bytes: 64 * 1024 * 1024,
+                recording: ArchiveBudget {
+                    max_database_bytes: 1024 * 1024,
+                    max_record_bytes: 128 * 1024,
+                    max_records: 2,
+                },
+                executor: ExecutorDeclaration {
+                    id: "test".into(),
+                    source_revision: "test".into(),
+                    build_provenance: None,
+                },
+            },
+        )
+        .unwrap();
+        let set = SavedRunSet::Voxel(VoxelRunSetRevision {
+            schema_version: 3,
+            kind: VoxelSetKind::VoxelMaterialSet,
+            set_id: "test".into(),
+            parent_sha256: None,
+            baseline_member: "voxel".into(),
+            members: vec![VoxelRunSetMember {
+                member_id: "voxel".into(),
+                spec,
+                attempt: None,
+            }],
+        });
+        let result = SavedRecipe::capture_source(
+            Path::new("/nonexistent-voxel-comparison-root"),
+            set,
+            "voxel",
+            "voxel",
+            &[0],
+            &[0],
+            Recipe {
+                field: FieldRole::VelocityX,
+                time_tolerance: 0.0,
+                pressure: PressurePolicy::Canonical,
+            },
+        );
+        assert!(matches!(
+            result,
+            Err(ComparisonArchiveError::Unsupported(
+                "voxel material comparisons"
+            ))
+        ));
+    }
 }
