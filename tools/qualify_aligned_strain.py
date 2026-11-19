@@ -67,7 +67,7 @@ def qualify(args):
                if (ROOT / p).is_file()}
     manifest = {'schema': 'rheon-reconstructed-aligned-strain-qualification-v1',
                 'base': BASE, 'source_head': head, 'source_tree': tree,
-                'clean': not dirty, 'source_sha256': sources,
+                'clean': not dirty,
                 'new_reconstruction': True, 'stepping_authorized': False,
                 'floating_point_estimate_enclosed': False,
                 'commands': [], 'status': 'running'}

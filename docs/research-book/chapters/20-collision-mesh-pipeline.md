@@ -121,5 +121,5 @@ Use the [current requirements map](../implementation/requirements-roadmap.md#cur
 to choose the supported native exercise, then return to chapter 8's face-flux
 and reconstruction studies to identify the missing conservative assembly.
 A visually correct surface and a passed segment query cannot supply that assembly.
-The [integration review](../../education/NATIVE_ADMISSION_RUNTIME_REVIEW.md)
-keeps source admission and fresh numerical qualification explicit.
+Any published native packet still requires fresh numerical qualification on
+the committed source.
