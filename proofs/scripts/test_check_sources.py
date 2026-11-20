@@ -1,4 +1,4 @@
-"""Source/pin gate rejection tests, including actual optimized subprocesses."""
+"""Toolchain/dependency pin gate rejection tests, including actual optimized subprocesses."""
 import json
 from pathlib import Path
 import shutil
@@ -16,14 +16,14 @@ class SourceGate(unittest.TestCase):
                                str(root / 'scripts/check_sources.py')],
                               text=True, capture_output=True, timeout=10)
 
-    def test_reviewed_sources_pass_in_both_modes(self):
+    def test_pinned_dependencies_pass_in_both_modes(self):
         for optimized in (False, True):
             with self.subTest(optimized=optimized):
                 result = self.run_gate(ROOT, optimized)
                 self.assertEqual(result.returncode, 0, result.stderr)
-                self.assertIn('PASS exact reviewed', result.stdout)
+                self.assertIn('PASS Lean toolchain', result.stdout)
 
-    def test_changed_sources_and_pins_fail_in_both_modes(self):
+    def test_changed_pins_fail_in_both_modes(self):
         def replace(root, name, before, after):
             path = root / name
             path.write_text(path.read_text().replace(before, after))
@@ -33,9 +33,6 @@ class SourceGate(unittest.TestCase):
             next(p for p in data['packages'] if p['name'] != 'mathlib')['rev'] = 'branch-name'
             path.write_text(json.dumps(data))
         changes = (
-            lambda root: (root / 'Rheon/Discrete.lean').write_text('-- changed\n'),
-            lambda root: (root / 'Rheon/New.lean').write_text('-- extra\n'),
-            lambda root: (root / 'Rheon/Indexing.lean').unlink(),
             lambda root: (root / 'lean-toolchain').write_text('leanprover/lean4:v4.20.0\n'),
             lambda root: replace(root, 'lakefile.toml', 'c44e0c8ee63ca166450922a373c7409c5d26b00b', '0' * 40),
             lambda root: replace(root, 'lake-manifest.json', 'c44e0c8ee63ca166450922a373c7409c5d26b00b', '1' * 40),
@@ -51,7 +48,7 @@ class SourceGate(unittest.TestCase):
                     with self.subTest(change=index, optimized=optimized):
                         result = self.run_gate(root, optimized)
                         self.assertNotEqual(result.returncode, 0)
-                        self.assertNotIn('PASS exact reviewed', result.stdout)
+                        self.assertNotIn('PASS Lean toolchain', result.stdout)
 
     def test_manifest_origin_and_adjacent_identity_fail_in_both_modes(self):
         changes = (
@@ -79,7 +76,7 @@ class SourceGate(unittest.TestCase):
                         result = self.run_gate(root, optimized)
                         self.assertNotEqual(result.returncode, 0)
                         self.assertIn(f'mathlib manifest identity differs: {field}', result.stderr)
-                        self.assertNotIn('PASS exact reviewed', result.stdout)
+                        self.assertNotIn('PASS Lean toolchain', result.stdout)
 
     def test_manifest_mathlib_entry_is_unique_and_complete(self):
         for alteration in ('missing', 'duplicate', 'missing_url'):
@@ -101,7 +98,7 @@ class SourceGate(unittest.TestCase):
                         result = self.run_gate(root, optimized)
                         self.assertNotEqual(result.returncode, 0)
                         self.assertIn(expected_diagnostic, result.stderr)
-                        self.assertNotIn('PASS exact reviewed', result.stdout)
+                        self.assertNotIn('PASS Lean toolchain', result.stdout)
 
 
 if __name__ == '__main__':

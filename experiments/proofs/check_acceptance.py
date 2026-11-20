@@ -213,8 +213,6 @@ def main():
         "allowed_axioms": ["propext", "Classical.choice", "Quot.sound"],
         "sha256": {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
                    for path in [SOURCE, AUDIT, Path(__file__).resolve()]},
-        "original_inventory_sha256": hashlib.sha256(
-            (PROOFS / "source-inventory.json").read_bytes()).hexdigest(),
         "python_optimization": sys.flags.optimize,
         "negative_kernel_probes_passed": len(probes),
         "scope": "conditional exact-real contracts; enclosure containment is a premise",

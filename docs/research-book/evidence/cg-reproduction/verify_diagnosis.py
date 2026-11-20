@@ -39,4 +39,4 @@ for kernel in ('SkylakeX', 'Haswell', 'Nehalem'):
         assert oracle['corrected_divergence_l2'] < 1e-7
         assert oracle['pressure_relative_l2_difference_from_direct'] < 1e-11
     print(f'PASS {kernel}: exact input identity, thread-repeat bytes, original non-history tolerances, direct-solve and residual diagnostics')
-print('PASS historical fixture/source hashes, original SkylakeX replay and explicit Haswell profile')
+print('PASS original SkylakeX replay and explicit Haswell profile')

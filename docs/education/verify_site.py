@@ -70,14 +70,10 @@ print('PASS reading PDF has',pdf_links,'portable URI links and no localhost dest
 print('PASS',receipt['chapters'],'sections,',receipt['rendered_math_expressions'],'math expressions,',count,'local asset/link targets')
 
 assert receipt["historical_proof_status"]=="checked"
-assert receipt["current_proof_status"]=="reviewed-current-source-inventory-matched"
-proof=json.loads((ROOT/"proof-qualification.json").read_text())
-repo=Path(__file__).resolve().parents[2]
-pins=json.loads((repo/"proofs/source-inventory.json").read_text())
 sequence=json.loads((ROOT/"native-sequence.json").read_text())
-assert hashlib.sha256((repo/"proofs/source-inventory.json").read_bytes()).hexdigest()==sequence["proof_inventory_sha256"]
-for name,digest in pins.items():
-    assert hashlib.sha256((repo/"proofs"/name).read_bytes()).hexdigest()==digest,name
+# Earlier archived editions recorded the removed source-inventory status string.
+assert receipt["current_proof_status"] in (sequence["current_reviewed_proof"]["status"],"reviewed-current-source-inventory-matched")
+proof=json.loads((ROOT/"proof-qualification.json").read_text())
 for name,digest in receipt['linked_source_files'].items():
     assert hashlib.sha256((ROOT/'source-files'/name).read_bytes()).hexdigest()==digest,name
-print("PASS current proof bytes match the reviewed source inventory; historical kernel receipt remains separate")
+print("PASS current proof status and linked source files match the build receipt; historical kernel receipt remains separate")

@@ -2,7 +2,7 @@
 
 The foundation has 20 public theorems in three modules; the expanded edition adds thirteen in Physics.lean and nine in BoundedPhysics.lean, for 42 public theorems in five modules. The bounded module also defines six helpers; its fifteen audited declarations are not fifteen theorems. Lean 4.19.0 and mathlib revision c44e0c8ee63ca166450922a373c7409c5d26b00b are pinned, with locked transitive revisions. Hosted qualification at source head ecf97d3a943ebe30d20acc1cf01b94dc08ff96a2 compiled all modules and audited 31 declarations including generated equation and proof declarations.
 
-Only propext, Classical.choice and Quot.sound are allowed transitive axioms. Custom assumptions, admitted proofs and native-evaluation assumptions are rejected. Negative tests inject a custom axiom and an admitted theorem and verify rejection. An exact reviewed source inventory requires review when the file surface changes. It is change control; Lean's kernel does the proof check.
+Only propext, Classical.choice and Quot.sound are allowed transitive axioms. Custom assumptions, admitted proofs and native-evaluation assumptions are rejected. Negative tests inject a custom axiom and an admitted theorem and verify rejection. Changed proof files go through ordinary code review; Lean's kernel does the proof check.
 
 ## Discrete operator inventory
 
@@ -41,7 +41,7 @@ The expansion qualification and all new assumptions are recorded separately in A
 The counts and revision identities above describe retained historical
 qualifications. They do not automatically include modules added for the
 current material preview or adaptive CPU scheduler. Each extension needs its
-own reviewed source inventory, normal pinned Lean build and allowed-axiom
+own review, normal pinned Lean build and allowed-axiom
 audit. A linked theorem statement, a native regression test and a fresh
 qualification receipt answer different questions.
 

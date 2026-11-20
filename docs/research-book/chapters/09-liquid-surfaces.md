@@ -153,7 +153,7 @@ show clamping's 0.2 m³ volume creation.
 
 These statements do not prove that JavaScript implements the geometry, that
 IEEE arithmetic is exact, or that the native liquid algorithm converges. The
-source inventory and kernel qualification status are recorded separately in
+kernel qualification status is recorded separately in
 the [coverage ledger](../../education/COVERAGE.md); numerical comparisons and
 browser control checks supply different evidence. Proof text is collapsed by
 default in the interactive chapter.
