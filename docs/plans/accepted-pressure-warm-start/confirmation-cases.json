@@ -1,0 +1,62 @@
+[
+  {
+    "counts": [
+      16,
+      16,
+      16
+    ],
+    "workers": 1,
+    "mode": "localized",
+    "method": "jacobi"
+  },
+  {
+    "counts": [
+      16,
+      16,
+      16
+    ],
+    "workers": 2,
+    "mode": "steady",
+    "method": "jacobi"
+  },
+  {
+    "counts": [
+      48,
+      24,
+      12
+    ],
+    "workers": 4,
+    "mode": "localized",
+    "method": "jacobi"
+  },
+  {
+    "counts": [
+      64,
+      64,
+      64
+    ],
+    "workers": 2,
+    "mode": "steady",
+    "method": "jacobi"
+  },
+  {
+    "counts": [
+      16,
+      16,
+      16
+    ],
+    "workers": 1,
+    "mode": "switch",
+    "method": "jacobi"
+  },
+  {
+    "counts": [
+      16,
+      16,
+      16
+    ],
+    "workers": 1,
+    "mode": "steady",
+    "method": "sgs"
+  }
+]

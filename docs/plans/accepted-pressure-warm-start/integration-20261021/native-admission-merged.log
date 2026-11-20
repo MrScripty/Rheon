@@ -1,0 +1,3 @@
+Native educational admission refused: reviewed native source inventory added or missing path
+This is a source identity check, not a failed numerical comparison.
+Review changes against the admitted source, explicitly approve a new complete inventory, and run fresh native/rational qualification on the committed integration source. Do not copy old receipts, refresh hashes automatically, or skip this gate.

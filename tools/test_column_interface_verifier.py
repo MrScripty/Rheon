@@ -82,6 +82,8 @@ def verify_split_ci_budget(frozen,current):
             '          flags: --no-default-features\n'
             '        - mode: desktop\n'
             '          flags: --features desktop\n'
+            '        - mode: accepted-pressure-warm-start\n'
+            '          flags: --features accepted-pressure-warm-start\n'
         ),
         'executable-contracts': (
             '    runs-on: ubuntu-24.04\n'
@@ -215,6 +217,21 @@ class CiBudgetContract(unittest.TestCase):
         frozen=(ROOT/'evidence/column-interface-final-artifacts/trials/frozen-workflow.yml').read_text()
         current=(ROOT/'.github/workflows/rust-rheon.yml').read_text()
         verify_split_ci_budget(frozen,current)
+    def test_warm_feature_mode_requires_exact_additive_coverage(self):
+        frozen=(ROOT/'evidence/column-interface-final-artifacts/trials/frozen-workflow.yml').read_text()
+        current=(ROOT/'.github/workflows/rust-rheon.yml').read_text()
+        row=('        - mode: accepted-pressure-warm-start\n'
+             '          flags: --features accepted-pressure-warm-start\n')
+        self.assertEqual(current.count(row),1)
+        mutations={
+            'missing warm mode':(row,''),
+            'wrong warm mode':('        - mode: accepted-pressure-warm-start\n','        - mode: optional-pressure\n'),
+            'wrong warm feature':('          flags: --features accepted-pressure-warm-start\n','          flags: --features parallel\n'),
+            'duplicate warm mode':(row,row+row),
+        }
+        for name,(before,after) in mutations.items():
+            with self.subTest(change=name),self.assertRaisesRegex(ValueError,'runner/budget/matrix/dependencies: feature-contracts'):
+                verify_split_ci_budget(frozen,current.replace(before,after,1))
     def test_split_ci_budget_rejects_removed_checks_and_early_success(self):
         frozen=(ROOT/'evidence/column-interface-final-artifacts/trials/frozen-workflow.yml').read_text()
         current=(ROOT/'.github/workflows/rust-rheon.yml').read_text()

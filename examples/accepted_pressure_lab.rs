@@ -1,0 +1,253 @@
+//! Whole coupled-step measurement. Args: nx ny nz workers steps cold|warm
+//! steady|localized|switch|rest|saturated jacobi|sgs [normal|tight field-dump].
+//! Tight mode is an explicit reference oracle, never a performance comparison.
+//! CSV includes all attempts; failed-row iterations are unavailable (0 sentinel).
+use rheon::*;
+use std::time::Instant;
+type Error = Box<dyn std::error::Error + Send + Sync>;
+
+fn step(
+    sim: &mut LiquidTransportSimulation,
+    inputs: LiquidStepInputs<'_>,
+    warm: bool,
+    callback: impl FnMut(LiquidStepStage) -> bool,
+) -> Result<LiquidStepReport, LiquidStepError> {
+    if warm {
+        sim.step_with_initialization(
+            inputs,
+            PressureInitializationPolicy::AcceptedPreviousV1,
+            callback,
+        )
+    } else {
+        sim.step(inputs, callback)
+    }
+}
+
+fn run(args: &[String]) -> Result<(), Error> {
+    let counts: [u64; 3] = [args[0].parse()?, args[1].parse()?, args[2].parse()?];
+    let steps: usize = args[4].parse()?;
+    let warm = match args[5].as_str() {
+        "cold" => false,
+        "warm" => true,
+        _ => return Err("invalid policy".into()),
+    };
+    let mode = args[6].as_str();
+    if !["steady", "localized", "switch", "rest", "saturated"].contains(&mode) || steps == 0 {
+        return Err("invalid scenario".into());
+    }
+    let method = match args[7].as_str() {
+        "jacobi" => PressureImplementation::JacobiPcgV1,
+        "sgs" => PressureImplementation::SymmetricGaussSeidelPcgV1,
+        _ => return Err("invalid method".into()),
+    };
+    let tight = match args.get(8).map(String::as_str) {
+        None | Some("normal") => false,
+        Some("tight") => true,
+        _ => return Err("invalid reference mode".into()),
+    };
+    let grid = GridGeometry::new(counts, counts.map(|n| 1.0 / n as f64), [0.0; 3])?;
+    let startup = Instant::now();
+    let config = LiquidTransportConfig {
+        carrier: SimulationConfig {
+            density: 1.25,
+            memory_limit: 512 * 1024 * 1024,
+            pressure: PressureSettings {
+                relative_residual: if tight { 1e-12 } else { 1e-8 },
+                absolute_residual: if tight { 1e-14 } else { 1e-12 },
+                divergence_limit: if tight { 1e-10 } else { 1e-7 },
+                max_iterations: 3000,
+            },
+            actual_divergence_limit: 1e-5,
+            max_courant: 1.0,
+        },
+        represented_density: 1.25,
+        volume_stamp: VolumeStamp { id: 11, version: 0 },
+        carrier_id: 12,
+    };
+    let fraction = if mode == "saturated" { 1.0 } else { 0.5 };
+    let mut sim = LiquidTransportSimulation::new(
+        grid.clone(),
+        config,
+        method,
+        vec![fraction; grid.cell_len()],
+    )?;
+    let startup_seconds = startup.elapsed().as_secs_f64();
+    println!(
+        "step,accepted,startup_s,step_s,pressure_s,capture_s,iterations,time,dt,residual_l2,residual_max,divergence,mass_error,energy,pressure_error,max_speed,bytes,fingerprint,error"
+    );
+    for index in 0..steps {
+        let scale = if mode == "rest" || mode == "switch" && index >= steps * 3 / 4 {
+            0.0
+        } else if mode == "switch" && index >= steps / 2 {
+            -1.0
+        } else {
+            1.0
+        };
+        let force = [BodyForce {
+            value: [0.125 * scale, -0.25 * scale, 0.0625 * scale],
+            units: ForceUnits::Acceleration,
+            region: (mode == "localized").then_some(ForceRegion {
+                lower: [0.25; 3],
+                upper: [0.75; 3],
+            }),
+        }];
+        let dt = if mode == "switch" && index % 2 == 1 {
+            1.0 / 128.0
+        } else {
+            1.0 / 64.0
+        };
+        let inputs = LiquidStepInputs {
+            requested_dt: dt,
+            smoke_source: None,
+            forces: &force,
+            inlet: LiquidInlet::new(VolumeStamp { id: 14, version: 0 }, [[0.0; 2]; 3])?,
+            source: None,
+            volume: LiquidVolumeSettings {
+                max_outward_courant: 1.0,
+                actual_divergence_limit: 1e-5,
+            },
+        };
+        let start = Instant::now();
+        let mut pressure_start = None;
+        let mut pressure_seconds = 0.0;
+        let result = step(&mut sim, inputs, warm, |stage| {
+            if stage == LiquidStepStage::Carrier(StepStage::BeforePressure) {
+                pressure_start = Some(Instant::now());
+            }
+            if stage == LiquidStepStage::Carrier(StepStage::BeforeTracer) {
+                pressure_seconds = pressure_start.map_or(0.0, |t| t.elapsed().as_secs_f64());
+            }
+            false
+        });
+        let seconds = start.elapsed().as_secs_f64();
+        let capture = Instant::now();
+        let state = sim.state();
+        let max_speed = state
+            .carrier
+            .x
+            .iter()
+            .chain(state.carrier.y)
+            .chain(state.carrier.z)
+            .fold(0.0_f32, |m, v| m.max(v.abs()));
+        let mut fingerprint = 0xcbf29ce484222325_u64;
+        for v in state
+            .carrier
+            .x
+            .iter()
+            .chain(state.carrier.y)
+            .chain(state.carrier.z)
+            .chain(state.carrier.tracer)
+        {
+            fingerprint = (fingerprint ^ u64::from(v.to_bits())).wrapping_mul(0x100000001b3);
+        }
+        for v in state.pressure.iter().chain(state.liquid.fraction) {
+            fingerprint = (fingerprint ^ v.to_bits()).wrapping_mul(0x100000001b3);
+        }
+        // Independent hydrostatic solution at centers, relative to first center.
+        // For localized forcing no hydrostatic oracle is asserted (NaN column).
+        let pressure_error = if mode == "localized" {
+            f64::NAN
+        } else {
+            let [nx, ny, _] = grid.counts();
+            state
+                .pressure
+                .iter()
+                .enumerate()
+                .map(|(row, p)| {
+                    let xyz = [row % nx, (row / nx) % ny, row / (nx * ny)];
+                    let exact: f64 = (0..3)
+                        .map(|d| 1.25 * force[0].value[d] * xyz[d] as f64 * grid.spacing()[d])
+                        .sum();
+                    (p - exact).abs()
+                })
+                .fold(0.0_f64, f64::max)
+        };
+        let capture_seconds = capture.elapsed().as_secs_f64();
+        match result {
+            Ok(report) => {
+                let r = report.carrier.step;
+                println!(
+                    "{index},true,{startup_seconds:.9},{seconds:.9},{pressure_seconds:.9},{capture_seconds:.9},{},{:.17},{:.17},{:.17e},{:.17e},{:.17e},{:.17e},{:.17e},{pressure_error:.17e},{max_speed:.17e},{},{fingerprint:016x},",
+                    r.pressure.iterations,
+                    r.time,
+                    r.dt,
+                    r.pressure.true_residual_l2,
+                    r.pressure.true_residual_max,
+                    r.actual_divergence_max,
+                    report.liquid.volume_balance_error,
+                    r.kinetic_energy,
+                    report.owned_array_bytes
+                );
+            }
+            Err(error) => {
+                println!(
+                    "{index},false,{startup_seconds:.9},{seconds:.9},{pressure_seconds:.9},{capture_seconds:.9},0,{:.17},0,NaN,NaN,NaN,NaN,NaN,{pressure_error:.17e},{max_speed:.17e},{},{fingerprint:016x},\"{error}\"",
+                    state.carrier.time,
+                    sim.allocated_bytes()
+                );
+                // Failed attempts retain accepted state. Do not shorten the target
+                // horizon and report success; the remaining requested run failed.
+                break;
+            }
+        }
+    }
+    if let Some(path) = args.get(9) {
+        use std::io::Write;
+        let mut out = std::io::BufWriter::new(std::fs::File::create(path)?);
+        let state = sim.state();
+        for n in counts {
+            out.write_all(&n.to_le_bytes())?;
+        }
+        out.write_all(&state.carrier.time.to_le_bytes())?;
+        out.write_all(&state.carrier.generation.to_le_bytes())?;
+        for values in [
+            state.carrier.x,
+            state.carrier.y,
+            state.carrier.z,
+            state.carrier.tracer,
+        ] {
+            out.write_all(&(values.len() as u64).to_le_bytes())?;
+            for value in values {
+                out.write_all(&value.to_le_bytes())?;
+            }
+        }
+        for values in [state.pressure, state.liquid.fraction] {
+            out.write_all(&(values.len() as u64).to_le_bytes())?;
+            for value in values {
+                out.write_all(&value.to_le_bytes())?;
+            }
+        }
+        out.flush()?;
+    }
+    Ok(())
+}
+fn main() -> Result<(), Error> {
+    let args: Vec<_> = std::env::args().skip(1).collect();
+    if args.len() != 8 && args.len() != 10 {
+        return Err(
+            "expected nx ny nz workers steps policy scenario method [normal|tight field-dump]"
+                .into(),
+        );
+    }
+    let workers: usize = args[3].parse()?;
+    if workers == 0 {
+        return Err("workers must be positive".into());
+    }
+    #[cfg(feature = "parallel")]
+    {
+        let scheduler = CpuScheduler::new();
+        rayon::ThreadPoolBuilder::new()
+            .num_threads(workers)
+            .build_scoped(
+                |thread| scheduler.scope(|| thread.run()),
+                |pool| pool.install(|| run(&args)),
+            )?
+    }
+    #[cfg(not(feature = "parallel"))]
+    {
+        if workers != 1 {
+            return Err("multiple workers require parallel feature".into());
+        }
+        run(&args)
+    }
+}

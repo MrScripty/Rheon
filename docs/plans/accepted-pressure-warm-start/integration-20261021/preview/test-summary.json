@@ -1,0 +1,105 @@
+{
+  "phase": "preliminary PR142 composition, not final admission",
+  "pre_merge_head": "d0452c79794c33bb0f9af14de0213a26bb5b1cd0",
+  "merge_parent": "5eb8bf5607c01f1d59242c604b1d1204882d2eac",
+  "review_file_count": 25,
+  "focused_release": [
+    {
+      "suite": "Running unittests src/lib.rs (/workspace/.rheon-tools/target/release/deps/rheon-3811278ecadf3a8d)",
+      "counts": [
+        108,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "suite": "Running tests/accepted_pressure_history.rs (/workspace/.rheon-tools/target/release/deps/accepted_pressure_history-7cd163899e7ab4d8)",
+      "counts": [
+        7,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "suite": "Running tests/configured_provider_session_contract.rs (/workspace/.rheon-tools/target/release/deps/configured_provider_session_contract-57e9913210d65737)",
+      "counts": [
+        9,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "suite": "Running tests/pressure_initial_guess.rs (/workspace/.rheon-tools/target/release/deps/pressure_initial_guess-0ead74ee8fda6e5c)",
+      "counts": [
+        6,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "suite": "Running tests/projection_session_contract.rs (/workspace/.rheon-tools/target/release/deps/projection_session_contract-f9413c6d0a2ea215)",
+      "counts": [
+        6,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "suite": "Running tests/provider_step_contract.rs (/workspace/.rheon-tools/target/release/deps/provider_step_contract-9ad9b738aa0d12b7)",
+      "counts": [
+        7,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "suite": "Running tests/session_contract.rs (/workspace/.rheon-tools/target/release/deps/session_contract-65aaecab05741c03)",
+      "counts": [
+        5,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "suite": "Running tests/session_interval_start_contract.rs (/workspace/.rheon-tools/target/release/deps/session_interval_start_contract-fabf51169dc72f71)",
+      "counts": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "totals": {
+    "passed": 149,
+    "failed": 0,
+    "ignored": 1,
+    "measured": 0,
+    "filtered_out": 0
+  },
+  "checks": {
+    "default_all_targets": "pass",
+    "warm_all_targets": "pass",
+    "strict_warm_all_target_clippy": "pass",
+    "format": "pass"
+  },
+  "skip": "existing provider_step_contract real-model test requires verified external RHEON_AI_EXPORT",
+  "final_timing_run": false,
+  "final_admission": false,
+  "sealed_campaign_rerun": false
+}

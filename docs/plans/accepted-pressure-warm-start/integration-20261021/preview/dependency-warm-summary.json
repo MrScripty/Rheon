@@ -1,0 +1,33 @@
+{
+  "dependency-warm-first.log": {
+    "log_sha256": "0f7b58a89a75ecc7c3a4c55ba3439f8b04be5ece4df31c6872f88bf202e68fb0",
+    "summaries": 92,
+    "totals": {
+      "passed": 792,
+      "failed": 0,
+      "ignored": 13,
+      "measured": 0,
+      "filtered_out": 0
+    }
+  },
+  "dependency-warm-confirm.log": {
+    "log_sha256": "8a8dee9a657de9ac327c85aedf03e385cc06d46197385f1b3b8318975f02bafa",
+    "summaries": 92,
+    "totals": {
+      "passed": 792,
+      "failed": 0,
+      "ignored": 13,
+      "measured": 0,
+      "filtered_out": 0
+    }
+  },
+  "phase": "preliminary downstream159 source, not actual merged-main qualification",
+  "pre_merge_head": "69754219348d7391c1f5deac685c43b1981382ee",
+  "merge_parent": "159fa74bd271f8fcc07f3837d66e4738925c820c",
+  "first_tool_exit_code": 1,
+  "first_outcome": "uncertain wrapper discrepancy, not retroactively relabeled success",
+  "confirmation_child_exit_code": 0,
+  "timing_run": false,
+  "sealed_campaign_selected": false,
+  "skips": "7existing bounded upstream force +3external-model +3inherited CV3-A frozen execution-admission preparation ignores; no ignored case selected"
+}

@@ -12,6 +12,8 @@ enum Path {
     Configured,
     LegacyProvider,
     SealedBoundary,
+    #[cfg(feature = "accepted-pressure-warm-start")]
+    Warm,
 }
 fn grid() -> GridGeometry {
     GridGeometry::new([2, 1, 1], [0.25; 3], [0.0; 3]).unwrap()
@@ -69,6 +71,13 @@ fn step(
 ) -> Result<LiquidStepReport, SessionError> {
     let cancel = |stage| cancel_final && stage == LiquidStepStage::BeforeCommit;
     match path {
+        #[cfg(feature = "accepted-pressure-warm-start")]
+        Path::Warm => owner.step_with_initialization(
+            inputs(),
+            PressureInitializationPolicy::AcceptedPreviousV1,
+            None,
+            cancel,
+        ),
         Path::Configured => owner
             .step_with_configured_pressure(
                 inputs(),
@@ -128,7 +137,13 @@ fn actual_nonbinary_interval_starts_survive_all_session_paths_and_failed_attempt
         PressureImplementation::JacobiPcgV1,
         PressureImplementation::SymmetricGaussSeidelPcgV1,
     ] {
-        for path in [Path::Configured, Path::LegacyProvider, Path::SealedBoundary] {
+        for path in [
+            Path::Configured,
+            Path::LegacyProvider,
+            Path::SealedBoundary,
+            #[cfg(feature = "accepted-pressure-warm-start")]
+            Path::Warm,
+        ] {
             let mut owner = session(method);
             let mut pressure = ProviderStepWorkspace::new(&grid(), 2.0, CAP, method).unwrap();
             let mut viscosity = ViscosityWorkspace::new(grid(), CAP).unwrap();

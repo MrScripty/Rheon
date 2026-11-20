@@ -1,0 +1,6 @@
+   Compiling num-traits v0.2.19
+    Checking num-integer v0.1.47
+    Checking num-bigint v0.4.8
+    Checking num-rational v0.4.2
+    Checking rheon v0.1.0 (/workspace/pr59-composition-preview)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 22.51s

@@ -1,0 +1,24 @@
+{
+  "scope": "initial-main code-generation inspection only; no timing; final qualification waits composed main",
+  "baseline_source": "15026a966265cf9eaedf464e2b5a066bd0fef3d8",
+  "candidate_source": "0b3e3fc0e83524fcc9064a2158030f2ee4994a1a",
+  "flags": "cargo build --release --locked --features parallel --example cpu_particle_lab",
+  "sha256": {
+    "/workspace/pr59-initial-binaries/base-unremapped": "9dcf19de99ec0d9754c1625e83b9557ec9292a31e7629e1308431fa51fdb5a84",
+    "/workspace/pr59-initial-binaries/candidate-unremapped": "9da8c2797be2f112f8c8ff144e0098cb118140fab71eeb2b05ea8888a5f4de09",
+    "/tmp/pr59-base-text.bin": "3928d336243ac70f7855fef299321dde6eea28efacb19f3515f62206a4e4d14a",
+    "/tmp/pr59-candidate-text.bin": "e455ce9bfc6fe3ed3b4964f59979ee07a4f15c1478084ca57dd2e6867f171a53"
+  },
+  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)\n",
+  "source_root_strings": {
+    "base": "/workspace/pr59-base/src/parallel.rs",
+    "candidate": "/workspace/Rheon/src/parallel.rs"
+  },
+  "common_text_symbols": 736,
+  "new_symbols": 0,
+  "removed_symbols": 0,
+  "changed_function_sizes": 0,
+  "uniform_address_shift_bytes": -16,
+  "conclusion": "Different executable layout, no performance inference. Root strings are an uncontrolled build input pending prospective remapping review.",
+  "inspection_attempt_failure": "First metadata script omitted task RUSTUP_HOME environment and rustup refused creating read-only /home/agent/.rustup. No build/timing ran in that attempt; script rerun with established task toolchain environment."
+}
